@@ -27,3 +27,4 @@ Signatures:
 
 - Dylan Clements: I agree with this WBA (31/08/2021)
 
+- Dmitrii Parakhin: I agree with this WBA (01/09/2021)
