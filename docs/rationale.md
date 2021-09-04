@@ -1,5 +1,9 @@
 ## Requirement 1
 
+EstusFlask Item has Action called DrinkEstusAction<br>
+The Player will be instantiated with EstusFlask added to his inventory and that EstusFlask will have DrinkEstusAction
+added to EstusFlask. Therefore, the player will be prompted with an option to drink the estus every turn.
+
 ## Requirement 2
 
 This requirement features the Bonfire, and it's resetting functionality. 
