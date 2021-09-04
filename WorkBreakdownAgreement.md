@@ -56,6 +56,7 @@ Signature (after amendment 04/09/2021):
 
 - Dylan Clements: I agree with this WBA (04/09/2021)
 
+- Dmitrii Parakhin: I agree with this WBA (04/09/2021)
 ---
 
 #### Assignment 2 - Implementation
