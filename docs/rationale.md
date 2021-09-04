@@ -61,3 +61,35 @@ Say for example the Player slays an Undead, AttackAction calls `target.die(actor
 regular death procedure in addition to calling `transferSouls(actor)`.
 
 Souls must also be transferred to a Ground sub-class when the Player dies. 
+During the Player's death procedure, `transferSouls(ground)` will be called to transfer souls to the ground using 
+DropItemAction
+
+## Requirement 4
+
+## Requirement 5
+
+Cemeteries are Ground sub-classes because they require functionality such as `canActorEnter()` and `blockThrownObjects`<br>
+Cemeteries must also store the location which they spawn in, therefore an associated is drawn in the UML between Cemetery
+and Location in the game engine.
+
+Cemeteries will also spawn Undead Actors in locations adjacent to them. Therefore, a dependency is drawn between Cemetery and Undead.
+
+**make a decision about Valley feature here and write about it**
+
+Valley will not have any new UML relationships. Simply, if the Player enters the valley, Player will `die()`.
+
+## Requirement 6
+
+When the player dies, the `die()` method from the Soul interface will be called which, among other things, calls ResetManager for a soft reset.<br>
+One of these other things is dropping a SoulToken on the ground. The player will be able to pick this item back up after respawning.
+
+SoulToken is a sub-class of Item, it will be portable and contain an attribute that describes the number of souls it holds.<br>
+The reason being is that we want DropItemAction and PickUpItemAction. However, the Actor method `addItemToInventory()` 
+will be overridden in Player, if the item is SoulToken, then do NOT add the item to inventory, rather add the amount of
+souls to Player and print SOULS RETRIEVED.
+
+If the player dies in a Valley, then SoulToken will be placed in a valid adjacent Ground. The `die()` method from Soul
+interface will cater for this.
+
+
+## Requirement 7
