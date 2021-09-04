@@ -1,10 +1,12 @@
-# Work Breakdown Agreement
-#### Lab 8 Team 6 - Assignment 1 Planning/Design
+# Work Breakdown Agreement: Lab 8 Team 6
+#### Assignment 1 Planning/Design
 
 Team members:
 - Dylan Clements dcle0002@student.monash.edu
 - Eliyahu Leinkram elei0008@student.monash.edu
 - Dmitrii Parakhin dpar0011@student.monash.edu
+
+---
 
 Assignment deliverables:
 - UML class diagram
@@ -13,18 +15,46 @@ Assignment deliverables:
 
 Assignment is due on the 7th of September 2021 11:55AM AEST
 
-**Agreement:**<br>
-Each team member will independently produce their own UML class diagram, interaction diagram and rationale.
-Our individual class and sequence diagram will be pushed to the /docs/ directory in this git repository.
+**Agreement (Amended 04/09/2021):**<br>
+
+Class diagrams requirements excluding groups of 3:
+- Requirement 1: Dmitrii
+- Requirement 2: Dylan
+- Requirement 3: Dylan
+- Requirement 4: Dmitrii
+- Requirement 5: Dylan
+- Requirement 6: Dylan
+- Requirement 7: Dmitrii
 
 
-Afterwards, we will consolidate our diagrams and rationale to form the final product.
-Expected (but not firm) date to begin consolidation is 3rd of September 2021
+Sequence diagrams:
+- Player playTurn(): Dylan
+- Yhorm playTurn(): Dylan
+- Undead playTurn(): Dmitrii
+- Skeleton playTurn(): Dmitrii
+- Bonfire Rest: Dylan
+- Cemetary spawning: Dmitrii
+
+
+Groups of 3 features assigned to Eliyahu (class and sequence diagrams)
+- Skeleton resurrection
+- Giant Axe
+- Yhorm ground burning
+- Requirement 8 (Vendor)
+- Token of Souls removal 
 
 ---
 
-Signatures:
+Signatures (pre-amendment):
 
 - Dylan Clements: I agree with this WBA (31/08/2021)
 
 - Dmitrii Parakhin: I agree with this WBA (01/09/2021)
+
+
+Signature (after amendment 04/09/2021):
+
+
+---
+
+#### Assignment 2 - Implementation
