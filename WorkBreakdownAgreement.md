@@ -28,12 +28,8 @@ Class diagrams requirements excluding groups of 3:
 
 
 Sequence diagrams:
-- Player playTurn(): Dylan
-- Yhorm playTurn(): Dylan
-- Undead playTurn(): Dmitrii
-- Skeleton playTurn(): Dmitrii
-- Bonfire Rest: Dylan
-- Cemetary spawning: Dmitrii
+- SwapWeaponAction: Dmitrii
+- TBD: Dylan
 
 
 Groups of 3 features assigned to Eliyahu (class and sequence diagrams)
@@ -45,18 +41,25 @@ Groups of 3 features assigned to Eliyahu (class and sequence diagrams)
 
 ---
 
-Signatures (pre-amendment):
+Signatures (first draft):
 
 - Dylan Clements: I agree with this WBA (31/08/2021)
 
 - Dmitrii Parakhin: I agree with this WBA (01/09/2021)
 
 
-Signature (after amendment 04/09/2021):
+Signatures (after amendment 04/09/2021):
 
 - Dylan Clements: I agree with this WBA (04/09/2021)
 
-- Dmitrii Parakhin: I agree with this WBA (04/09/2021)
+- Dmitrii Parakhin: I agree with this WBA (04/09/2021
+
+
+Signatures (after amendment 05/09/2021):
+
+- Dylan Clements: I agree with this WBA (05/09/2021)
+
+
 ---
 
 #### Assignment 2 - Implementation
