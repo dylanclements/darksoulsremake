@@ -1,19 +1,25 @@
 # UML Class Diagram Rationale
 
+
 ## Requirement 1
+
 
 **Player**
 
-The Application creates Player and places Player on the map in the Firelink Shrine.
+Player must display their health, their weapon and their souls in the menu.<br>
+There are no new classes needed to add this feature, a method called `displayStatus()` will be added in Player.
 
-The Player initially holds a MeleeWeapon (BroadSword). This will be added in the Player's inventory during instantiation of Player.
+The Application creates Player and places Player on the map in the Firelink Shrine.
+The Player initially holds a MeleeWeapon (BroadSword). 
+This will be added in the Player's inventory during instantiation of Player. 
 
 **EstusFlask**
 
 EstusFlask is an Item, and it has Action called DrinkEstusAction<br>
 The Player will be instantiated with EstusFlask added to his inventory and that EstusFlask will be instantiated with 
-DrinkEstusAction added to `allowableActions`
+DrinkEstusAction added to `allowableActions`<br>
 Therefore, the Player will be prompted with an option to drink the estus every turn.
+EstusFlask will also refill its charges when the Player rests at the Bonfire. Therefore it must implement Resettable.
 
 DrinkEstusAction will heal an Actor (Player) and decrement the charges in EstusFlask.<br>
 DrinkEstusAction must target both an Actor and the EstusFlask instance it was declared in.
@@ -24,8 +30,11 @@ DrinkEstusAction must target both an Actor and the EstusFlask instance it was de
 - Dependency from EstusFlask to DrinkEstusAction
 - Association from DrinkEstusAction to Actor (1-1 Relationship)
 - Association from DrinkEstusAction to EstusFlask (1-1 Relationship)
+- Realisation from EstusFlask to Resettable interface
+
 
 ## Requirement 2
+
 
 This requirement features the Bonfire, and it's resetting functionality. 
 Some discussion about ResetManager is included too.
@@ -80,9 +89,33 @@ sub-class to the Soul interface.
 
 ## Requirement 4
 
+Enemies in this game must show their health in the console.<br>
+However there are no new classes required to do this, just new methods.
+
 **Undead**
 
+
+`Undead` will be spawned by cemetery and has a 10% chance to die instantly each turn which will be implemented via
+`chanceToDie()` method. Undead should have access to a number of behaviors 
+such as `WanderBehavior()`, `AggroBehavior` which is why it will
+be implementing `Behavior` Interface. `AttackAction` is dependent
+on `AggroBehavior()` which gives Undead the ability to attack the player. If the player
+attacks the undead its behavior will change from wander to attack the player
+until he/she dies or goes inside the Firelink Shrine.
+
+Undead wields an IntrinsicWeapon and cannot wield any other weapons.
+
 **Skeleton**
+
+4 to 12 `Skeleton` placed manually anywhere on the map. Skeleton walks around and follows the Player (plus attacks)
+if the Player is within its radius (i.e., adjacent squares). Meaning it 
+will be associated with `Behaviour` Interface as well. Skeleton will be able to attack
+the player as soon as he/she is detected via `AggroBehaviour()`. The difference here
+is the ability to attack the player unprovoked.
+`Skeleton` will have the ability to wield `Broadsword` which will be accessed
+via `MeleeWeapon` abstract class.
+
+Skeleton also must know their Location of spawn for resetting purposes.
 
 **Yhorm**
 
@@ -100,12 +133,16 @@ Yhorm must also not be resurrected after he has been killed; Yhorm is not Resett
 Therefore, when ResetManger's `run()` is triggered, Yhorm will no longer be resurrected.
 
 **Resulting UML Relationships**
-- Realisations drawn from Yhorm to Mortal and Soul as Yhorm will implement these interfaces
+- Realisations drawn from Undead, Skeleton and Yhorm to Mortal, Soul
+- Realisations drawn from Undead and Skeleton Resettable
 - Generalisation drawn from LordOfCinder to Actor abstract class
 - Generalisation drawn from Yhorm to LordOfCinder abstract class
 - Dependency from Yhorm to GreatMachete to indicate how Yhorm can influence GreatMachine
 - Dependency from GreatMachete to EmberFormAction to indicate how Yhorm can trigger his ember form as a result of holding GreatMachete
-- Association drawn from LordOfCinder to Behaviour interface to indicate that LordOfCinders have an attribute that is a list of behaviours.
+- Dependency from Undead to IntrinsicWeapon
+- Dependency from Skeleton to MeleeWeapon
+- Associations drawn from Undead, Skeleton, LordOfCinder to Behaviour interface to indicate that LordOfCinders have an attribute that is a list of behaviours.
+- Association from Skeleton to Location to indicate that Skeletons store an attribute of Location type to remember their spawn.
 
 ## Requirement 5
 
@@ -161,4 +198,29 @@ Additionally, since the Player must trigger ResetManager when they die, a depend
 
 ## Requirement 7
 
-MeleeWeapon should not be able to be instantiated. Therefore, MeleeWeapon should become an abstract class.
+**Weapons**
+
+We have 3 Unique weapons `BroadSword`, `StormRuler` and `GreatMachete`.
+Each weapon has 3 basic stats: Price, Damage(HP), Success hit rate. Except `GreatMachete`
+it cannot be dropped and can only be wielded by Yhorm therefore it is priceless.
+
+
+All weapons inherit from `MeleeWeapon` which inherit from abstract `WeaponItem`.<br>
+MeleeWeapon should not be able to be instantiated. Therefore, MeleeWeapon should become an abstract class.<br>
+Each weapon can have a Passive ability such as *Critical Strike* or Active abilities 
+such as  *Charge*. Any type of passive ability will be implemented inside
+the class dedicated to that weapon whilst Active abilities will inherit
+from `WeaponAction` and will be associated with the corresponding weapon class.<br>
+For example `StormRuler` will have 2 Active abilities `WindSlashAction`,`ChargeAction` and
+2 Passive abilities (coded inside `StormRuler` class) `CriticalStrike`, `Dullness`.
+
+
+**Resulting UML Relationships**
+- Generalisations from BroadSword, GreatMachete and StormRuler to MeleeWeapon
+- Generalisation from MeleeWeapon to WeaponItem
+- Generalisation from WindSlashAction to AttackAction
+- Generalisations from ChargeAction and EmberFormAction to WeaponAction
+- Dependency from GreatMachete to EmberFormAction
+- Dependency from StormRuler to ChargeAction and WindSlashAction
+- Association from ChargeAction to Actor
+
