@@ -224,3 +224,26 @@ For example `StormRuler` will have 2 Active abilities `WindSlashAction`,`ChargeA
 - Dependency from StormRuler to ChargeAction and WindSlashAction
 - Association from ChargeAction to Actor
 
+
+## Other Changes
+
+
+Two new behaviours have been addeed.
+Aggrobehaviour generate actions that follow an actor if the Actor is not within the radius,
+else execute an AttackAction<br>
+DoNothingBehaviour will simply always return a DoNothingAction.
+
+For the requirements in this assignment, there will be no use for Actors such as Undead, Skeleton or Yhorm
+to execute solely FollowBehaviour. All of these Actors must also attack the Player if they follow.<br>
+AggroBehaviour will return actions from FollowBehaviour unless the target is reachable, which it will then return an AttackBehaviour.
+Therefore, AggroBehaviour is composed of FollowBehaviour.
+
+Yhorm is the only Actor that requires DoNothingBehaviour. 
+Yhorm will execute this behaviour until he is provoked, after that he will begin AggroBehaviour.
+
+**Resulting UML Relationships**
+- Composition drawn from FollowBehaviour to AggroBehaviour to show that AggroBehaviour is composed of FollowBehaviour
+- Realisations drawn from AggroBehaviour and DoNothingBehaviour to Behaviour interface to show they implement this interface.
+- Assocaition drawn from AggroBehaviour to an Actor because AggroBehaviour must target an Actor
+- Dependency drawn from DoNothingBehaviour to DoNothingAction as DoNothingBehaviour will return DoNothingAction
+- Dependency from AggroBehaviour to AttackAction as AggroBehaviour executes AttackAction if Actor is reachable.
