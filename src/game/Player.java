@@ -36,8 +36,20 @@ public class Player extends Actor implements Soul {
 		if (lastAction.getNextAction() != null)
 			return lastAction.getNextAction();
 
+		displayStatus();
+
 		// return/print the console menu
 		return menu.showMenu(this, actions, display);
+	}
+
+	/**
+	 *  Displays the player's status. Hitpoints/MaxHitpoints, current weapon and souls
+	 */
+	private void displayStatus() {
+		// TODO: print the player's weapon and the player's souls
+		Display display = new Display();
+		String s = String.format("Player (%d/%d), holding weapon, souls: X", this.hitPoints, this.maxHitPoints);
+		display.println(s);
 	}
 
 	@Override
