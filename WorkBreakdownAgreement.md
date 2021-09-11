@@ -63,3 +63,21 @@ Signatures (after amendment 05/09/2021):
 ---
 
 #### Assignment 2 - Implementation
+
+In Assignment 2, work will be split into batches and each batch will be agreed 
+upon at a time.
+
+**Batch 1**
+- Player health & status: Dylan
+- Estus Flask: Dimitrii
+- Bonfire: Dylan
+- Cemetery: Dimitrii
+- Valley: Dylan
+
+Estimated time of completion for batch: 15/09/2021
+
+Signatures:
+- Dylan Clements: I agree with this WBA (11/09/2021)
+
+
+
