@@ -78,6 +78,6 @@ Estimated time of completion for batch: 15/09/2021
 
 Signatures:
 - Dylan Clements: I agree with this WBA (11/09/2021)
-
+- Dmitrii Parakhin: I agree with this WBA (11/09/2021)
 
 
