@@ -9,13 +9,15 @@ import edu.monash.fit2099.engine.DoNothingAction;
 import edu.monash.fit2099.engine.GameMap;
 import game.enums.Status;
 import game.interfaces.Behaviour;
+import game.interfaces.Resettable;
+import game.interfaces.Soul;
 
 import java.util.ArrayList;
 
 /**
  * An undead minion.
  */
-public class Undead extends Actor {
+public class Undead extends Actor implements Resettable, Soul {
 	// Will need to change this to a collection if Undeads gets additional Behaviours.
 	private ArrayList<Behaviour> behaviours = new ArrayList<>();
 
@@ -27,6 +29,7 @@ public class Undead extends Actor {
 	public Undead(String name) {
 		super(name, 'u', 50);
 		behaviours.add(new WanderBehaviour());
+		this.registerInstance();
 	}
 
 	/**
@@ -56,6 +59,7 @@ public class Undead extends Actor {
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		// loop through all behaviours
+		// TODO: 10% chance to die every turn
 		for(Behaviour Behaviour : behaviours) {
 			Action action = Behaviour.getAction(this, map);
 			if (action != null)
@@ -64,4 +68,19 @@ public class Undead extends Actor {
 		return new DoNothingAction();
 	}
 
+	@Override
+	public void resetInstance(GameMap map) {
+		this.hitPoints = 0;
+		map.removeActor(this);
+	}
+
+	@Override
+	public boolean isExist() {
+		return this.isConscious();
+	}
+
+	@Override
+	public void transferSouls(Soul soulObject) {
+		// TODO: Transfer souls to player upon death
+	}
 }

@@ -60,6 +60,11 @@ public class Application {
 			// Place a Hollow in the the map
 			// FIXME: the Undead should be generated from the Cemetery
 			gameMap.at(32, 7).addActor(new Undead("Undead"));
+
+			// Place Bonfire in the firelink shrine
+			Bonfire bonfire = new Bonfire('B');
+			gameMap.at(38, 11).setGround(bonfire);
+
 			world.run();
 
 	}

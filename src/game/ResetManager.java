@@ -1,5 +1,6 @@
 package game;
 
+import edu.monash.fit2099.engine.GameMap;
 import game.interfaces.Resettable;
 
 import java.util.ArrayList;
@@ -47,24 +48,35 @@ public class ResetManager {
      * By doing this way, it will avoid using `instanceof` all over the place.
      * FIXME: it does nothing, you need to implement it :)
      */
-    public void run(){
-
+    public void run(GameMap map){
+        this.cleanUp();
+        for (Resettable resettable : resettableList) {
+            resettable.resetInstance(map);
+        }
+        resettableList = new ArrayList<>();
     }
 
     /**
      * Add the Resettable instance to the list
-     * FIXME: it does nothing, you need to implement it :)
      * @param resettable the interface instance
      */
     public void appendResetInstance(Resettable resettable){
-
+        resettableList.add(resettable);
     }
 
     /**
      * clean up instances (actor, item, or ground) that doesn't exist anymore in the map
-     * FIXME: it does nothing, you need to implement it :)
+     * i.e. Remove items from resettableList that do not exist anymore
      */
     private void cleanUp(){
-
+        ArrayList<Resettable> willRemove = new ArrayList<>();
+        for (Resettable resettable : resettableList) {
+            if (!resettable.isExist()) {
+                willRemove.add(resettable);
+            }
+        }
+        for (Resettable resettable : willRemove) {
+            resettableList.remove(resettable);
+        }
     }
 }
