@@ -73,6 +73,7 @@ upon at a time.
 - Bonfire: Dylan
 - Cemetery: Dimitrii
 - Valley: Dylan
+- Resettable + ResetManager: Dylan
 
 Estimated time of completion for batch: 15/09/2021
 
