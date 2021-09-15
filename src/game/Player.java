@@ -1,11 +1,6 @@
 package game;
 
-import edu.monash.fit2099.engine.Action;
-import edu.monash.fit2099.engine.Actions;
-import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.Display;
-import edu.monash.fit2099.engine.GameMap;
-import edu.monash.fit2099.engine.Menu;
+import edu.monash.fit2099.engine.*;
 import game.enums.Abilities;
 import game.enums.Status;
 import game.interfaces.Resettable;
@@ -37,23 +32,20 @@ public class Player extends Actor implements Soul, Resettable {
 		this.hitPoints = hitPoints;
 	}
 
-
-
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		if (map.locationOf(this).getGround() instanceof Valley) {
-			display.println("YOU DIED");
-			// TODO: Implement player death here!
+			return new DeathAction();
+		} else {
+			// Handle multi-turn Actions
+			if (lastAction.getNextAction() != null)
+				return lastAction.getNextAction();
+
+			displayStatus(display);
+
+			// return/print the console menu
+			return menu.showMenu(this, actions, display);
 		}
-
-		// Handle multi-turn Actions
-		if (lastAction.getNextAction() != null)
-			return lastAction.getNextAction();
-
-		displayStatus(display);
-
-		// return/print the console menu
-		return menu.showMenu(this, actions, display);
 	}
 
 	/**
@@ -67,14 +59,38 @@ public class Player extends Actor implements Soul, Resettable {
 
 	@Override
 	public void transferSouls(Soul soulObject) {
-		// TODO: transfer Player's souls to another Soul's instance.
-		// TODO: Transfer souls to SoulToken on death
+		if (!isConscious()) {
+			int playerSouls = getSouls();
+			this.subtractSouls(playerSouls);
+			soulObject.addSouls(playerSouls);
+		}
+	}
+
+	/**
+	 * Add a number of souls to Player
+	 * @param souls number of souls to be incremented.
+	 * @return true
+	 */
+	public boolean addSouls(int souls) {
+		this.souls += souls;
+		return true;
+	}
+
+	/**
+	 * Decrement number of souls.
+	 * @param souls number souls to be deducted
+	 * @return true if souls have been decremented. false if souls exceeds player's souls
+	 */
+	public boolean subtractSouls(int souls) {
+		if (souls > getSouls()) {
+			return false;
+		}
+		this.souls -= souls;
+		return true;
 	}
 
 	@Override
 	public void resetInstance(GameMap map) {
-		// TODO: Refill estus flask on reset
-		// TODO: Move player to firelink shrine on reset
 		this.hitPoints = this.maxHitPoints;
 		map.removeActor(this);
 		map.at(38, 12).addActor(this);
@@ -93,5 +109,19 @@ public class Player extends Actor implements Soul, Resettable {
 	public void heal(int percentageHealth) {
 		int i = percentageHealth * maxHitPoints;
 		super.heal(i);
+	}
+
+	/**
+	 * If item picked up is SoulToken, add to player's souls. Else just add item to inventory as usual.
+	 * @param item The Item to add.
+	 */
+	@Override
+	public void addItemToInventory(Item item) {
+		if (item instanceof SoulToken) {
+			this.addSouls(((SoulToken) item).getSouls());
+		}
+		else {
+			this.inventory.add(item);
+		}
 	}
 }

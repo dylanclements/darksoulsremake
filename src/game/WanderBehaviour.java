@@ -25,7 +25,8 @@ public class WanderBehaviour extends Action implements Behaviour {
 	@Override
 	public Action getAction(Actor actor, GameMap map) {
 		ArrayList<Action> actions = new ArrayList<Action>();
-		
+
+		// FIXME: figure out how to stop actors from wandering into firelink shrine
 		for (Exit exit : map.locationOf(actor).getExits()) {
             Location destination = exit.getDestination();
             if (destination.canActorEnter(actor)) {

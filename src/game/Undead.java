@@ -5,21 +5,24 @@ import edu.monash.fit2099.engine.Action;
 import edu.monash.fit2099.engine.Actions;
 import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.Display;
-import edu.monash.fit2099.engine.DoNothingAction;
 import edu.monash.fit2099.engine.GameMap;
 import game.enums.Status;
 import game.interfaces.Behaviour;
+import game.interfaces.Provocative;
 import game.interfaces.Resettable;
 import game.interfaces.Soul;
 
-import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * An undead minion.
  */
-public class Undead extends Actor implements Resettable, Soul {
+public class Undead extends Actor implements Resettable, Soul, Provocative {
 	// Will need to change this to a collection if Undeads gets additional Behaviours.
-	private ArrayList<Behaviour> behaviours = new ArrayList<>();
+	private Behaviour behaviour = new WanderBehaviour();
+	private final Random random = new Random();
+
+	public static int undeadSouls = 50;
 
 	/** 
 	 * Constructor.
@@ -28,7 +31,6 @@ public class Undead extends Actor implements Resettable, Soul {
 	 */
 	public Undead(String name) {
 		super(name, 'u', 50);
-		behaviours.add(new WanderBehaviour());
 		this.registerInstance();
 	}
 
@@ -53,24 +55,23 @@ public class Undead extends Actor implements Resettable, Soul {
 
 	/**
 	 * Figure out what to do next.
-	 * FIXME: An Undead wanders around at random and it cannot attack anyone. Also, figure out how to spawn this creature.
 	 * @see edu.monash.fit2099.engine.Actor#playTurn(Actions, Action, GameMap, Display)
 	 */
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		// loop through all behaviours
-		// TODO: 10% chance to die every turn
-		for(Behaviour Behaviour : behaviours) {
-			Action action = Behaviour.getAction(this, map);
-			if (action != null)
-				return action;
+		if (behaviour instanceof WanderBehaviour) {
+			// 10% chance to die every turn if wandering
+			float deathChance = random.nextFloat();
+			if (deathChance < 0.10f) {
+				return new DeathAction();
+			}
 		}
-		return new DoNothingAction();
+		return behaviour.getAction(this, map);
 	}
 
 	@Override
 	public void resetInstance(GameMap map) {
-		this.hitPoints = 0;
 		map.removeActor(this);
 	}
 
@@ -81,6 +82,17 @@ public class Undead extends Actor implements Resettable, Soul {
 
 	@Override
 	public void transferSouls(Soul soulObject) {
-		// TODO: Transfer souls to player upon death
+		if (!isConscious()) {
+			soulObject.addSouls(Undead.undeadSouls);
+		}
+	}
+
+	/**
+	 * Get undead to change behaviour to Aggro.
+	 * @param target the actor that the undead will attack
+	 */
+	@Override
+	public void switchAggroBehaviour(Actor target) {
+		this.behaviour = new AggroBehaviour(target);
 	}
 }
