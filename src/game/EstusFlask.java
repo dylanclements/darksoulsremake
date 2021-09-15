@@ -1,5 +1,6 @@
 package game;
 
+import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.Item;
 import game.enums.Abilities;
 import game.interfaces.Consumable;
@@ -21,6 +22,7 @@ public class EstusFlask extends Item implements Resettable, Consumable{
         this.charges = maxCharges;
         this.addCapability(Abilities.DRINK);
         this.allowableActions.add(new DrinkEstusFlaskAction(this));
+        this.registerInstance();
     }
 
     @Override
@@ -54,12 +56,12 @@ public class EstusFlask extends Item implements Resettable, Consumable{
     }
 
     @Override
-    public void resetInstance() {
-
+    public void resetInstance(GameMap map) {
+        this.charges = maxCharges;
     }
 
     @Override
     public boolean isExist() {
-        return false;
+        return true;
     }
 }

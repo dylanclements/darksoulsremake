@@ -33,7 +33,7 @@ public class Cemetery extends Ground {
     public void tick(Location location) {
         super.tick(location);
         float spawnChance = r.nextFloat();
-        if (spawnChance <= 0.25f){
+        if (spawnChance <= 0.25 && !location.containsAnActor()) {
             location.addActor(new Undead("Undead"));
         }
     }
