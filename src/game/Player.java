@@ -34,7 +34,10 @@ public class Player extends Actor implements Soul, Resettable {
 		// Register player instance on instantiation
 		this.registerInstance();
 		this.souls = 0;
+		this.hitPoints = hitPoints;
 	}
+
+
 
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
@@ -84,5 +87,11 @@ public class Player extends Actor implements Soul, Resettable {
 
 	public int getSouls() {
 		return souls;
+	}
+
+	@Override
+	public void heal(int percentageHealth) {
+		int i = percentageHealth * maxHitPoints;
+		super.heal(i);
 	}
 }
