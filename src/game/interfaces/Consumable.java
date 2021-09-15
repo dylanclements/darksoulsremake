@@ -7,7 +7,11 @@ import game.Player;
 
 public interface Consumable {
 	
-	void reduceCharges();
+	boolean reduceCharges();
 	//consumed by /actor
-	void consumedBy(Player player);
+	boolean consumedBy(Player player);
+
+	int getCharges();
+
+	int getMaxCharges();
 }

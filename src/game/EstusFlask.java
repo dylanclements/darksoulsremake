@@ -8,7 +8,7 @@ import game.interfaces.Resettable;
 public class EstusFlask extends Item implements Resettable, Consumable{
     private double healingPercentage;
     private int charges;
-    private int MaxCharges;
+    private int maxCharges;
     private int healing = 40;
 
     /***
@@ -17,30 +17,40 @@ public class EstusFlask extends Item implements Resettable, Consumable{
      */
     public EstusFlask() {
         super("Estus Flask", 'E', false);
-        this.MaxCharges = 3;
-        this.charges = MaxCharges;
+        this.maxCharges = 3;
+        this.charges = maxCharges;
         this.addCapability(Abilities.DRINK);
         this.allowableActions.add(new DrinkEstusFlaskAction(this));
     }
 
+    @Override
     public int getCharges() {
         return charges;
     }
 
     @Override
-    public void reduceCharges() {
-        //add checks if drops below 0, feedback to the user
-        if (charges > 0){
-            charges -= 1;
-        }
+    public int getMaxCharges() {
+        return maxCharges;
     }
 
     @Override
-    public void consumedBy(Player player) {
+    public boolean reduceCharges() {
+        //add checks if drops below 0, feedback to the user
+        if (charges > 0){
+            charges -= 1;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean consumedBy(Player player) {
         if (player.hasCapability(Abilities.DRINK)){
             player.heal(healing);
             reduceCharges();
+            return true;
         }
+        return false;
     }
 
     @Override

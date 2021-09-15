@@ -20,13 +20,15 @@ public class DrinkEstusFlaskAction extends Action {
 
     @Override
     public String execute(Actor actor, GameMap map) {
-        estusFlask.reduceCharges();
-        //how to display charges
-        return actor + " drank Estus Flask";
+        if (estusFlask.reduceCharges()) {
+            return actor + " drank Estus Flask";
+        }
+        return actor + " Estus Flask is empty";
     }
 
     @Override
     public String menuDescription(Actor actor) {
-        return actor + " Drinks Estus Flask";
+        Consumable estus = this.estusFlask;
+        return String.format("%s drinks Estus Flask (%d/%d)", actor, estus.getCharges(), estus.getMaxCharges());
     }
 }
