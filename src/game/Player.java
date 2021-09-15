@@ -28,7 +28,11 @@ public class Player extends Actor implements Soul {
 		super(name, displayChar, hitPoints);
 		this.addCapability(Status.HOSTILE_TO_ENEMY);
 		this.addCapability(Abilities.REST);
+		this.hitPoints = hitPoints;
+
 	}
+
+
 
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
@@ -43,5 +47,11 @@ public class Player extends Actor implements Soul {
 	@Override
 	public void transferSouls(Soul soulObject) {
 		//TODO: transfer Player's souls to another Soul's instance.
+	}
+
+	@Override
+	public void heal(int percentageHealth) {
+		int i = percentageHealth * maxHitPoints;
+		super.heal(i);
 	}
 }
