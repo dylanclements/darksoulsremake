@@ -82,3 +82,12 @@ Signatures:
 - Dmitrii Parakhin: I agree with this WBA (11/09/2021)
 
 
+**Batch2**
+- Dying + SoulToken: Dylan
+- Weapons: Dimitrii
+- DoNothingBehaviour + AggroBehaviour: Dylan
+
+Signatures:
+- Dylan Clements: I agree with this WBA (15/09/2021)
+
+
