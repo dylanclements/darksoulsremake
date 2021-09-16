@@ -77,7 +77,7 @@ public class Undead extends Actor implements Resettable, Soul, Provocative {
 
 	@Override
 	public boolean isExist() {
-		return this.isConscious();
+		return false;
 	}
 
 	@Override

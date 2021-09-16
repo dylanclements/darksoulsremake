@@ -62,7 +62,7 @@ public class Application {
 			//gameMap.at(32, 7).addActor(new Undead("Undead"));
 			//Cemetery.spawnUndead(gameMap);
 			// FIXME: the Undead should be generated from the Cemetery
-			gameMap.at(32, 7).addActor(new Undead("Undead"));
+			// gameMap.at(32, 7).addActor(new Undead("Undead"));
 
 			// Place Bonfire in the firelink shrine
 			Bonfire bonfire = new Bonfire('B');

@@ -54,6 +54,8 @@ public class Player extends Actor implements Soul, Resettable {
 	private void displayStatus(Display display) {
 		// TODO: print the player's weapon and the player's souls
 		String s = String.format("Player (%d/%d), holding weapon, souls: %d", this.hitPoints, this.maxHitPoints, this.souls);
+		ResetManager resetter = ResetManager.getInstance();
+		resetter.printResettable();
 		display.println(s);
 	}
 
@@ -102,7 +104,7 @@ public class Player extends Actor implements Soul, Resettable {
 	}
 
 	public int getSouls() {
-		return souls;
+		return this.souls;
 	}
 
 	@Override

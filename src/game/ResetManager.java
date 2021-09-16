@@ -4,6 +4,7 @@ import edu.monash.fit2099.engine.GameMap;
 import game.interfaces.Resettable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -49,11 +50,17 @@ public class ResetManager {
      * FIXME: it does nothing, you need to implement it :)
      */
     public void run(GameMap map){
-        this.cleanUp();
         for (Resettable resettable : resettableList) {
             resettable.resetInstance(map);
         }
-        resettableList = new ArrayList<>();
+        this.cleanUp();
+    }
+
+    /**
+     * FOR DEBUGGING ONLY: print all the resettable instances to the console
+     */
+    protected void printResettable() {
+        System.out.println(Arrays.toString(resettableList.toArray()));
     }
 
     /**
@@ -69,14 +76,13 @@ public class ResetManager {
      * i.e. Remove items from resettableList that do not exist anymore
      */
     private void cleanUp(){
-        ArrayList<Resettable> willRemove = new ArrayList<>();
+        ArrayList<Resettable> keep = new ArrayList<>();
         for (Resettable resettable : resettableList) {
-            if (!resettable.isExist()) {
-                willRemove.add(resettable);
+            if (resettable.isExist()) {
+                keep.add(resettable);
             }
         }
-        for (Resettable resettable : willRemove) {
-            resettableList.remove(resettable);
-        }
+        resettableList = new ArrayList<>();
+        resettableList.addAll(keep);
     }
 }
