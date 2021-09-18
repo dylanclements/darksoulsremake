@@ -6,12 +6,16 @@ import game.enums.Status;
 import game.interfaces.Resettable;
 import game.interfaces.Soul;
 
+
 /**
  * Class representing the Player.
  */
 public class Player extends Actor implements Soul, Resettable {
 
 	private final Menu menu = new Menu();
+
+	private Location previousLocation;
+	private Location currentLocation;
 
 	private int souls;
 
@@ -34,6 +38,13 @@ public class Player extends Actor implements Soul, Resettable {
 
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
+		if (map.locationOf(this) != this.previousLocation) {
+			// player has moved. update previous location and then current location
+			this.previousLocation = this.currentLocation;
+			this.currentLocation = map.locationOf(this);
+		}
+
+		// die if player is in a valley
 		if (map.locationOf(this).getGround() instanceof Valley) {
 			return new DeathAction();
 		} else {
@@ -61,11 +72,9 @@ public class Player extends Actor implements Soul, Resettable {
 
 	@Override
 	public void transferSouls(Soul soulObject) {
-		if (!isConscious()) {
-			int playerSouls = getSouls();
-			this.subtractSouls(playerSouls);
-			soulObject.addSouls(playerSouls);
-		}
+		int playerSouls = getSouls();
+		this.subtractSouls(playerSouls);
+		soulObject.addSouls(playerSouls);
 	}
 
 	/**
@@ -113,17 +122,7 @@ public class Player extends Actor implements Soul, Resettable {
 		super.heal(i);
 	}
 
-	/**
-	 * If item picked up is SoulToken, add to player's souls. Else just add item to inventory as usual.
-	 * @param item The Item to add.
-	 */
-	@Override
-	public void addItemToInventory(Item item) {
-		if (item instanceof SoulToken) {
-			this.addSouls(((SoulToken) item).getSouls());
-		}
-		else {
-			this.inventory.add(item);
-		}
+	public Location getPreviousLocation() {
+		return this.previousLocation;
 	}
 }

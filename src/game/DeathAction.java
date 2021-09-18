@@ -40,23 +40,17 @@ public class DeathAction extends Action {
      * @param deathLocation location on the map that player dies in
      * @param player the player
      */
-    private boolean placeSoulToken(Location deathLocation, Player player) {
-        SoulToken soulToken = new SoulToken();
-        player.transferSouls(soulToken);
-
+    private void placeSoulToken(Location deathLocation, Player player) {
         if (deathLocation.getGround() instanceof Valley) {
-            for (Exit exit : deathLocation.getExits()) {
-                Location adjacentLocation = exit.getDestination();
-                if (!(adjacentLocation.getGround() instanceof Valley)) {
-                    adjacentLocation.addItem(soulToken);
-                    return true;
-                }
-            }
-            // if for some reason all exits are valleys, return false
-            return false;
+            Location playerPreviousLocation = player.getPreviousLocation();
+            SoulToken soulToken = new SoulToken(playerPreviousLocation.getGround());
+            player.transferSouls(soulToken);
+            playerPreviousLocation.setGround(soulToken);
+        } else {
+            SoulToken soulToken = new SoulToken(deathLocation.getGround());
+            player.transferSouls(soulToken);
+            deathLocation.setGround(soulToken);
         }
-        deathLocation.addItem(soulToken);
-        return true;
     }
 
     /**

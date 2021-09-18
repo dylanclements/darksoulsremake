@@ -58,12 +58,6 @@ public class Application {
 			// Place Yhorm the Giant/boss in the map
 			gameMap.at(6, 25).addActor(new LordOfCinder("Yhorm the Giant", 'Y', 500));
 
-			// Place a Hollow in the the map
-			//gameMap.at(32, 7).addActor(new Undead("Undead"));
-			//Cemetery.spawnUndead(gameMap);
-			// FIXME: the Undead should be generated from the Cemetery
-			// gameMap.at(32, 7).addActor(new Undead("Undead"));
-
 			// Place Bonfire in the firelink shrine
 			Bonfire bonfire = new Bonfire('B');
 			gameMap.at(38, 11).setGround(bonfire);
