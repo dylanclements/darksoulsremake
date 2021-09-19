@@ -1,7 +1,7 @@
 package game;
 
+import edu.monash.fit2099.engine.Action;
 import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.DoNothingAction;
 import game.enums.Abilities;
 import game.enums.Status;
 import game.interfaces.ActiveSkill;
@@ -19,8 +19,7 @@ public class StormRuler extends Sword implements ActiveSkill {
         this.maxCharges = 3;
         this.charges = 1;
         this.addCapability(Abilities.CHARGE);
-        this.allowableActions.add(new ChargeAction(this));
-
+        // this.allowableActions.add(new ChargeAction(this));
     }
 
     @Override
@@ -61,8 +60,6 @@ public class StormRuler extends Sword implements ActiveSkill {
         return charges;
     }
 
-
-
     @Override
     public int getMaxCharges() {
         return maxCharges;
@@ -84,4 +81,22 @@ public class StormRuler extends Sword implements ActiveSkill {
         }
         return false;
     }
+
+    @Override
+    public void addActiveSkill(Action action) {
+        this.allowableActions.add(action);
+    }
+
+    /**
+     * Instead of PickUpItemAction, return PickUpStormRulerAction
+     * @param actor an actor that will interact with this item
+     * @return action to pick up the storm ruler
+     */
+    @Override
+    public PickUpStormRulerAction getPickUpAction(Actor actor) {
+        if (portable)
+            return new PickUpStormRulerAction(this);
+        return null;
+    }
+
 }
