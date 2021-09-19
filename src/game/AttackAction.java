@@ -60,26 +60,10 @@ public class AttackAction extends Action {
 		target.hurt(damage);
 
 		if (!target.isConscious()) {
-			Actions dropActions = new Actions();
-			// drop all items
-			for (Item item : target.getInventory())
-				dropActions.add(item.getDropAction(actor));
-			for (Action drop : dropActions)
-				drop.execute(target, map);
-
-			if (target instanceof Soul && actor instanceof Player) {
-				((Soul) target).transferSouls((Soul) actor);
-			}
-
-			if (!(target instanceof Player)) {
-				map.removeActor(target);
-			} else {
-				// killed the player
-				DeathAction.playerDeath((Player) target, map);
-			}
-			result += System.lineSeparator() + target + " is killed.";
+			// getting rid of crappy death procedure, and replacing with DeathAction
+			DeathAction death = new DeathAction(actor);
+			result += System.lineSeparator() + death.execute(target, map);
 		}
-
 		return result;
 	}
 

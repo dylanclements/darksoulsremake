@@ -6,56 +6,80 @@ import game.interfaces.Soul;
 public class DeathAction extends Action {
     private final Actor killer;
 
+    /**
+     * Constructor to create DeathAction instance where an actor has killed another actor
+     * @param killer the actor who killed another actor
+     */
     public DeathAction(Actor killer) {
         this.killer = killer;
     }
 
+    /**
+     * Constructor to create DeathAction instance for natural death. (e.g. falling down a valley or undead dying)
+     */
     public DeathAction() {
         this.killer = null;
     }
 
     /**
-     * Static method to allow anything to kill the player
-     * @param player
-     * @param map
+     * Execute a death procedure. Handles all cases.
+     * @param actorDying the actor who is dying
+     * @param map The map the actor is on.
+     * @return string that describes the death
      */
-    public static void playerDeath(Player player, GameMap map) {
-        ResetManager resetter = ResetManager.getInstance();
-        DeathAction.placeSoulToken(map.locationOf(player), player);
-        resetter.run(map);
-    }
-
     @Override
-    public String execute(Actor actor, GameMap map) {
-        if (isPlayerDying(actor)) {
-            DeathAction.playerDeath((Player) actor, map);
+    public String execute(Actor actorDying, GameMap map) {
+        Actions dropActions = new Actions();
+        if (this.getKiller() != null) {
+            // drop items to allow player to pick it up
+            for (Item item : actorDying.getInventory())
+                dropActions.add(item.getDropAction(this.getKiller()));
+            for (Action drop : dropActions)
+                drop.execute(actorDying, map);
+        }
+
+        if (actorDying instanceof Player) {
+            // Player dies
+            ResetManager resetter = ResetManager.getInstance();
+            this.placeSoulToken(map.locationOf(actorDying), (Player) actorDying);
+            resetter.run(map);
             return "YOU DIED";
         } else {
+            // Another actor dies
             if (killer != null && killer instanceof Player) {
-                // actor died at the hands of Player
-                Soul soullable = (Soul) actor;
+                // actor died at the hands of Player, therefore transfer souls
+                Soul soullable = (Soul) actorDying;
                 soullable.transferSouls((Soul) killer);
             }
-            // TODO: Situation where actor kills another actor. not in the game yet but might be
-            map.removeActor(actor);
-            return actor.toString() + " died";
+            map.removeActor(actorDying);
+            return this.menuDescription(actorDying);
         }
     }
 
     /**
      * Drop soul token on the ground when player dies.
-     * Handles situation where player dies in valley.
+     * Uses player's previous location to drop the token if player dies in valley
      * @param deathLocation location on the map that player dies in
      * @param player the player
      */
-    private static void placeSoulToken(Location deathLocation, Player player) {
+    private void placeSoulToken(Location deathLocation, Player player) {
         if (deathLocation.getGround() instanceof Valley) {
+            // Grab the player's previous location and the ground at this location
             Location playerPreviousLocation = player.getPreviousLocation();
-            SoulToken soulToken = new SoulToken(playerPreviousLocation.getGround());
+            Ground oldGround = playerPreviousLocation.getGround();
+
+            // create a soul token and have it remember the ground it replaced
+            SoulToken soulToken = new SoulToken(oldGround);
+
+            // transfer the soul token and set the ground to the soul token
             player.transferSouls(soulToken);
             playerPreviousLocation.setGround(soulToken);
         } else {
-            SoulToken soulToken = new SoulToken(deathLocation.getGround());
+            // remember the ground the soul token will replace. then create it
+            Ground oldGround = deathLocation.getGround();
+            SoulToken soulToken = new SoulToken(oldGround);
+
+            // transfer souls to the soul token and set the ground to the soul token
             player.transferSouls(soulToken);
             deathLocation.setGround(soulToken);
         }
@@ -68,16 +92,7 @@ public class DeathAction extends Action {
      */
     @Override
     public String menuDescription(Actor actor) {
-        return actor.toString() + " dies";
-    }
-
-    /**
-     * Check if actor is instance of player, so we know when to handle Player death.
-     * @param actor Actor that may or may not be a Player
-     * @return true if the actor is of type Player else false
-     */
-    public boolean isPlayerDying(Actor actor) {
-        return actor instanceof Player;
+        return actor.toString() + " is killed.";
     }
 
     /**

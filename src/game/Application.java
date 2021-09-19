@@ -3,11 +3,7 @@ package game;
 import java.util.Arrays;
 import java.util.List;
 
-import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.Display;
-import edu.monash.fit2099.engine.FancyGroundFactory;
-import edu.monash.fit2099.engine.GameMap;
-import edu.monash.fit2099.engine.World;
+import edu.monash.fit2099.engine.*;
 
 /**
  * The main class for the Jurassic World game.
@@ -46,16 +42,21 @@ public class Application {
 					"+++......................................+++........................+.++........",
 					"++++.......++++.........................++.........................+....++......",
 					"#####___#####++++......................+..................C............+..+.....",
-					"_..._....._._#.++......................+...................................+....",
-					"...+.__..+...#+++...........................................................+...",
-					"...+.....+._.#.+.....+++++...++..............................................++.",
-					"___.......___#.++++++++++++++.+++.............................................++");
+					"_..._........#.++......................+...................................+....",
+					"...+.....+...#+++...........................................................+...",
+					"...+.....+...#.+.....+++++...++..............................................++.",
+					".............#.++++++++++++++.+++.............................................++");
 			GameMap gameMap = new GameMap(groundFactory, map);
 			world.addGameMap(gameMap);
 
 			Actor player = new Player("Unkindled (Player)", '@', 100);
 			player.addItemToInventory(new EstusFlask());
 			world.addPlayer(player, gameMap.at(38, 12));
+
+			// Place some skeletons around the map
+			// TODO: Spawn 4-12 skeletons
+			Location spawn = gameMap.at(38, 18);
+			spawn.addActor(new Skeleton("Skeleton", spawn));
 
 			// Place Yhorm the Giant/boss in the map
 			gameMap.at(6, 25).addActor(new LordOfCinder("Yhorm the Giant", 'Y', 500));
