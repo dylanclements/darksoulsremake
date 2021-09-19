@@ -91,3 +91,14 @@ Signatures:
 - Dylan Clements: I agree with this WBA (15/09/2021)
 
 
+**Batch 3**
+- Yhorm the Giant Behaviour: Dylan
+- Yhorm souls, yhorm death: Dylan
+- Disable player when charging storm ruler: Dimitrii
+- Lord of cinder fallen: Dimitrii
+- Integration: both of us
+
+Signatures:
+- Dylan Clements: I agree with this WBA (19/09/2021)
+
+
