@@ -3,6 +3,7 @@ package game;
 import edu.monash.fit2099.engine.*;
 import game.enums.Abilities;
 import game.enums.Status;
+import game.interfaces.ActorStatus;
 import game.interfaces.Resettable;
 import game.interfaces.Soul;
 
@@ -10,7 +11,7 @@ import game.interfaces.Soul;
 /**
  * Class representing the Player.
  */
-public class Player extends Actor implements Soul, Resettable {
+public class Player extends Actor implements Soul, Resettable, ActorStatus {
 
 	private final Menu menu = new Menu();
 
@@ -124,5 +125,25 @@ public class Player extends Actor implements Soul, Resettable {
 
 	public Location getPreviousLocation() {
 		return this.previousLocation;
+	}
+
+	@Override
+	public int getHitPoints() {
+		return this.hitPoints;
+	}
+
+	@Override
+	public int getMaxHitPoints() {
+		return this.maxHitPoints;
+	}
+
+	@Override
+	public String getWeaponName() {
+		for (Item item : inventory) {
+			if (item.asWeapon() != null) {
+				return item.toString();
+			}
+		}
+		return "Intrinsic Weapon";
 	}
 }

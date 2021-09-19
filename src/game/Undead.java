@@ -1,23 +1,16 @@
 package game;
 
 
-import edu.monash.fit2099.engine.Action;
-import edu.monash.fit2099.engine.Actions;
-import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.Display;
-import edu.monash.fit2099.engine.GameMap;
+import edu.monash.fit2099.engine.*;
 import game.enums.Status;
-import game.interfaces.Behaviour;
-import game.interfaces.Provocative;
-import game.interfaces.Resettable;
-import game.interfaces.Soul;
+import game.interfaces.*;
 
 import java.util.Random;
 
 /**
  * An undead minion.
  */
-public class Undead extends Actor implements Resettable, Soul, Provocative {
+public class Undead extends Actor implements Resettable, Soul, Provocative, ActorStatus {
 	// Will need to change this to a collection if Undeads gets additional Behaviours.
 	private Behaviour behaviour = new WanderBehaviour();
 	private final Random random = new Random();
@@ -97,5 +90,25 @@ public class Undead extends Actor implements Resettable, Soul, Provocative {
 	@Override
 	public Behaviour getBehaviour() {
 		return this.behaviour;
+	}
+
+	@Override
+	public int getHitPoints() {
+		return this.hitPoints;
+	}
+
+	@Override
+	public int getMaxHitPoints() {
+		return this.maxHitPoints;
+	}
+
+	@Override
+	public String getWeaponName() {
+		for (Item item : inventory) {
+			if (item.asWeapon() != null) {
+				return item.toString();
+			}
+		}
+		return "Intrinsic Weapon";
 	}
 }

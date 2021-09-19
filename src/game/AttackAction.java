@@ -2,14 +2,9 @@ package game;
 
 import java.util.Random;
 
-import edu.monash.fit2099.engine.Action;
-import edu.monash.fit2099.engine.Actions;
-import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.GameMap;
-import edu.monash.fit2099.engine.Item;
-import edu.monash.fit2099.engine.Weapon;
+import edu.monash.fit2099.engine.*;
+import game.interfaces.ActorStatus;
 import game.interfaces.Provocative;
-import game.interfaces.Soul;
 
 /**
  * Special Action for attacking other Actors.
@@ -69,6 +64,13 @@ public class AttackAction extends Action {
 
 	@Override
 	public String menuDescription(Actor actor) {
+		if (target instanceof ActorStatus) {
+			int targetHitPoints = ((ActorStatus) target).getHitPoints();
+			int targetMaxHitPoints = ((ActorStatus) target).getMaxHitPoints();
+			String weaponName = ((ActorStatus) target).getWeaponName();
+			return actor + " attacks " + target +
+					String.format(" (%d/%d)", targetHitPoints, targetMaxHitPoints) + " who holds " + weaponName;
+		}
 		return actor + " attacks " + target + " at " + direction;
 	}
 }

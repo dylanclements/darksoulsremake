@@ -2,12 +2,9 @@ package game;
 
 import edu.monash.fit2099.engine.*;
 import game.enums.Status;
-import game.interfaces.Behaviour;
-import game.interfaces.Provocative;
-import game.interfaces.Resettable;
-import game.interfaces.Soul;
+import game.interfaces.*;
 
-public class Skeleton extends Actor implements Soul, Provocative, Resettable {
+public class Skeleton extends Actor implements Soul, Provocative, Resettable, ActorStatus {
     public static int skeletonSouls = 250;
 
     private Behaviour behaviour = new WanderBehaviour();
@@ -83,5 +80,25 @@ public class Skeleton extends Actor implements Soul, Provocative, Resettable {
 
     public Location getSpawnLocation() {
         return spawnLocation;
+    }
+
+    @Override
+    public int getHitPoints() {
+        return this.hitPoints;
+    }
+
+    @Override
+    public int getMaxHitPoints() {
+        return this.maxHitPoints;
+    }
+
+    @Override
+    public String getWeaponName() {
+        for (Item item : inventory) {
+            if (item.asWeapon() != null) {
+                return item.toString();
+            }
+        }
+        return "Intrinsic Weapon";
     }
 }
