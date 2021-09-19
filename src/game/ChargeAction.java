@@ -25,7 +25,7 @@ public class ChargeAction extends WeaponAction {
         if (stormRulerCharge.charge(actor)){
             return actor + " charging... ";
         }
-        return actor + " Storm Ruller is charged";
+        return actor + " Storm Ruler is charged";
     }
 
     @Override

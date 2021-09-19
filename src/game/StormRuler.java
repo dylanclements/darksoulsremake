@@ -2,13 +2,17 @@ package game;
 
 import edu.monash.fit2099.engine.Action;
 import edu.monash.fit2099.engine.Actor;
+import edu.monash.fit2099.engine.Exit;
 import game.enums.Abilities;
 import game.enums.Status;
 import game.interfaces.ActiveSkill;
 
 public class StormRuler extends Sword implements ActiveSkill {
     private int charges;
-    private int maxCharges;
+    private final int maxCharges;
+
+    private ChargeAction chargeActionCopy;
+    private WindSlashAction windSlashActionCopy;
 
     /**
      * Constructor.
@@ -17,35 +21,21 @@ public class StormRuler extends Sword implements ActiveSkill {
     public StormRuler() {
         super("Storm Ruler", '7', 70, "WAaaaBANG", 60);
         this.maxCharges = 3;
-        this.charges = 1;
+        this.charges = 0;
         this.addCapability(Abilities.CHARGE);
-        // this.allowableActions.add(new ChargeAction(this));
-    }
-
-    @Override
-    public boolean addCharge() {
-        if (charges < maxCharges){
-            charges += 1;
-            return true;
-        }
-        return false;
     }
 
     @Override
     public boolean charge(Actor actor) {
-        setAttributes(70,60);
-        //should be player? but it throws an error
-        if (charges == 3 && actor instanceof Player){
-                actor.addCapability(Status.HOSTILE_TO_ENEMY);
+        if (charges < maxCharges){
+            charges += 1;
+            if (charges == 3) {
                 this.removeCapability(Abilities.CHARGE);
                 this.addCapability(Abilities.WIND_SLASH);
-                this.allowableActions.add(new WindSlashAction(this));
-                this.allowableActions.remove(new ChargeAction(this));
-        } else {
-            this.addCharge();
-            if (actor instanceof Player){
-                actor.removeCapability(Status.HOSTILE_TO_ENEMY);
+                this.addActiveSkill(new WindSlashAction(this));
+                this.allowableActions.remove(this.chargeActionCopy);
             }
+            return true;
         }
         return false;
     }
@@ -66,17 +56,19 @@ public class StormRuler extends Sword implements ActiveSkill {
     }
 
     @Override
-    public boolean windSlash(Actor actor) {
-
+    public boolean windSlash(LordOfCinder yhorm) {
         if (this.hasCapability(Abilities.WIND_SLASH)){
             setAttributes(140,100);
-            if (actor instanceof LordOfCinder){
-                actor.addCapability(Status.STUNNED);
-            }
+
+            yhorm.addCapability(Status.STUNNED);
+
             this.removeCapability(Abilities.WIND_SLASH);
-            this.allowableActions.remove(new WindSlashAction(this));
+            this.allowableActions.remove(this.windSlashActionCopy);
+
+            this.charges = 0;
+
             this.addCapability(Abilities.CHARGE);
-            this.allowableActions.add(new ChargeAction(this));
+            this.addActiveSkill(this.chargeActionCopy);
             return true;
         }
         return false;
@@ -84,6 +76,12 @@ public class StormRuler extends Sword implements ActiveSkill {
 
     @Override
     public void addActiveSkill(Action action) {
+        if (action instanceof ChargeAction) {
+            this.chargeActionCopy = (ChargeAction) action;
+        }
+        else if (action instanceof WindSlashAction) {
+            this.windSlashActionCopy = (WindSlashAction) action;
+        }
         this.allowableActions.add(action);
     }
 
