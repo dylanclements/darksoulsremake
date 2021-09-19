@@ -19,7 +19,9 @@ public class Application {
 
 			World world = new World(new Display());
 
-			FancyGroundFactory groundFactory = new FancyGroundFactory(new Dirt(), new Wall(), new Floor(), new Valley(), new Cemetery());
+			FancyGroundFactory groundFactory = new FancyGroundFactory(
+					new Dirt(), new Wall(), new Floor(), new Valley(), new Cemetery(), new Bonfire()
+			);
 
 			List<String> map = Arrays.asList(
 					"..++++++..+++...........................++++......+++.................+++.......",
@@ -33,7 +35,7 @@ public class Application {
 					".............................................................+++++++............",
 					"..................................###___###...................+++...............",
 					"..................................#_______#......................+++............",
-					"...........++.....................#_______#.......................+.............",
+					"...........++.....................#___B___#.......................+.............",
 					".........+++......................#_______#........................++...........",
 					"............+++...................####_####..........................+..........",
 					"..............+......................................................++.........",
@@ -57,10 +59,6 @@ public class Application {
 
 			// Place Yhorm the Giant/boss in the map
 			gameMap.at(6, 25).addActor(new LordOfCinder("Yhorm the Giant", 'Y', 500));
-
-			// Place Bonfire in the firelink shrine
-			Bonfire bonfire = new Bonfire('B');
-			gameMap.at(38, 11).setGround(bonfire);
 
 			world.run();
 

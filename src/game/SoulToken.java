@@ -8,7 +8,7 @@ import game.interfaces.Soul;
 
 public class SoulToken extends Ground implements Soul {
     private int souls;
-    private Ground oldGround;
+    private final Ground oldGround;
 
     public SoulToken(Ground oldGround) {
         super('$');

@@ -7,8 +7,8 @@ import edu.monash.fit2099.engine.Location;
 
 public class Bonfire extends Ground {
 
-    public Bonfire(char displayChar) {
-        super(displayChar);
+    public Bonfire() {
+        super('B');
     }
 
     @Override

@@ -14,13 +14,21 @@ public class DeathAction extends Action {
         this.killer = null;
     }
 
+    /**
+     * Static method to allow anything to kill the player
+     * @param player
+     * @param map
+     */
+    public static void playerDeath(Player player, GameMap map) {
+        ResetManager resetter = ResetManager.getInstance();
+        DeathAction.placeSoulToken(map.locationOf(player), player);
+        resetter.run(map);
+    }
+
     @Override
     public String execute(Actor actor, GameMap map) {
         if (isPlayerDying(actor)) {
-            Player player = (Player) actor;
-            ResetManager resetter = ResetManager.getInstance();
-            placeSoulToken(map.locationOf(actor), player);
-            resetter.run(map);
+            DeathAction.playerDeath((Player) actor, map);
             return "YOU DIED";
         } else {
             if (killer != null && killer instanceof Player) {
@@ -40,7 +48,7 @@ public class DeathAction extends Action {
      * @param deathLocation location on the map that player dies in
      * @param player the player
      */
-    private void placeSoulToken(Location deathLocation, Player player) {
+    private static void placeSoulToken(Location deathLocation, Player player) {
         if (deathLocation.getGround() instanceof Valley) {
             Location playerPreviousLocation = player.getPreviousLocation();
             SoulToken soulToken = new SoulToken(playerPreviousLocation.getGround());

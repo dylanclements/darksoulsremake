@@ -82,9 +82,7 @@ public class Undead extends Actor implements Resettable, Soul, Provocative {
 
 	@Override
 	public void transferSouls(Soul soulObject) {
-		if (!isConscious()) {
-			soulObject.addSouls(Undead.undeadSouls);
-		}
+		soulObject.addSouls(Undead.undeadSouls);
 	}
 
 	/**
@@ -94,5 +92,10 @@ public class Undead extends Actor implements Resettable, Soul, Provocative {
 	@Override
 	public void switchAggroBehaviour(Actor target) {
 		this.behaviour = new AggroBehaviour(target);
+	}
+
+	@Override
+	public Behaviour getBehaviour() {
+		return this.behaviour;
 	}
 }
