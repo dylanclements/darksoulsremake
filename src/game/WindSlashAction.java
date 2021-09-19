@@ -4,7 +4,7 @@ import edu.monash.fit2099.engine.*;
 import game.interfaces.ActiveSkill;
 
 public class WindSlashAction extends WeaponAction {
-    private ActiveSkill stormRulerWindSlash;
+    private final ActiveSkill stormRulerWindSlash;
     /**
      * Constructor
      *
@@ -15,32 +15,21 @@ public class WindSlashAction extends WeaponAction {
         this.stormRulerWindSlash = weaponItem;
     }
 
-    /**
-     * Returns Yhorm instance if he is adjacent to the actor
-     * @param actor The Player
-     * @param map the game map
-     * @return Yhorm instance else null
-     */
-    private LordOfCinder findYhorm(Actor actor, GameMap map) {
+    @Override
+    public String execute(Actor actor, GameMap map) {
+        LordOfCinder yhorm = null;
+        String direction = null;
         for (Exit exit : map.locationOf(actor).getExits()) {
             Location location = exit.getDestination();
             if (location.getActor() instanceof LordOfCinder) {
-                return (LordOfCinder) location.getActor();
+                yhorm = (LordOfCinder) location.getActor();
+                direction = exit.getName();
             }
         }
-        return null;
-    }
-
-    @Override
-    public String execute(Actor actor, GameMap map) {
-        LordOfCinder yhorm = this.findYhorm(actor, map);
-        if (yhorm == null) {
+        if (yhorm == null || direction == null) {
             return "You must be next to Yhorm to execute Wind Slash";
         }
-        if (stormRulerWindSlash.windSlash(yhorm)){
-            return actor + " Unleashed Wind Slash.";
-        }
-        return actor + " Storm Ruler has to be charged first";
+        return stormRulerWindSlash.windSlash(actor, map, yhorm, direction);
     }
 
     @Override

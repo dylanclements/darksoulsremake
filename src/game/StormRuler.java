@@ -2,7 +2,7 @@ package game;
 
 import edu.monash.fit2099.engine.Action;
 import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.Exit;
+import edu.monash.fit2099.engine.GameMap;
 import game.enums.Abilities;
 import game.enums.Status;
 import game.interfaces.ActiveSkill;
@@ -10,6 +10,10 @@ import game.interfaces.ActiveSkill;
 public class StormRuler extends Sword implements ActiveSkill {
     private int charges;
     private final int maxCharges;
+
+    private static final int ACCURACY = 60;
+    private static final int FULL_ACCURACY = 100;
+    private static final int DAMAGE_MULTIPLIER = 2;
 
     private ChargeAction chargeActionCopy;
     private WindSlashAction windSlashActionCopy;
@@ -56,22 +60,35 @@ public class StormRuler extends Sword implements ActiveSkill {
     }
 
     @Override
-    public boolean windSlash(LordOfCinder yhorm) {
+    public String windSlash(Actor actor, GameMap map, LordOfCinder yhorm, String direction) {
         if (this.hasCapability(Abilities.WIND_SLASH)){
-            setAttributes(140,100);
+            // buff damage
+            setAttributes(this.damage * StormRuler.DAMAGE_MULTIPLIER, StormRuler.FULL_ACCURACY);
 
+            // execute the attack
+            AttackAction attack = new AttackAction(yhorm, direction);
+            String attackMessage = attack.execute(actor, map);
+
+            // set back to normal damage
+            setAttributes(this.damage / StormRuler.DAMAGE_MULTIPLIER, StormRuler.ACCURACY);
+
+            // stun yhorm for one turn
+            // TODO: in yhorm class, handle switching back to un-stunned capability
             yhorm.addCapability(Status.STUNNED);
 
+            // remove wind slash as an action
             this.removeCapability(Abilities.WIND_SLASH);
             this.allowableActions.remove(this.windSlashActionCopy);
 
+            // reset charges
             this.charges = 0;
 
+            // add charge actions back
             this.addCapability(Abilities.CHARGE);
             this.addActiveSkill(this.chargeActionCopy);
-            return true;
+            return attackMessage;
         }
-        return false;
+        return actor.toString() + " cannot do wind slash at the moment";
     }
 
     @Override
