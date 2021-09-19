@@ -61,6 +61,14 @@ public class Application {
 			// Place Yhorm the Giant/boss in the map
 			gameMap.at(6, 25).addActor(new LordOfCinder("Yhorm the Giant", 'Y', 500));
 
+			// Place a Hollow in the the map
+			//gameMap.at(32, 7).addActor(new Undead("Undead"));
+			//Cemetery.spawnUndead(gameMap);
+			// FIXME: the Undead should be generated from the Cemetery
+			gameMap.at(32, 7).addActor(new Undead("Undead"));
+			StormRuler stormRuler = new StormRuler();
+			gameMap.at(38,12).addItem(stormRuler);
+
 			world.run();
 
 	}

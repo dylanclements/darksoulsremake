@@ -1,6 +1,8 @@
 package game;
 
 import edu.monash.fit2099.engine.*;
+import game.enums.Abilities;
+import game.enums.Status;
 
 /**
  * The boss of Design o' Souls
@@ -13,6 +15,7 @@ public class LordOfCinder extends Actor {
      */
     public LordOfCinder(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints );
+        this.addCapability(Abilities.EMBER_FORM);
     }
 
     /**
@@ -24,7 +27,15 @@ public class LordOfCinder extends Actor {
      */
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-        return new DoNothingAction();
+        if (this.hasCapability(Status.STUNNED)){
+            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            return new DoNothingAction();
+        }
+            return new DoNothingAction();
     }
+
+
+
+
 
 }
