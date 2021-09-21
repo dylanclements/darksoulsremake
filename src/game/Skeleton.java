@@ -5,14 +5,16 @@ import game.enums.Status;
 import game.interfaces.*;
 
 public class Skeleton extends Actor implements Soul, Provocative, Resettable, ActorStatus {
-    public static int skeletonSouls = 250;
+    public final static int skeletonSouls = 250;
 
-    private Behaviour behaviour = new WanderBehaviour();
+    private Behaviour behaviour;
     private final Location spawnLocation;
 
     public Skeleton(String name, Location spawnLocation) {
         super(name, 's', 100);
         this.spawnLocation = spawnLocation;
+        this.behaviour = new WanderBehaviour();
+        this.addItemToInventory(new BroadSword());
         this.registerInstance();
     }
 

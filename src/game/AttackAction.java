@@ -3,6 +3,7 @@ package game;
 import java.util.Random;
 
 import edu.monash.fit2099.engine.*;
+import game.exceptions.MissingWeaponException;
 import game.interfaces.ActorStatus;
 import game.interfaces.Provocative;
 
@@ -67,7 +68,12 @@ public class AttackAction extends Action {
 		if (target instanceof ActorStatus) {
 			int targetHitPoints = ((ActorStatus) target).getHitPoints();
 			int targetMaxHitPoints = ((ActorStatus) target).getMaxHitPoints();
-			String weaponName = ((ActorStatus) target).getWeaponName();
+			String weaponName;
+			try {
+				weaponName = ((ActorStatus) target).getWeaponName();
+			} catch (MissingWeaponException e) {
+				weaponName = "Error";
+			}
 			return actor + " attacks " + target +
 					String.format(" (%d/%d)", targetHitPoints, targetMaxHitPoints) + " who holds " + weaponName;
 		}

@@ -42,7 +42,7 @@ public class Application {
 					"+++......................................+++........................+.++........",
 					"++++.......++++.........................++.........................+....++......",
 					"#####___#####++++......................+..................C............+..+.....",
-					"_..._........#.++......................+...................................+....",
+					".............#.++......................+...................................+....",
 					"...+.....+...#+++...........................................................+...",
 					"...+.....+...#.+.....+++++...++..............................................++.",
 					".............#.++++++++++++++.+++.............................................++");
@@ -58,16 +58,12 @@ public class Application {
 			Location spawn = gameMap.at(38, 18);
 			spawn.addActor(new Skeleton("Skeleton", spawn));
 
-			// Place Yhorm the Giant/boss in the map
-			gameMap.at(6, 25).addActor(new LordOfCinder("Yhorm the Giant", 'Y', 500));
-
-			// Place a Hollow in the the map
-			//gameMap.at(32, 7).addActor(new Undead("Undead"));
-			//Cemetery.spawnUndead(gameMap);
-			// FIXME: the Undead should be generated from the Cemetery
-			gameMap.at(32, 7).addActor(new Undead("Undead"));
+			// Place Yhorm the Giant/boss in the map + storm ruler
+			gameMap.at(6, 25).addActor(new Yhorm());
 			StormRuler stormRuler = new StormRuler();
 			gameMap.at(38,12).addItem(stormRuler);
+
+			gameMap.at(32, 7).addActor(new Undead("Undead"));
 
 			world.run();
 

@@ -104,11 +104,6 @@ public class Undead extends Actor implements Resettable, Soul, Provocative, Acto
 
 	@Override
 	public String getWeaponName() {
-		for (Item item : inventory) {
-			if (item.asWeapon() != null) {
-				return item.toString();
-			}
-		}
 		return "Intrinsic Weapon";
 	}
 }
