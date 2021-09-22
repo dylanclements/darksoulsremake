@@ -3,11 +3,13 @@ package game;
 import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.Item;
-import edu.monash.fit2099.engine.PickUpItemAction;
 import game.interfaces.ActiveSkill;
 
 
-public class PickUpStormRulerAction extends PickUpItemAction {
+/**
+ * Special rules for storm ruler, we want to add charge action only when player picks it up.
+ */
+public class PickUpStormRulerAction extends SwapWeaponAction {
     private final ActiveSkill stormRuler;
 
     /**

@@ -34,7 +34,7 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus {
 		this.addItemToInventory(new BroadSword());
 		this.registerInstance();
 		this.souls = 0;
-		this.hitPoints = 50;
+		this.hitPoints = hitPoints;
 		this.maxHitPoints = hitPoints;
 	}
 
@@ -68,8 +68,6 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus {
 		// TODO: print the player's weapon and the player's souls
 		String s = String.format("Player (%d/%d), holding %s, souls: %d",
 				this.getHitPoints(), this.getMaxHitPoints(), this.getWeaponName(), this.getSouls());
-		ResetManager resetter = ResetManager.getInstance();
-		resetter.printResettable();
 		display.println(s);
 	}
 

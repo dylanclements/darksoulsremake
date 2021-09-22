@@ -38,8 +38,8 @@ public class FollowBehaviour implements Behaviour {
 				}
 			}
 		}
-
-		return null;
+		// do nothing if actor is blocked
+		return new DoNothingAction();
 	}
 
 	/**

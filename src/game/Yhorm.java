@@ -4,21 +4,21 @@ import edu.monash.fit2099.engine.*;
 import game.enums.Abilities;
 import game.enums.Status;
 import game.exceptions.MissingWeaponException;
-import game.interfaces.ActorStatus;
-import game.interfaces.Behaviour;
-import game.interfaces.Provocative;
-import game.interfaces.Soul;
+import game.interfaces.*;
 
-public class Yhorm extends LordOfCinder implements Soul, Provocative, ActorStatus {
+public class Yhorm extends LordOfCinder implements Soul, Provocative, ActorStatus, Resettable {
     private static final int YHORM_SOULS = 5000;
 
     private Behaviour behaviour;
+    private Location spawnLocation;
 
-    public Yhorm() {
+    public Yhorm(Location spawnLocation) {
         super("Yhorm the Giant", 'Y', 500);
         this.addCapability(Abilities.EMBER_FORM);
         this.behaviour = new DoNothingBehaviour();
         this.addItemToInventory(new GreatMachete());
+        this.spawnLocation = spawnLocation;
+        this.registerInstance();
     }
 
     /**
@@ -112,5 +112,39 @@ public class Yhorm extends LordOfCinder implements Soul, Provocative, ActorStatu
             }
         }
         throw new MissingWeaponException("Yhorm must hold a Great Machete");
+    }
+
+    /**
+     * To reset Yhorm
+     * 1. Set behaviour back to DoNothingBehaviour
+     * 2. Heal back to full health
+     * 3. Set great machete hit rate back to default
+     * @param map game map
+     */
+    @Override
+    public void resetInstance(GameMap map) {
+        map.removeActor(this);
+        map.addActor(this, this.getSpawnLocation());
+        this.behaviour = new DoNothingBehaviour();
+        this.hitPoints = this.maxHitPoints;
+        for (Item item : this.inventory) {
+            if (item.asWeapon() != null && item instanceof GreatMachete) {
+                GreatMachete greatMachete = (GreatMachete) item;
+                greatMachete.setHitRate(GreatMachete.HIT_RATE);
+            }
+        }
+    }
+
+    public Location getSpawnLocation() {
+        return this.spawnLocation;
+    }
+
+    /**
+     * We only keep Yhorm in the game when his health is > 0 i.e. not dead
+     * @return True if yhorm is alive else False
+     */
+    @Override
+    public boolean isExist() {
+        return this.isConscious();
     }
 }

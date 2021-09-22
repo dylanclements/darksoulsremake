@@ -6,17 +6,21 @@ import game.enums.Abilities;
 import game.interfaces.WeaponSpecial;
 
 public class GreatMachete extends MeleeWeapon implements WeaponSpecial {
+    public static final int DAMAGE = 95;
+    public static final int HIT_RATE = 60;
 
     /**
      * Constructor.
      *
      */
     public GreatMachete() {
-        super("Yhorm’s Great Machete", 'G', 95, "Wacks", 60);
+        super("Yhorm’s Great Machete", 'G', GreatMachete.DAMAGE, "Wacks", GreatMachete.HIT_RATE);
         this.allowableActions.add(new EmberFormAction(this)); //is this correct??
-        //need to addCapability to Yhorm
     }
 
+    protected void setHitRate(int hitRate) {
+        this.hitRate = hitRate;
+    }
 
     @Override
     public WeaponAction getActiveSkill(Actor target, String direction) {
@@ -37,6 +41,4 @@ public class GreatMachete extends MeleeWeapon implements WeaponSpecial {
 
         return false;
     }
-
-
 }

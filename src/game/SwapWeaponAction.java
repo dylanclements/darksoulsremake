@@ -8,7 +8,6 @@ import java.util.List;
  * An action to swap weapon (new weapon replaces old weapon).
  * It loops through all items in the Actor inventory.
  * The old weapon will be gone.
- * TODO: you may update this code if required.
  */
 public class SwapWeaponAction extends PickUpItemAction {
 
@@ -22,7 +21,6 @@ public class SwapWeaponAction extends PickUpItemAction {
 
     @Override
     public String execute(Actor actor, GameMap map) {
-        Weapon currentWeapon = actor.getWeapon();
         List<Item> items = actor.getInventory();
 
         // loop through all inventory
@@ -36,7 +34,12 @@ public class SwapWeaponAction extends PickUpItemAction {
         // if the ground has item, remove that item.
         // additionally, add new weapon to the inventory (equip).
         super.execute(actor, map);
-        return actor + " swaps " + currentWeapon + " with " + item;
+        return menuDescription(actor);
     }
 
+    @Override
+    public String menuDescription(Actor actor) {
+        Weapon currentWeapon = actor.getWeapon();
+        return actor + " swaps " + currentWeapon + " with " + item;
+    }
 }

@@ -19,8 +19,7 @@ public class StormRuler extends Sword implements ActiveSkill {
     private WindSlashAction windSlashActionCopy;
 
     /**
-     * Constructor.
-     *
+     *  Constructor
      */
     public StormRuler() {
         super("Storm Ruler", '7', 70, "WAaaaBANG", 60);
@@ -33,7 +32,10 @@ public class StormRuler extends Sword implements ActiveSkill {
     public boolean charge(Actor actor) {
         if (charges < maxCharges){
             charges += 1;
+            if (charges <= 2)
+                this.name = String.format("Storm Ruler (%d/%d)", this.getCharges(), this.getMaxCharges());
             if (charges == 3) {
+                this.name = "Storm Ruler (CHARGED)";
                 this.removeCapability(Abilities.CHARGE);
                 this.addCapability(Abilities.WIND_SLASH);
                 this.addActiveSkill(new WindSlashAction(this));
@@ -103,15 +105,12 @@ public class StormRuler extends Sword implements ActiveSkill {
     }
 
     /**
-     * Instead of PickUpItemAction, return PickUpStormRulerAction
+     * Instead return our pick-up storm ruler class instead of swap weapon action
      * @param actor an actor that will interact with this item
-     * @return action to pick up the storm ruler
+     * @return PickUpStormRuler action
      */
     @Override
     public PickUpStormRulerAction getPickUpAction(Actor actor) {
-        if (portable)
-            return new PickUpStormRulerAction(this);
-        return null;
+        return new PickUpStormRulerAction(this);
     }
-
 }

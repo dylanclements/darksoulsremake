@@ -51,7 +51,7 @@ public class Application {
 
 			Actor player = new Player("Unkindled (Player)", '@', 200);
 			player.addItemToInventory(new EstusFlask());
-			world.addPlayer(player, gameMap.at(38, 12));
+			world.addPlayer(player, gameMap.at(6, 20));
 
 			// Place some skeletons around the map
 			// TODO: Spawn 4-12 skeletons
@@ -60,14 +60,11 @@ public class Application {
 			gameMap.at(38 + 35, 12).addActor(new Skeleton("Skeleton", gameMap.at(38 + 35, 12)));
 			gameMap.at(38 - 20, 12 - 10).addActor(new Skeleton("Skeleton", gameMap.at(38 - 20, 12 - 10)));
 
-
-
-		// Place Yhorm the Giant/boss in the map + storm ruler
-			gameMap.at(6, 25).addActor(new Yhorm());
+			// Place Yhorm the Giant/boss in the map + storm ruler
+			Location yhormSpawn = gameMap.at(6, 25);
+			yhormSpawn.addActor(new Yhorm(yhormSpawn));
 			StormRuler stormRuler = new StormRuler();
-			gameMap.at(38,12).addItem(stormRuler);
-
-			gameMap.at(32, 7).addActor(new Undead("Undead"));
+			gameMap.at(6,20).addItem(stormRuler);
 
 			world.run();
 
