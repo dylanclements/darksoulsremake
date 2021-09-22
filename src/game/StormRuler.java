@@ -17,7 +17,7 @@ public class StormRuler extends Sword implements ActiveSkill {
 
     private ChargeAction chargeActionCopy;
     private WindSlashAction windSlashActionCopy;
-
+    //dry, open close principal,
     /**
      * Constructor.
      *
@@ -38,6 +38,7 @@ public class StormRuler extends Sword implements ActiveSkill {
                 this.addCapability(Abilities.WIND_SLASH);
                 this.addActiveSkill(new WindSlashAction(this));
                 this.allowableActions.remove(this.chargeActionCopy);
+                this.removeCapability(Status.USING_WEAPON); //add the capability somewhere else
             }
             return true;
         }
@@ -59,6 +60,14 @@ public class StormRuler extends Sword implements ActiveSkill {
         return maxCharges;
     }
 
+    /**
+     * A method which calculates the bonus multipliers from windslash and Stuns Yhorm
+     * @param actor
+     * @param map
+     * @param yhorm
+     * @param direction
+     * @return
+     */
     @Override
     public String windSlash(Actor actor, GameMap map, LordOfCinder yhorm, String direction) {
         if (this.hasCapability(Abilities.WIND_SLASH)){

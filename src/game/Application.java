@@ -52,6 +52,7 @@ public class Application {
 			Actor player = new Player("Unkindled (Player)", '@', 200);
 			player.addItemToInventory(new EstusFlask());
 			world.addPlayer(player, gameMap.at(38, 12));
+			System.out.println(Message.YOU_DIED );
 
 			// Place some skeletons around the map
 			// TODO: Spawn 4-12 skeletons

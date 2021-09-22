@@ -1,6 +1,7 @@
 package game;
 
 import edu.monash.fit2099.engine.*;
+import game.enums.Status;
 import game.interfaces.ActiveSkill;
 
 public class WindSlashAction extends WeaponAction {
@@ -17,6 +18,7 @@ public class WindSlashAction extends WeaponAction {
 
     @Override
     public String execute(Actor actor, GameMap map) {
+        weapon.addCapability(Status.USING_WEAPON);
         LordOfCinder yhorm = null;
         String direction = null;
         for (Exit exit : map.locationOf(actor).getExits()) {

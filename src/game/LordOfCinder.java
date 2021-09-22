@@ -28,7 +28,8 @@ public class LordOfCinder extends Actor {
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
         if (this.hasCapability(Status.STUNNED)){
-            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            display.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            //make another class for strings
             return new DoNothingAction();
         }
             return new DoNothingAction();

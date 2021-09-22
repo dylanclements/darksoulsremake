@@ -17,7 +17,7 @@ public class ChargeAction extends WeaponAction {
     public ChargeAction(ActiveSkill weaponItem) {
         super((WeaponItem) weaponItem);
         this.stormRulerCharge = weaponItem;
-        //needs to be an ActiveSkill but casts to WeaponItem??
+
     }
 
     @Override

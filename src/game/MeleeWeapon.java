@@ -20,5 +20,6 @@ public abstract class MeleeWeapon extends WeaponItem {
     }
 
 
+
     //TODO: please figure out how to disable dropping item action.
 }
