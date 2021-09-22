@@ -34,7 +34,7 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus {
 		this.addItemToInventory(new BroadSword());
 		this.registerInstance();
 		this.souls = 0;
-		this.hitPoints = hitPoints;
+		this.hitPoints = 50;
 		this.maxHitPoints = hitPoints;
 	}
 
@@ -117,12 +117,6 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus {
 
 	public int getSouls() {
 		return this.souls;
-	}
-
-	@Override
-	public void heal(int percentageHealth) {
-		int i = percentageHealth * maxHitPoints;
-		super.heal(i);
 	}
 
 	public Location getPreviousLocation() {

@@ -1,12 +1,12 @@
 package game.interfaces;
 
-import game.Player;
+import edu.monash.fit2099.engine.Actor;
 
 public interface Consumable {
 	
 	boolean reduceCharges();
 
-	boolean consumedBy(Player player);
+	boolean consumedBy(Actor actor);
 
 	int getCharges();
 

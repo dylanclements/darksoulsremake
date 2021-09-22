@@ -7,7 +7,7 @@ import game.interfaces.Consumable;
 
 public class DrinkEstusFlaskAction extends Action {
     private Actor target;
-    private Consumable estusFlask;
+    private final Consumable estusFlask;
 
     public DrinkEstusFlaskAction(Consumable estusFlask) {
         this.estusFlask = estusFlask;
@@ -20,10 +20,11 @@ public class DrinkEstusFlaskAction extends Action {
 
     @Override
     public String execute(Actor actor, GameMap map) {
-        if (estusFlask.reduceCharges()) {
+        if (estusFlask.consumedBy(actor)) {
             return actor + " drank Estus Flask";
+        } else {
+            return actor + " Estus Flask is empty";
         }
-        return actor + " Estus Flask is empty";
     }
 
     @Override
