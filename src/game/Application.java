@@ -55,10 +55,14 @@ public class Application {
 
 			// Place some skeletons around the map
 			// TODO: Spawn 4-12 skeletons
-			Location spawn = gameMap.at(38, 18);
-			spawn.addActor(new Skeleton("Skeleton", spawn));
+			gameMap.at(38, 18).addActor(new Skeleton("Skeleton", gameMap.at(38, 18)));
+			gameMap.at(38 + 15, 12 - 5).addActor(new Skeleton("Skeleton", gameMap.at(38 + 15, 12 - 5)));
+			gameMap.at(38 + 35, 12).addActor(new Skeleton("Skeleton", gameMap.at(38 + 35, 12)));
+			gameMap.at(38 - 20, 12 - 10).addActor(new Skeleton("Skeleton", gameMap.at(38 - 20, 12 - 10)));
 
-			// Place Yhorm the Giant/boss in the map + storm ruler
+
+
+		// Place Yhorm the Giant/boss in the map + storm ruler
 			gameMap.at(6, 25).addActor(new Yhorm());
 			StormRuler stormRuler = new StormRuler();
 			gameMap.at(38,12).addItem(stormRuler);

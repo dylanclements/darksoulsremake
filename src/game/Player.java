@@ -31,10 +31,11 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus {
 		super(name, displayChar, hitPoints);
 		this.addCapability(Status.HOSTILE_TO_ENEMY);
 		this.addCapability(Abilities.REST);
-		// Register player instance on instantiation
+		this.addItemToInventory(new BroadSword());
 		this.registerInstance();
 		this.souls = 0;
 		this.hitPoints = hitPoints;
+		this.maxHitPoints = hitPoints;
 	}
 
 	@Override
@@ -65,7 +66,8 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus {
 	 */
 	private void displayStatus(Display display) {
 		// TODO: print the player's weapon and the player's souls
-		String s = String.format("Player (%d/%d), holding weapon, souls: %d", this.hitPoints, this.maxHitPoints, this.souls);
+		String s = String.format("Player (%d/%d), holding %s, souls: %d",
+				this.getHitPoints(), this.getMaxHitPoints(), this.getWeaponName(), this.getSouls());
 		ResetManager resetter = ResetManager.getInstance();
 		resetter.printResettable();
 		display.println(s);

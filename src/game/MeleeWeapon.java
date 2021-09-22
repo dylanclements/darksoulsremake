@@ -1,10 +1,10 @@
 package game;
 
+import edu.monash.fit2099.engine.Actor;
+import edu.monash.fit2099.engine.DropItemAction;
 import edu.monash.fit2099.engine.WeaponItem;
-import jdk.jshell.Snippet;
 
 public abstract class MeleeWeapon extends WeaponItem {
-
     /**
      * Constructor.
      *
@@ -16,9 +16,10 @@ public abstract class MeleeWeapon extends WeaponItem {
      */
     public MeleeWeapon(String name, char displayChar, int damage, String verb, int hitRate) {
         super(name, displayChar, damage, verb, hitRate);
-        removeCapability(Snippet.Status.DROPPED);
     }
 
-
-    //TODO: please figure out how to disable dropping item action.
+    @Override
+    public DropItemAction getDropAction(Actor actor) {
+        return null;
+    }
 }

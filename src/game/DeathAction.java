@@ -32,10 +32,15 @@ public class DeathAction extends Action {
         Actions dropActions = new Actions();
         if (this.getKiller() != null) {
             // drop items to allow player to pick it up
-            for (Item item : actorDying.getInventory())
-                dropActions.add(item.getDropAction(this.getKiller()));
-            for (Action drop : dropActions)
+            for (Item item : actorDying.getInventory())  {
+                DropItemAction dropAction = item.getDropAction(this.getKiller());
+                if (dropAction != null) {
+                    dropActions.add(item.getDropAction(this.getKiller()));
+                }
+            }
+            for (Action drop : dropActions) {
                 drop.execute(actorDying, map);
+            }
         }
 
         if (actorDying instanceof Player) {
