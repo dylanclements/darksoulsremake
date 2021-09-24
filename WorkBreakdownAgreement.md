@@ -103,3 +103,13 @@ Signatures:
 - Dmitrii Parakhin: I agree with this WBA (19/09/2021)
 
 
+**Batch 4**
+- Updating UML designs
+- Writing documentation + generate javadoc
+- prepare for submission
+
+Signature:
+- Dylan Clements: I agree with this WBA
+- 
+
+
