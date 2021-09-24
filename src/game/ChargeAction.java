@@ -4,10 +4,11 @@ import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.WeaponAction;
 import edu.monash.fit2099.engine.WeaponItem;
+import game.enums.Status;
 import game.interfaces.IWindSlash;
 
 public class ChargeAction extends WeaponAction {
-    private IWindSlash stormRulerCharge;
+    private final IWindSlash stormRulerCharge;
     /**
      * Constructor
      *
@@ -21,9 +22,18 @@ public class ChargeAction extends WeaponAction {
     @Override
     public String execute(Actor actor, GameMap map) {
         if (stormRulerCharge.charge(actor)){
-            return actor + " charging... ";
+            // charge returns true => storm ruler is fully charged
+            if (actor.hasCapability(Status.ATTACK_DISABLED)) {
+                actor.removeCapability(Status.ATTACK_DISABLED);
+            }
+            return actor + " Storm Ruler is charged";
+        } else {
+            // charge returns false => storm ruler is not fully charged
+            if (!(actor.hasCapability(Status.ATTACK_DISABLED))) {
+                actor.addCapability(Status.ATTACK_DISABLED);
+            }
+            return actor + " charging Storm Ruler...";
         }
-        return actor + " Storm Ruler is charged";
     }
 
     @Override

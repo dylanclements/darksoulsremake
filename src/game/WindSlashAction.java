@@ -57,6 +57,7 @@ public class WindSlashAction extends AttackAction {
         if (actor.hasCapability(Abilities.WIND_SLASH)) {
             this.windSlashWeapon.prepareWindSlash(actor);
             String attackMessage = super.execute(actor, map);
+            // TODO: maybe stun only if it's yhorm???
             this.target.addCapability(Status.STUNNED);
             this.windSlashWeapon.finishWindSlash(actor);
             return attackMessage;

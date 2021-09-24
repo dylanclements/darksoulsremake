@@ -81,16 +81,17 @@ public class Yhorm extends LordOfCinder implements Soul, Aggressor, ActorStatus,
      */
     public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
         Actions actions = new Actions();
-        if (otherActor.hasCapability(Abilities.WIND_SLASH)) {
-            try {
-                actions.add(new WindSlashAction(otherActor, this, direction));
-            } catch (MissingWeaponException e) {
-                // Wind slash capability shouldn't be here, remove it
-                otherActor.removeCapability(Abilities.WIND_SLASH);
-            }
-        }
         if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
-            actions.add(new AttackAction(this, direction));
+            if (otherActor.hasCapability(Abilities.WIND_SLASH)) {
+                try {
+                    actions.add(new WindSlashAction(otherActor, this, direction));
+                } catch (MissingWeaponException e) {
+                    // Wind slash capability shouldn't be here, remove it
+                    otherActor.removeCapability(Abilities.WIND_SLASH);
+                }
+            } else {
+                actions.add(new AttackAction(this, direction));
+            }
         }
         return actions;
     }
@@ -156,15 +157,17 @@ public class Yhorm extends LordOfCinder implements Soul, Aggressor, ActorStatus,
      */
     @Override
     public void resetInstance(GameMap map) {
-        map.removeActor(this);
-        map.addActor(this, this.getSpawnLocation());
-        this.behaviour = new DoNothingBehaviour();
-        this.hitPoints = this.maxHitPoints;
-        GreatMachete greatMachete = this.getGreatMachete();
-        assert greatMachete != null;
-        greatMachete.setHitRate(GreatMachete.HIT_RATE);
-        if (this.hasCapability(Status.EMBER_FORM)) {
-            this.removeCapability(Status.EMBER_FORM);
+        if (this.isConscious()) {
+            map.removeActor(this);
+            map.addActor(this, this.getSpawnLocation());
+            this.behaviour = new DoNothingBehaviour();
+            this.hitPoints = this.maxHitPoints;
+            GreatMachete greatMachete = this.getGreatMachete();
+            assert greatMachete != null;
+            greatMachete.setHitRate(GreatMachete.HIT_RATE);
+            if (this.hasCapability(Status.EMBER_FORM)) {
+                this.removeCapability(Status.EMBER_FORM);
+            }
         }
     }
 
@@ -178,7 +181,7 @@ public class Yhorm extends LordOfCinder implements Soul, Aggressor, ActorStatus,
      */
     @Override
     public boolean isExist() {
-        return this.isConscious();
+        return false;
     }
 
     @Override

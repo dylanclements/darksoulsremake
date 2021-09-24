@@ -4,10 +4,9 @@ import edu.monash.fit2099.engine.*;
 
 import java.util.Random;
 
-import static java.lang.Math.random;
 
 public class Cemetery extends Ground {
-    private static Random r = new Random();
+    private static final Random r = new Random();
 
 
     /**
@@ -19,16 +18,10 @@ public class Cemetery extends Ground {
         super('C');
     }
 
-
-
-    //Actor Undead = new Undead("Undead");
-    public static void spawnUndead(GameMap gameMap){
-        float spawnChance = r.nextFloat();
-        if (spawnChance <= 0.25f){
-            gameMap.at(9, 7).addActor(new Undead("Undead"));
-        }
-    }
-
+    /**
+     * Every game tick, 25% chance to spawn an undead
+     * @param location The location of the Ground
+     */
     @Override
     public void tick(Location location) {
         super.tick(location);

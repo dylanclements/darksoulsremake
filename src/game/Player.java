@@ -38,12 +38,30 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus {
 		this.maxHitPoints = hitPoints;
 	}
 
+	/**
+	 * Remove the attack actions from player during playTurn
+	 * @param actions list of actions
+	 */
+	private Actions removeAttackActions(Actions actions) {
+		Actions keepActions = new Actions();
+		for (Action action : actions) {
+			if (!(action instanceof AttackAction)) {
+				keepActions.add(action);
+			}
+		}
+		return keepActions;
+	}
+
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		if (map.locationOf(this) != this.previousLocation) {
 			// player has moved. update previous location and then current location
 			this.previousLocation = this.currentLocation;
 			this.currentLocation = map.locationOf(this);
+		}
+
+		if (this.hasCapability(Status.ATTACK_DISABLED)) {
+			actions = this.removeAttackActions(actions);
 		}
 
 		// die if player is in a valley
@@ -54,7 +72,7 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus {
 			if (lastAction.getNextAction() != null)
 				return lastAction.getNextAction();
 
-			displayStatus(display);
+			this.displayStatus(display);
 
 			// return/print the console menu
 			return menu.showMenu(this, actions, display);

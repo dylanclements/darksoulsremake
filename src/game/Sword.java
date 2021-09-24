@@ -3,7 +3,7 @@ package game;
 import java.util.Random;
 
 public abstract class Sword extends MeleeWeapon {
-    private static Random r = new Random();
+    private static final Random r = new Random();
     /**
      * Constructor.
      *
@@ -21,8 +21,8 @@ public abstract class Sword extends MeleeWeapon {
 
     @Override
     public int damage() {
-        float chanceToCrit = r.nextFloat();
-        if (chanceToCrit <= 0.2){
+        float chanceToCriticalHit = r.nextFloat();
+        if (chanceToCriticalHit <= 0.2){
             return super.damage()*2;
         }
         else {

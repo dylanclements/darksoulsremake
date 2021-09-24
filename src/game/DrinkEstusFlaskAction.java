@@ -6,7 +6,6 @@ import edu.monash.fit2099.engine.GameMap;
 import game.interfaces.Consumable;
 
 public class DrinkEstusFlaskAction extends Action {
-    private Actor target;
     private final Consumable estusFlask;
 
     public DrinkEstusFlaskAction(Consumable estusFlask) {

@@ -10,7 +10,7 @@ public class StormRuler extends Sword implements IWindSlash, Resettable {
     private int charges;
     private final int maxCharges;
 
-    private static final int DAMAGE = 70;
+    private static final int DAMAGE = 10000;
     private static final int ACCURACY = 60;
     private static final int FULL_ACCURACY = 100;
     private static final int DAMAGE_MULTIPLIER = 2;
@@ -21,7 +21,7 @@ public class StormRuler extends Sword implements IWindSlash, Resettable {
      *  Constructor
      */
     public StormRuler() {
-        super("Storm Ruler", '7', 70, "WAaaaBANG", 60);
+        super("Storm Ruler", '7', StormRuler.DAMAGE, "WAaaaBANG", StormRuler.ACCURACY);
         this.maxCharges = WindSlashAction.REQUIRED_CHARGES;
         this.charges = 0;
         this.chargeAction = new ChargeAction(this);
@@ -46,19 +46,20 @@ public class StormRuler extends Sword implements IWindSlash, Resettable {
      * 1. Increment charges
      * 2. Checks if weapon is fully charges
      * 3. if fully charges, remove charge capability and add wind slash capability
-     * Increment the charges, update the name of the weapon to reflect the changes
-     * When fully charged, remove the charge action and add capability to wind slash
      * @param actor actor that is charging this weapon
-     * @return true if the charge was successful else false
+     * @return true if storm ruler is fully charged
      */
     @Override
     public boolean charge(Actor actor) {
         if (this.charges < this.maxCharges){
             this.setCharges(this.charges + 1);
-            if (this.charges == this.maxCharges) {
-                this.removeChargeAction();
-                actor.addCapability(Abilities.WIND_SLASH);
-            }
+        }
+        if (this.charges == this.maxCharges) {
+
+            // charges are full now, remove the charge actions
+            this.removeChargeAction();
+
+            actor.addCapability(Abilities.WIND_SLASH);
             return true;
         }
         return false;
@@ -90,10 +91,10 @@ public class StormRuler extends Sword implements IWindSlash, Resettable {
      * 3. Buff damage and accuracy
      */
     @Override
-    public void prepareWindSlash(Actor actor) {
-        if (actor.hasCapability(Abilities.WIND_SLASH)){
+    public void prepareWindSlash(Actor attacker) {
+        if (attacker.hasCapability(Abilities.WIND_SLASH)){
             this.removeChargeAction();
-            actor.removeCapability(Abilities.CHARGE);
+            attacker.removeCapability(Abilities.CHARGE);
             this.setAttributes(this.damage * StormRuler.DAMAGE_MULTIPLIER, StormRuler.FULL_ACCURACY);
         }
     }
@@ -108,7 +109,7 @@ public class StormRuler extends Sword implements IWindSlash, Resettable {
     @Override
     public void finishWindSlash(Actor attacker) {
         if (attacker.hasCapability(Abilities.WIND_SLASH)) {
-            setAttributes(this.damage / StormRuler.DAMAGE_MULTIPLIER, StormRuler.ACCURACY);
+            this.setAttributes(StormRuler.DAMAGE, StormRuler.ACCURACY);
             this.setCharges(0);
             attacker.removeCapability(Abilities.WIND_SLASH);
             this.allowChargeAction();
