@@ -19,6 +19,10 @@ public abstract class Sword extends MeleeWeapon {
 
     }
 
+    /**
+     * A method responsible for passive 20% crit chance on all the swords
+     * @return
+     */
     @Override
     public int damage() {
         float chanceToCrit = r.nextFloat();

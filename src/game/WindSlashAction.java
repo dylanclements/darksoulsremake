@@ -16,6 +16,13 @@ public class WindSlashAction extends WeaponAction {
         this.stormRulerWindSlash = weaponItem;
     }
 
+    /**
+     * Method which checks if Yhorm is around the player and save his location
+     * and the destination of WindSlush execution. Then executes WindSlashAction
+     * @param actor
+     * @param map
+     * @return
+     */
     @Override
     public String execute(Actor actor, GameMap map) {
         weapon.addCapability(Status.USING_WEAPON);
@@ -34,9 +41,13 @@ public class WindSlashAction extends WeaponAction {
         return stormRulerWindSlash.windSlash(actor, map, yhorm, direction);
     }
 
+    /**
+     * Provides a menu option description for the player when Wind Slash is ready to be used
+     * @param actor
+     * @return
+     */
     @Override
     public String menuDescription(Actor actor) {
-        //ActiveSkill skill = this.stormRulerWindSlash;
         return String.format("%s is ready to use Wind Slash", actor);
     }
 }

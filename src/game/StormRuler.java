@@ -27,18 +27,20 @@ public class StormRuler extends Sword implements ActiveSkill {
         this.maxCharges = 3;
         this.charges = 0;
         this.addCapability(Abilities.CHARGE);
+        this.addCapability(Status.USING_WEAPON);
     }
 
     @Override
     public boolean charge(Actor actor) {
         if (charges < maxCharges){
             charges += 1;
+            this.removeCapability(Status.USING_WEAPON);
             if (charges == 3) {
                 this.removeCapability(Abilities.CHARGE);
                 this.addCapability(Abilities.WIND_SLASH);
                 this.addActiveSkill(new WindSlashAction(this));
                 this.allowableActions.remove(this.chargeActionCopy);
-                this.removeCapability(Status.USING_WEAPON); //add the capability somewhere else
+                this.addCapability(Status.USING_WEAPON); //add the capability somewhere else
             }
             return true;
         }
@@ -70,7 +72,7 @@ public class StormRuler extends Sword implements ActiveSkill {
      */
     @Override
     public String windSlash(Actor actor, GameMap map, LordOfCinder yhorm, String direction) {
-        if (this.hasCapability(Abilities.WIND_SLASH)){
+        if (this.hasCapability(Abilities.WIND_SLASH) && this.hasCapability(Status.USING_WEAPON)){
             // buff damage
             setAttributes(this.damage * StormRuler.DAMAGE_MULTIPLIER, StormRuler.FULL_ACCURACY);
 
