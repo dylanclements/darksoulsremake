@@ -17,6 +17,7 @@ public class ChargeAction extends WeaponAction {
     public ChargeAction(IWindSlash weaponItem) {
         super((WeaponItem) weaponItem);
         this.stormRulerCharge = weaponItem;
+
     }
 
     @Override

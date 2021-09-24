@@ -38,4 +38,5 @@ public abstract class MeleeWeapon extends WeaponItem {
     public PickUpItemAction getPickUpAction(Actor actor) {
         return new SwapWeaponAction(this);
     }
+
 }

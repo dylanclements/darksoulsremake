@@ -12,4 +12,5 @@ public abstract class LordOfCinder extends Actor {
     public LordOfCinder(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints );
     }
+
 }
