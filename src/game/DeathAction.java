@@ -48,7 +48,7 @@ public class DeathAction extends Action {
             ResetManager resetter = ResetManager.getInstance();
             this.placeSoulToken(map.locationOf(actorDying), (Player) actorDying);
             resetter.run(map);
-            return "YOU DIED";
+            return Message.YOU_DIED;
         } else {
             // Another actor dies
             if (killer != null && killer instanceof Player) {
@@ -56,8 +56,15 @@ public class DeathAction extends Action {
                 Soul soullable = (Soul) actorDying;
                 soullable.transferSouls((Soul) killer);
             }
+
             map.removeActor(actorDying);
-            return this.menuDescription(actorDying);
+            if (actorDying instanceof LordOfCinder) {
+                return Message.LORD_OF_CINDER_FALLEN;
+            } else if (killer != null) {
+                return actorDying + " died at the hands of " + killer;
+            } else {
+                return actorDying + " died.";
+            }
         }
     }
 

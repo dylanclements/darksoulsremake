@@ -29,7 +29,7 @@ public class SoulToken extends Ground implements Soul {
     @Override
     public Actions allowableActions(Actor actor, Location location, String direction) {
         Actions actions = new Actions();
-        actions.add(new PickUpSoulsAction(location, this.oldGround, this.souls));
+        actions.add(new PickUpSoulsAction(location, this.oldGround));
         return actions;
     }
 

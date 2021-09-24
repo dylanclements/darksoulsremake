@@ -6,12 +6,10 @@ import game.interfaces.Soul;
 public class PickUpSoulsAction extends Action {
     private final Location location;
     private final Ground oldGround;
-    private final int souls;
 
-    public PickUpSoulsAction(Location location, Ground oldGround, int souls) {
+    public PickUpSoulsAction(Location location, Ground oldGround) {
         this.location = location;
         this.oldGround = oldGround;
-        this.souls = souls;
     }
 
     @Override
@@ -20,15 +18,11 @@ public class PickUpSoulsAction extends Action {
         SoulToken soulToken = (SoulToken) this.location.getGround();
         soulToken.transferSouls((Soul) actor);
         this.location.setGround(this.oldGround);
-        return menuDescription(actor);
+        return Message.SOULS_RETRIEVED;
     }
 
     @Override
     public String menuDescription(Actor actor) {
         return actor.toString() + " picks up soul token";
-    }
-
-    public int getSouls() {
-        return souls;
     }
 }
