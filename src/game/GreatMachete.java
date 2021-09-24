@@ -1,13 +1,11 @@
 package game;
 
-import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.WeaponAction;
 import game.enums.Abilities;
-import game.interfaces.IGreatMachete;
 
-public class GreatMachete extends MeleeWeapon implements IGreatMachete {
+public class GreatMachete extends MeleeWeapon {
     public static final int DAMAGE = 95;
     public static final int HIT_RATE = 60;
+    public static final int HIT_RATE_BOOST = 30;
 
     /**
      * Constructor.
@@ -21,21 +19,13 @@ public class GreatMachete extends MeleeWeapon implements IGreatMachete {
         this.hitRate = hitRate;
     }
 
-    @Override
-    public WeaponAction getActiveSkill(Actor target, String direction) {
-        return super.getActiveSkill(target, direction);
-    }
-
-    public void boostChanceToHit(int boost){
-        this.hitRate +=boost;
-    }
-
-    @Override
-    public String rageMode(Yhorm yhorm) {
+    /**
+     * For Yhorm's ember form, boost the Great Machete accuracy
+     * @param yhorm lord of cinder
+     */
+    protected void rageMode(Yhorm yhorm) {
         if (yhorm.hasCapability(Abilities.EMBER_FORM)){
-            this.boostChanceToHit(30);
-            return "Raaargh...";
+            this.setHitRate(this.hitRate + GreatMachete.HIT_RATE_BOOST);
         }
-        return "Ember Form required to active rage mode";
     }
 }

@@ -188,7 +188,7 @@ public class Yhorm extends LordOfCinder implements Soul, Aggressor, ActorStatus,
             GreatMachete greatMachete = this.getGreatMachete();
             assert greatMachete != null;
             greatMachete.rageMode(this);
-            display.println("Raargh");
+            display.println("Raargh....");
         } else {
             display.println("Yhorm is not capable of ember form at the moment");
         }
