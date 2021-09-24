@@ -3,9 +3,9 @@ package game;
 import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.WeaponAction;
 import game.enums.Abilities;
-import game.interfaces.WeaponSpecial;
+import game.interfaces.IGreatMachete;
 
-public class GreatMachete extends MeleeWeapon implements WeaponSpecial {
+public class GreatMachete extends MeleeWeapon implements IGreatMachete {
     public static final int DAMAGE = 95;
     public static final int HIT_RATE = 60;
 
@@ -15,7 +15,6 @@ public class GreatMachete extends MeleeWeapon implements WeaponSpecial {
      */
     public GreatMachete() {
         super("Yhorm’s Great Machete", 'G', GreatMachete.DAMAGE, "Wacks", GreatMachete.HIT_RATE);
-        this.allowableActions.add(new EmberFormAction(this)); //is this correct??
     }
 
     protected void setHitRate(int hitRate) {
@@ -31,14 +30,12 @@ public class GreatMachete extends MeleeWeapon implements WeaponSpecial {
         this.hitRate +=boost;
     }
 
-
     @Override
-    public boolean rageMode(Actor lordOfCinder) {
-        if (lordOfCinder.hasCapability(Abilities.EMBER_FORM)){
-            boostChanceToHit(30);
-            return true;
+    public String rageMode(Yhorm yhorm) {
+        if (yhorm.hasCapability(Abilities.EMBER_FORM)){
+            this.boostChanceToHit(30);
+            return "Raaargh...";
         }
-
-        return false;
+        return "Ember Form required to active rage mode";
     }
 }

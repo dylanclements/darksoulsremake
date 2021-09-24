@@ -9,7 +9,7 @@ public interface Behaviour {
 	/**
 	 * A factory for creating actions. Chaining these together can result in an actor performing more complex tasks.
 	 *
-	 * A Behaviour represents a kind of objective that an Actor can have.  For example
+	 * A Behaviour represents a kind of objective that an Actor can have.  For example,
 	 * it might want to seek out a particular kind of object, or follow another Actor, 
 	 * or run away and hide.  Each implementation of Behaviour returns an Action that the 
 	 * Actor could take to achieve its objective, or null if no useful options are available.

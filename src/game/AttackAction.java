@@ -3,9 +3,8 @@ package game;
 import java.util.Random;
 
 import edu.monash.fit2099.engine.*;
-import game.exceptions.MissingWeaponException;
 import game.interfaces.ActorStatus;
-import game.interfaces.Provocative;
+import game.interfaces.Aggressor;
 
 /**
  * Special Action for attacking other Actors.
@@ -37,6 +36,13 @@ public class AttackAction extends Action {
 		this.direction = direction;
 	}
 
+	/**
+	 * Procedure for attacking another actor.
+	 *
+	 * @param actor The actor performing the action.
+	 * @param map The map the actor is on.
+	 * @return message that describes the attack action
+	 */
 	@Override
 	public String execute(Actor actor, GameMap map) {
 
@@ -46,9 +52,9 @@ public class AttackAction extends Action {
 			return actor + " misses " + target + ".";
 		}
 
-		if (this.target instanceof Provocative && ((Provocative) this.target).getBehaviour() instanceof WanderBehaviour) {
+		if (this.target instanceof Aggressor && ((Aggressor) this.target).getBehaviour() instanceof WanderBehaviour) {
 			// if target can be provoked, switch to aggro behaviour if current behaviour is not Aggro
-			((Provocative) this.target).switchAggroBehaviour(actor);
+			((Aggressor) this.target).switchAggroBehaviour(actor);
 		}
 
 		int damage = weapon.damage();
@@ -63,17 +69,19 @@ public class AttackAction extends Action {
 		return result;
 	}
 
+	/**
+	 * If target implements ActorStatus, report its health and weapon
+	 * Else report a plain message
+	 *
+	 * @param actor The actor performing the action.
+	 * @return Prompt to attack another actor.
+	 */
 	@Override
 	public String menuDescription(Actor actor) {
 		if (target instanceof ActorStatus) {
 			int targetHitPoints = ((ActorStatus) target).getHitPoints();
 			int targetMaxHitPoints = ((ActorStatus) target).getMaxHitPoints();
-			String weaponName;
-			try {
-				weaponName = ((ActorStatus) target).getWeaponName();
-			} catch (MissingWeaponException e) {
-				weaponName = "Error";
-			}
+			String weaponName = ((ActorStatus) target).getWeaponName();
 			return actor + " attacks " + target +
 					String.format(" (%d/%d)", targetHitPoints, targetMaxHitPoints) + " who holds " + weaponName;
 		}

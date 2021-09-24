@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * An undead minion.
  */
-public class Undead extends Actor implements Resettable, Soul, Provocative, ActorStatus {
+public class Undead extends Actor implements Resettable, Soul, Aggressor, ActorStatus {
 	// Will need to change this to a collection if Undeads gets additional Behaviours.
 	private Behaviour behaviour = new WanderBehaviour();
 	private final Random random = new Random();

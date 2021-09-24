@@ -6,11 +6,11 @@ import game.enums.Status;
 import game.exceptions.MissingWeaponException;
 import game.interfaces.*;
 
-public class Yhorm extends LordOfCinder implements Soul, Provocative, ActorStatus, Resettable {
+public class Yhorm extends LordOfCinder implements Soul, Aggressor, ActorStatus, Resettable, EmberForm {
     private static final int YHORM_SOULS = 5000;
 
     private Behaviour behaviour;
-    private Location spawnLocation;
+    private final Location spawnLocation;
 
     public Yhorm(Location spawnLocation) {
         super("Yhorm the Giant", 'Y', 500);
@@ -32,18 +32,12 @@ public class Yhorm extends LordOfCinder implements Soul, Provocative, ActorStatu
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
         if (this.hasCapability(Status.STUNNED)) {
-            // TODO: confirm if Yhorm will just be stunned for one turn
             this.removeCapability(Status.STUNNED);
             return new DoNothingAction();
         }
-        if (this.hitPoints < this.maxHitPoints / 2) {
-            // trigger rage mode at half health
-            for (Item item : this.inventory) {
-                if(item.asWeapon() != null && item instanceof GreatMachete && this.hasCapability(Abilities.EMBER_FORM)) {
-                    GreatMachete greatMachete = (GreatMachete) item;
-                    greatMachete.rageMode(this);
-                }
-            }
+        if (!(this.hasCapability(Status.EMBER_FORM)) && this.hitPoints < this.maxHitPoints / 2) {
+            // if Yhorm is not ember form and is below half health, trigger ember form
+            this.emberForm(display);
         }
         if (behaviour instanceof DoNothingBehaviour) {
             Location currentLocation = map.locationOf(this);
@@ -70,6 +64,35 @@ public class Yhorm extends LordOfCinder implements Soul, Provocative, ActorStatu
     @Override
     public void switchAggroBehaviour(Actor target) {
         this.behaviour = new AggroBehaviour(target);
+    }
+
+    @Override
+    public Behaviour getBehaviour() {
+        return this.behaviour;
+    }
+
+    /**
+     * Allow AttackAction if other actor is in vicinity
+     * Allow WindSlashAction if other actor has the ability to do so
+     * @param otherActor the Actor that might be performing attack
+     * @param direction  String representing the direction of the other Actor
+     * @param map        current GameMap
+     * @return list of actions
+     */
+    public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
+        Actions actions = new Actions();
+        if (otherActor.hasCapability(Abilities.WIND_SLASH)) {
+            try {
+                actions.add(new WindSlashAction(otherActor, this, direction));
+            } catch (MissingWeaponException e) {
+                // Wind slash capability shouldn't be here, remove it
+                otherActor.removeCapability(Abilities.WIND_SLASH);
+            }
+        }
+        if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
+            actions.add(new AttackAction(this, direction));
+        }
+        return actions;
     }
 
     /**
@@ -102,16 +125,25 @@ public class Yhorm extends LordOfCinder implements Soul, Provocative, ActorStatu
     /**
      * Get the great machete's name attribute
      * @return string describing yhorm's great machete
-     * @throws MissingWeaponException if great machete cannot be found in yhorm's inventory
      */
     @Override
-    public String getWeaponName() throws MissingWeaponException {
-        for (Item item : inventory) {
-            if (item.asWeapon() != null && item instanceof GreatMachete) {
-                return item.toString();
+    public String getWeaponName() {
+        GreatMachete greatMachete = this.getGreatMachete();
+        assert greatMachete != null;
+        return greatMachete.toString();
+    }
+
+    /**
+     *
+     * @return yhorm's great machete
+     */
+    private GreatMachete getGreatMachete() {
+        for (Item item : this.inventory) {
+            if (item instanceof GreatMachete) {
+                return (GreatMachete) item;
             }
         }
-        throw new MissingWeaponException("Yhorm must hold a Great Machete");
+        return null;
     }
 
     /**
@@ -119,6 +151,7 @@ public class Yhorm extends LordOfCinder implements Soul, Provocative, ActorStatu
      * 1. Set behaviour back to DoNothingBehaviour
      * 2. Heal back to full health
      * 3. Set great machete hit rate back to default
+     * 4. Remove ember form if it applies
      * @param map game map
      */
     @Override
@@ -127,11 +160,11 @@ public class Yhorm extends LordOfCinder implements Soul, Provocative, ActorStatu
         map.addActor(this, this.getSpawnLocation());
         this.behaviour = new DoNothingBehaviour();
         this.hitPoints = this.maxHitPoints;
-        for (Item item : this.inventory) {
-            if (item.asWeapon() != null && item instanceof GreatMachete) {
-                GreatMachete greatMachete = (GreatMachete) item;
-                greatMachete.setHitRate(GreatMachete.HIT_RATE);
-            }
+        GreatMachete greatMachete = this.getGreatMachete();
+        assert greatMachete != null;
+        greatMachete.setHitRate(GreatMachete.HIT_RATE);
+        if (this.hasCapability(Status.EMBER_FORM)) {
+            this.removeCapability(Status.EMBER_FORM);
         }
     }
 
@@ -146,5 +179,18 @@ public class Yhorm extends LordOfCinder implements Soul, Provocative, ActorStatu
     @Override
     public boolean isExist() {
         return this.isConscious();
+    }
+
+    @Override
+    public void emberForm(Display display) {
+        if (this.hasCapability(Abilities.EMBER_FORM)) {
+            this.addCapability(Status.EMBER_FORM);
+            GreatMachete greatMachete = this.getGreatMachete();
+            assert greatMachete != null;
+            greatMachete.rageMode(this);
+            display.println("Raargh");
+        } else {
+            display.println("Yhorm is not capable of ember form at the moment");
+        }
     }
 }

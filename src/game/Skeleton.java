@@ -4,7 +4,7 @@ import edu.monash.fit2099.engine.*;
 import game.enums.Status;
 import game.interfaces.*;
 
-public class Skeleton extends Actor implements Soul, Provocative, Resettable, ActorStatus {
+public class Skeleton extends Actor implements Soul, Aggressor, Resettable, ActorStatus {
     public final static int skeletonSouls = 250;
 
     private Behaviour behaviour;
@@ -18,6 +18,13 @@ public class Skeleton extends Actor implements Soul, Provocative, Resettable, Ac
         this.registerInstance();
     }
 
+    /**
+     * Return AttackAction if other actor is in vicinity
+     * @param otherActor the Actor that might be performing attack
+     * @param direction  String representing the direction of the other Actor
+     * @param map        current GameMap
+     * @return list of actions
+     */
     public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
         Actions actions = new Actions();
         if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
@@ -49,6 +56,11 @@ public class Skeleton extends Actor implements Soul, Provocative, Resettable, Ac
     @Override
     public void switchAggroBehaviour(Actor target) {
         this.behaviour = new AggroBehaviour(target);
+    }
+
+    @Override
+    public Behaviour getBehaviour() {
+        return this.behaviour;
     }
 
     /**

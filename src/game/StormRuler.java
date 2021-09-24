@@ -1,53 +1,76 @@
 package game;
 
-import edu.monash.fit2099.engine.Action;
 import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
 import game.enums.Abilities;
-import game.enums.Status;
-import game.interfaces.ActiveSkill;
+import game.interfaces.IWindSlash;
+import game.interfaces.Resettable;
 
-public class StormRuler extends Sword implements ActiveSkill {
+public class StormRuler extends Sword implements IWindSlash, Resettable {
     private int charges;
     private final int maxCharges;
 
+    private static final int DAMAGE = 70;
     private static final int ACCURACY = 60;
     private static final int FULL_ACCURACY = 100;
     private static final int DAMAGE_MULTIPLIER = 2;
 
-    private ChargeAction chargeActionCopy;
-    private WindSlashAction windSlashActionCopy;
+    private final ChargeAction chargeAction;
 
     /**
      *  Constructor
      */
     public StormRuler() {
         super("Storm Ruler", '7', 70, "WAaaaBANG", 60);
-        this.maxCharges = 3;
+        this.maxCharges = WindSlashAction.REQUIRED_CHARGES;
         this.charges = 0;
-        this.addCapability(Abilities.CHARGE);
+        this.chargeAction = new ChargeAction(this);
+        this.registerInstance();
     }
 
+    /**
+     * Set the number of charges on this weapon
+     * Update the name of Storm ruler to reflect these changes
+     * @param charges charges
+     */
+    private void setCharges(int charges) {
+        this.charges = charges;
+        if (this.charges < this.maxCharges) {
+            this.name = String.format("Storm Ruler (%d/%d)", this.charges, this.maxCharges);
+        } else {
+            this.name = "Storm Ruler (CHARGED)";
+        }
+    }
+
+    /**
+     * 1. Increment charges
+     * 2. Checks if weapon is fully charges
+     * 3. if fully charges, remove charge capability and add wind slash capability
+     * Increment the charges, update the name of the weapon to reflect the changes
+     * When fully charged, remove the charge action and add capability to wind slash
+     * @param actor actor that is charging this weapon
+     * @return true if the charge was successful else false
+     */
     @Override
     public boolean charge(Actor actor) {
-        if (charges < maxCharges){
-            charges += 1;
-            if (charges <= 2)
-                this.name = String.format("Storm Ruler (%d/%d)", this.getCharges(), this.getMaxCharges());
-            if (charges == 3) {
-                this.name = "Storm Ruler (CHARGED)";
-                this.removeCapability(Abilities.CHARGE);
-                this.addCapability(Abilities.WIND_SLASH);
-                this.addActiveSkill(new WindSlashAction(this));
-                this.allowableActions.remove(this.chargeActionCopy);
+        if (this.charges < this.maxCharges){
+            this.setCharges(this.charges + 1);
+            if (this.charges == this.maxCharges) {
+                this.removeChargeAction();
+                actor.addCapability(Abilities.WIND_SLASH);
             }
             return true;
         }
         return false;
     }
 
-    public void setAttributes(int attack, int accuracy){
-        this.damage = attack;
+    /**
+     * set the storm ruler's specs
+     * @param damage damage
+     * @param accuracy accuracy
+     */
+    private void setAttributes(int damage, int accuracy){
+        this.damage = damage;
         this.hitRate = accuracy;
     }
 
@@ -61,47 +84,35 @@ public class StormRuler extends Sword implements ActiveSkill {
         return maxCharges;
     }
 
+    /**
+     * 1. Remove charge action
+     * 2. Remove charge capability
+     * 3. Buff damage and accuracy
+     */
     @Override
-    public String windSlash(Actor actor, GameMap map, LordOfCinder yhorm, String direction) {
-        if (this.hasCapability(Abilities.WIND_SLASH)){
-            // buff damage
-            setAttributes(this.damage * StormRuler.DAMAGE_MULTIPLIER, StormRuler.FULL_ACCURACY);
-
-            // execute the attack
-            AttackAction attack = new AttackAction(yhorm, direction);
-            String attackMessage = attack.execute(actor, map);
-
-            // set back to normal damage
-            setAttributes(this.damage / StormRuler.DAMAGE_MULTIPLIER, StormRuler.ACCURACY);
-
-            // stun yhorm for one turn
-            // TODO: in yhorm class, handle switching back to un-stunned capability
-            yhorm.addCapability(Status.STUNNED);
-
-            // remove wind slash as an action
-            this.removeCapability(Abilities.WIND_SLASH);
-            this.allowableActions.remove(this.windSlashActionCopy);
-
-            // reset charges
-            this.charges = 0;
-
-            // add charge actions back
-            this.addCapability(Abilities.CHARGE);
-            this.addActiveSkill(this.chargeActionCopy);
-            return attackMessage;
+    public void prepareWindSlash(Actor actor) {
+        if (actor.hasCapability(Abilities.WIND_SLASH)){
+            this.removeChargeAction();
+            actor.removeCapability(Abilities.CHARGE);
+            this.setAttributes(this.damage * StormRuler.DAMAGE_MULTIPLIER, StormRuler.FULL_ACCURACY);
         }
-        return actor.toString() + " cannot do wind slash at the moment";
     }
 
+    /**
+     * 1. Set damage back to default
+     * 2. Set charges to zero
+     * 3. remove wind slash capability from attacker
+     * 4. add the charge action back to allowable actions
+     * @param attacker actor who is wind slashing
+     */
     @Override
-    public void addActiveSkill(Action action) {
-        if (action instanceof ChargeAction) {
-            this.chargeActionCopy = (ChargeAction) action;
+    public void finishWindSlash(Actor attacker) {
+        if (attacker.hasCapability(Abilities.WIND_SLASH)) {
+            setAttributes(this.damage / StormRuler.DAMAGE_MULTIPLIER, StormRuler.ACCURACY);
+            this.setCharges(0);
+            attacker.removeCapability(Abilities.WIND_SLASH);
+            this.allowChargeAction();
         }
-        else if (action instanceof WindSlashAction) {
-            this.windSlashActionCopy = (WindSlashAction) action;
-        }
-        this.allowableActions.add(action);
     }
 
     /**
@@ -112,5 +123,45 @@ public class StormRuler extends Sword implements ActiveSkill {
     @Override
     public PickUpStormRulerAction getPickUpAction(Actor actor) {
         return new PickUpStormRulerAction(this);
+    }
+
+    /**
+     * Add the charge action associated with this weapon to allowable actions
+     */
+    protected void allowChargeAction() {
+        this.allowableActions.add(this.chargeAction);
+    }
+
+    /**
+     * Remove the charge action associated with this weapon from the allowable actions
+     */
+    protected void removeChargeAction() {
+        this.allowableActions.remove(this.chargeAction);
+    }
+
+    /**
+     * On reset:
+     * 1. set the charges to zero
+     * 2. Set specs back to default
+     * 4. Add charge actions back if it doesn't exist
+     *
+     * @param map instance of the game map
+     */
+    @Override
+    public void resetInstance(GameMap map) {
+        this.setCharges(0);
+        this.setAttributes(StormRuler.DAMAGE, StormRuler.ACCURACY);
+        if (!(this.getAllowableActions().contains(this.chargeAction))) {
+            this.allowChargeAction();
+        }
+    }
+
+    /**
+     * Storm ruler is permanent
+     * @return always true
+     */
+    @Override
+    public boolean isExist() {
+        return true;
     }
 }
