@@ -6,6 +6,9 @@ import edu.monash.fit2099.engine.DoNothingAction;
 import edu.monash.fit2099.engine.GameMap;
 import game.interfaces.Behaviour;
 
+/**
+ * An actor uses this behaviour when they are to simply do nothing
+ */
 public class DoNothingBehaviour implements Behaviour {
 
     /**

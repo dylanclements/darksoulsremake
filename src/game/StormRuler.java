@@ -10,7 +10,7 @@ public class StormRuler extends Sword implements IWindSlash, Resettable {
     private int charges;
     private final int maxCharges;
 
-    private static final int DAMAGE = 10000;
+    private static final int DAMAGE = 70;
     private static final int ACCURACY = 60;
     private static final int FULL_ACCURACY = 100;
     private static final int DAMAGE_MULTIPLIER = 2;

@@ -9,7 +9,7 @@ import game.interfaces.Behaviour;
  */
 public class FollowBehaviour implements Behaviour {
 
-	private Actor target;
+	private final Actor target;
 
 	/**
 	 * Constructor.
@@ -20,6 +20,12 @@ public class FollowBehaviour implements Behaviour {
 		this.target = subject;
 	}
 
+	/**
+	 * Generate actions that follow the target
+	 * @param actor the Actor acting
+	 * @param map the GameMap containing the Actor
+	 * @return action that corresponds to following target
+	 */
 	@Override
 	public Action getAction(Actor actor, GameMap map) {
 		if(!map.contains(target) || !map.contains(actor))

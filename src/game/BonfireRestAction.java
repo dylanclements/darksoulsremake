@@ -4,10 +4,10 @@ import edu.monash.fit2099.engine.Action;
 import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
 
+/**
+ * Action to trigger bonfire soft reset
+ */
 public class BonfireRestAction extends Action {
-
-    public BonfireRestAction() {
-    }
 
     /**
      * Initiates soft reset when Player resets at the Bonfire.

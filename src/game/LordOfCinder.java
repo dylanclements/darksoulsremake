@@ -10,7 +10,7 @@ public abstract class LordOfCinder extends Actor {
      * Constructor.
      */
     public LordOfCinder(String name, char displayChar, int hitPoints) {
-        super(name, displayChar, hitPoints );
+        super(name, displayChar, hitPoints);
     }
 
 }

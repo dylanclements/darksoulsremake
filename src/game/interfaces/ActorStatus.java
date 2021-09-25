@@ -1,8 +1,6 @@
 package game.interfaces;
 
 
-import game.exceptions.MissingWeaponException;
-
 /**
  * Interface for actors that should be reporting their health and their weapons
  */

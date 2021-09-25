@@ -37,6 +37,11 @@ public class SwapWeaponAction extends PickUpItemAction {
         return menuDescription(actor);
     }
 
+    /**
+     * Menu prompt for the player to perform this action
+     * @param actor The actor performing the action.
+     * @return string that describes this action
+     */
     @Override
     public String menuDescription(Actor actor) {
         Weapon currentWeapon = actor.getWeapon();

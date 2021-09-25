@@ -12,6 +12,10 @@ public class Yhorm extends LordOfCinder implements Soul, Aggressor, ActorStatus,
     private Behaviour behaviour;
     private final Location spawnLocation;
 
+    /**
+     * Constructor
+     * @param spawnLocation location that Yhorm spawned in, for resetting
+     */
     public Yhorm(Location spawnLocation) {
         super("Yhorm the Giant", 'Y', 500);
         this.addCapability(Abilities.EMBER_FORM);
@@ -66,6 +70,9 @@ public class Yhorm extends LordOfCinder implements Soul, Aggressor, ActorStatus,
         this.behaviour = new AggroBehaviour(target);
     }
 
+    /**
+     * @return yhorm's current behaviour
+     */
     @Override
     public Behaviour getBehaviour() {
         return this.behaviour;
@@ -171,7 +178,11 @@ public class Yhorm extends LordOfCinder implements Soul, Aggressor, ActorStatus,
         }
     }
 
-    public Location getSpawnLocation() {
+    /**
+     * Return yhorm's spawn location for resetting
+     * @return location
+     */
+    private Location getSpawnLocation() {
         return this.spawnLocation;
     }
 
@@ -184,6 +195,10 @@ public class Yhorm extends LordOfCinder implements Soul, Aggressor, ActorStatus,
         return false;
     }
 
+    /**
+     * Yhorm's second phase. Boost weapon accuracy
+     * @param display object to display things to the console
+     */
     @Override
     public void emberForm(Display display) {
         if (this.hasCapability(Abilities.EMBER_FORM)) {

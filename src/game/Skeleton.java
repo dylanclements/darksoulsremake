@@ -33,6 +33,14 @@ public class Skeleton extends Actor implements Soul, Aggressor, Resettable, Acto
         return actions;
     }
 
+    /**
+     * Skeleton will wander around the map but switch to AggroBehaviour if the Player is within its vicinity.
+     * @param actions    collection of possible Actions for this Actor
+     * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()
+     * @param map        the map containing the Actor
+     * @param display    the I/O object to which messages may be written
+     * @return action that the skeleton will undertake
+     */
     @Override
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
         if (behaviour instanceof WanderBehaviour) {
@@ -53,11 +61,18 @@ public class Skeleton extends Actor implements Soul, Aggressor, Resettable, Acto
         return behaviour.getAction(this, map);
     }
 
+    /**
+     * Change skeleton behaviour to aggressive. This will mean the skeleton will now follow and attack the target
+     * @param target actor who will be targeted with aggroBehaviour
+     */
     @Override
     public void switchAggroBehaviour(Actor target) {
         this.behaviour = new AggroBehaviour(target);
     }
 
+    /**
+     * @return Skeleton's current behaviour
+     */
     @Override
     public Behaviour getBehaviour() {
         return this.behaviour;
@@ -87,25 +102,42 @@ public class Skeleton extends Actor implements Soul, Aggressor, Resettable, Acto
         return true;
     }
 
+    /**
+     * Transfer souls to another souls instance
+     * @param soulObject a target souls.
+     */
     @Override
     public void transferSouls(Soul soulObject) {
         soulObject.addSouls(Skeleton.SKELETON_SOULS);
     }
 
+    /**
+     * Skeleton needs to know its spawn location at all times for reset
+     * @return the skeleton's spawn location
+     */
     public Location getSpawnLocation() {
         return spawnLocation;
     }
 
+    /**
+     * @return the skeleton's HP
+     */
     @Override
     public int getHitPoints() {
         return this.hitPoints;
     }
 
+    /**
+     * @return the skeleton's max HP
+     */
     @Override
     public int getMaxHitPoints() {
         return this.maxHitPoints;
     }
 
+    /**
+     * @return the name of the skeleton's weapon
+     */
     @Override
     public String getWeaponName() {
         for (Item item : inventory) {
