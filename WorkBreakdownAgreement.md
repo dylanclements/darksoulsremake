@@ -108,8 +108,10 @@ Signatures:
 - Writing documentation + generate javadoc
 - prepare for submission
 
-Signature:
-- Dylan Clements: I agree with this WBA
-- Dmitrii Parakhin: I agree with this WBA
+EstusFlask, Weapons, Valley + Cemetery + Ground & Undead will be documented by Dimitrii
+All other features will be documented by Dylan
+
+Signature (ammended 25/09/2021)
+- Dylan Clements: I agree with this WBA (25/09/2021)
 
 
