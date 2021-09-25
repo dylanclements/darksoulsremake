@@ -19,7 +19,7 @@ EstusFlask is an Item, and it has Action called DrinkEstusAction<br>
 The Player will be instantiated with EstusFlask added to his inventory and that EstusFlask will be instantiated with 
 DrinkEstusAction added to `allowableActions`<br>
 Therefore, the Player will be prompted with an option to drink the estus every turn.
-EstusFlask will also refill its charges when the Player rests at the Bonfire. Therefore it must implement Resettable.
+EstusFlask will also refill its charges when the Player rests at the Bonfire. Therefore, it must implement Resettable.
 
 DrinkEstusAction will heal an Actor (Player) and decrement the charges in EstusFlask.<br>
 DrinkEstusAction must target both an Actor and the EstusFlask instance it was declared in.
@@ -228,8 +228,8 @@ For example `StormRuler` will have 2 Active abilities `WindSlashAction`,`ChargeA
 ## Other Changes
 
 
-Two new behaviours have been addeed.
-Aggrobehaviour generate actions that follow an actor if the Actor is not within the radius,
+Two new behaviours have been added.
+AggroBehaviour generate actions that follow an actor if the Actor is not within the radius,
 else execute an AttackAction<br>
 DoNothingBehaviour will simply always return a DoNothingAction.
 
@@ -244,6 +244,96 @@ Yhorm will execute this behaviour until he is provoked, after that he will begin
 **Resulting UML Relationships**
 - Composition drawn from FollowBehaviour to AggroBehaviour to show that AggroBehaviour is composed of FollowBehaviour
 - Realisations drawn from AggroBehaviour and DoNothingBehaviour to Behaviour interface to show they implement this interface.
-- Assocaition drawn from AggroBehaviour to an Actor because AggroBehaviour must target an Actor
+- Association drawn from AggroBehaviour to an Actor because AggroBehaviour must target an Actor
 - Dependency drawn from DoNothingBehaviour to DoNothingAction as DoNothingBehaviour will return DoNothingAction
 - Dependency from AggroBehaviour to AttackAction as AggroBehaviour executes AttackAction if Actor is reachable.
+
+
+# Assignment 2 - Design Changes Rationale
+
+## mortal interface => DeathAction
+
+During assignment 1, it was decided that deaths in the game should be implemented via an interface named 'mortal' that
+only mortal actors would implement.<br>
+It became apparent during implementation that deaths should be an action rather than implemented methods via an interface.<br>
+
+DeathAction handles all scenarios of death:
+1. Player dies (naturally or by getting killed): reset manager is triggered, soul token is placed and YOU DIED is printed
+2. Actor dies at the hands of player: transfer souls and remove dying actor from the game
+3. Actor dies a natural death: remove actor from the map
+4. Actor dies at the hands of another actor that is not player: not implemented because it was optional but could have been here
+
+All deaths in the game including deaths in future features will boil down to one of these four situations, 
+therefore it was decided that it was NOT necessary to split DeathAction in to 4 different death classes. 
+We do not believe we are violating the single responsibility principle here, DeathAction has the sole responsibility of handling deaths in the game.
+
+## EmberFormAction => EmberForm interface
+
+Assignment 1 proposed that Yhorm's great machete would have a WeaponAction sub-class called EmberFormAction.
+During implementation, it was found that an EmberFormAction was in fact not necessary, for the following reasons:
+- EmberFormAction will (and should) only affect a LordOfCinder. EmberFormAction will not affect the map, or any other actors or items.
+- EmberFormAction will never be triggered as a result of behaviour or by player menu.
+
+What made more sense is an interface called EmberForm that a LordOfCinder implements. This interface has a method called ```emberForm()``` and
+the implementation of this method will have access to whatever the LordOfCinder has access to (Yhorm's great machete for example).
+Implementing Yhorm's EmberForm means triggered it in ```playTurn()``` when yhorm's health is 1/2 (an AttackAction can trigger it too). 
+The ```emberForm()``` method in Yhorm will trigger ```rageMode()``` in his GreatMachete which will boost accuracy.
+
+Aldrich's ember form implementation in Assignment 3 will be easier as a result of this change too.
+
+## Behaviour 
+
+In Assignment 1 we thought Behaviours will have a 1-many relationship. Behaviours are 1/1 relationship now. Actors will
+only be executing 1 behaviour at a time, behaviours will be swapped out when they need to change.
+
+Also, LordOfCinder no longer has behaviour attribute, it's implemented in Yhorm now.
+
+## Exceptions
+
+One exception was added. A package has been created (edu.monash.fit2099.game.exceptions) to add potentially more in the future.
+
+MissingWeaponException is thrown when an actor has to possess a weapon and for some reason it is missing.
+
+## ActorStatus interface
+
+This was added so that other classes could access an actor's health, max health and weapon.
+
+This was used so that an actor's status could be displayed in player's menu when prompting an attack action.
+
+Player's status is displayed via this interface too.
+
+## Aggressor interface
+
+Actors that have Behaviours, and can switch to AggroBehaviour implement this interface for the method 
+```switchAggroBehaviour()```.
+
+## Player locations
+
+In order to implement Valley deaths, the player should track it's current and previous location.
+
+When player dies in the valley, SoulToken must be played at the spot the player was located before they died in the Valley.<br>
+A SoulToken is to be placed at the previous location.
+
+Player class now has associations with 2 location instances, for current and previous.
+
+## SoulToken, PickUpSoulsAction
+
+During implementation, it was discovered that a SoulToken should not be a PortableItem, but a Ground type.
+
+PortableItems can only be picked up if the player stands directly on top of it. Whereas Ground types can generate actions
+when the player is next to it.
+
+To circumvent this, we tried to make player scan for items in its current location exit's every turn, but PickUpItemActions
+only work when the Player is directly on top of the item. SoulToken had to be a ground type after this discovery.
+
+SoulToken as a ground type must remember the old ground that it replaced. An association is drawn from SoulToken to Ground.<br>
+
+SoulToken allows action PickUpSoulsAction which was created so that the player can pick up the soul token off the ground and transfer souls.<br>
+PickUpSoulsAction knows the location the SoulToken is placed in and the oldGround that it replaced so that the oldGround can be swapped back in.
+
+
+
+## WindSlashAction: WeaponAction => AttackAction
+
+
+

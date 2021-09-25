@@ -15,7 +15,7 @@ public class Undead extends Actor implements Resettable, Soul, Aggressor, ActorS
 	private Behaviour behaviour = new WanderBehaviour();
 	private final Random random = new Random();
 
-	public static int undeadSouls = 50;
+	public static int UNDEAD_SOULS = 50;
 
 	/** 
 	 * Constructor.
@@ -75,7 +75,7 @@ public class Undead extends Actor implements Resettable, Soul, Aggressor, ActorS
 
 	@Override
 	public void transferSouls(Soul soulObject) {
-		soulObject.addSouls(Undead.undeadSouls);
+		soulObject.addSouls(Undead.UNDEAD_SOULS);
 	}
 
 	/**

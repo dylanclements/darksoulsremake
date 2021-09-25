@@ -32,6 +32,7 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus {
 		this.addCapability(Status.HOSTILE_TO_ENEMY);
 		this.addCapability(Abilities.REST);
 		this.addItemToInventory(new BroadSword());
+		this.addItemToInventory(new EstusFlask());
 		this.registerInstance();
 		this.souls = 0;
 		this.hitPoints = hitPoints;
@@ -52,6 +53,20 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus {
 		return keepActions;
 	}
 
+	/**
+	 * What player must do during playTurn:
+	 * 1. Update currentLocation and previousLocation if the player has moved
+	 * 2. Remove attack actions if the player has their attack disabled.
+	 * 3. Die if located in a valley
+	 * 4. Execute the last action if an action is multi-turn
+	 * 5. Display status
+	 * 6. If nothing else, prompt the user with an option to choose an action
+	 * @param actions    collection of possible Actions for this Actor
+	 * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()
+	 * @param map        the map containing the Actor
+	 * @param display    the I/O object to which messages may be written
+	 * @return the action that the player takes
+	 */
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		if (map.locationOf(this) != this.previousLocation) {
@@ -89,6 +104,10 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus {
 		display.println(s);
 	}
 
+	/**
+	 * Transfer souls to a soullable object
+	 * @param soulObject a target souls.
+	 */
 	@Override
 	public void transferSouls(Soul soulObject) {
 		int playerSouls = getSouls();
@@ -119,6 +138,10 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus {
 		return true;
 	}
 
+	/**
+	 * Player must return to max health on reset and returned to firelink shrine
+	 * @param map instance of the game's map
+	 */
 	@Override
 	public void resetInstance(GameMap map) {
 		this.hitPoints = this.maxHitPoints;
@@ -126,29 +149,47 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus {
 		map.at(38, 12).addActor(this);
 	}
 
+	/**
+	 * @return will always be true, player will never be removed from the game
+	 */
 	@Override
 	public boolean isExist() {
 		return true;
 	}
 
+	/**
+	 * @return number of souls the player has
+	 */
 	public int getSouls() {
 		return this.souls;
 	}
 
+	/**
+	 * @return the location the player was on the last turn
+	 */
 	public Location getPreviousLocation() {
 		return this.previousLocation;
 	}
 
+	/**
+	 * @return player's hit points
+	 */
 	@Override
 	public int getHitPoints() {
 		return this.hitPoints;
 	}
 
+	/**
+	 * @return player's max hit points
+	 */
 	@Override
 	public int getMaxHitPoints() {
 		return this.maxHitPoints;
 	}
 
+	/**
+	 * @return name of the weapon the player is holding
+	 */
 	@Override
 	public String getWeaponName() {
 		for (Item item : inventory) {

@@ -5,7 +5,7 @@ import game.enums.Status;
 import game.interfaces.*;
 
 public class Skeleton extends Actor implements Soul, Aggressor, Resettable, ActorStatus {
-    public final static int skeletonSouls = 250;
+    public final static int SKELETON_SOULS = 250;
 
     private Behaviour behaviour;
     private final Location spawnLocation;
@@ -89,7 +89,7 @@ public class Skeleton extends Actor implements Soul, Aggressor, Resettable, Acto
 
     @Override
     public void transferSouls(Soul soulObject) {
-        soulObject.addSouls(Skeleton.skeletonSouls);
+        soulObject.addSouls(Skeleton.SKELETON_SOULS);
     }
 
     public Location getSpawnLocation() {

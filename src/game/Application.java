@@ -50,7 +50,6 @@ public class Application {
 			world.addGameMap(gameMap);
 
 			Actor player = new Player("Unkindled (Player)", '@', 200);
-			player.addItemToInventory(new EstusFlask());
 
 			world.addPlayer(player, gameMap.at(6, 20));
 

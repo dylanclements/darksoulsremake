@@ -51,7 +51,7 @@ public class DeathAction extends Action {
             return Message.YOU_DIED;
         } else {
             // Another actor dies
-            if (killer != null && killer instanceof Player) {
+            if (killer != null && killer instanceof Player && actorDying instanceof Soul) {
                 // actor died at the hands of Player, therefore transfer souls
                 Soul soullable = (Soul) actorDying;
                 soullable.transferSouls((Soul) killer);
