@@ -251,7 +251,7 @@ Yhorm will execute this behaviour until he is provoked, after that he will begin
 
 # Assignment 2 - Design Changes Rationale
 
-## mortal interface => DeathAction
+## Mortal Interface => DeathAction
 
 During assignment 1, it was decided that deaths in the game should be implemented via an interface named 'mortal' that
 only mortal actors would implement.<br>
@@ -304,8 +304,7 @@ Player's status is displayed via this interface too.
 
 ## Aggressor interface
 
-Actors that have Behaviours, and can switch to AggroBehaviour implement this interface for the method 
-```switchAggroBehaviour()```.
+Actors that have Behaviours, and can switch to AggroBehaviour implement this interface for the method ```switchAggroBehaviour()```.
 
 ## Player locations
 
@@ -331,12 +330,15 @@ SoulToken as a ground type must remember the old ground that it replaced. An ass
 SoulToken allows action PickUpSoulsAction which was created so that the player can pick up the soul token off the ground and transfer souls.<br>
 PickUpSoulsAction knows the location the SoulToken is placed in and the oldGround that it replaced so that the oldGround can be swapped back in.
 
-
 ## WindSlashAction: WeaponAction => AttackAction
+
+Previous WindSlashAction was planned to be a WeaponAction. (actually should have been an AttackAction)
 
 ## EstusFlask + DrinkEstusAction
 
 ## StormRuler + PickUpStormRulerAction + ChargeAction
+
+- pick up storm ruler action. couldn't use the normal pick up item action because player would have gotten the charge action without picking up storm ruler
 
 ## Other changes
 
