@@ -332,8 +332,12 @@ SoulToken allows action PickUpSoulsAction which was created so that the player c
 PickUpSoulsAction knows the location the SoulToken is placed in and the oldGround that it replaced so that the oldGround can be swapped back in.
 
 
-
 ## WindSlashAction: WeaponAction => AttackAction
 
+## EstusFlask + DrinkEstusAction
+
+## StormRuler + PickUpStormRulerAction + ChargeAction
+
+## Other changes
 
 
