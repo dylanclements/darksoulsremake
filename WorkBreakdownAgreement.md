@@ -113,5 +113,6 @@ All other features will be documented by Dylan
 
 Signature (ammended 25/09/2021)
 - Dylan Clements: I agree with this WBA (25/09/2021)
+- Dmitrii Parakhin: I agree with this WBA (25/09/2021)
 
 
