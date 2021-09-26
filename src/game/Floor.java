@@ -12,6 +12,11 @@ public class Floor extends Ground {
 		super('_');
 	}
 
+	/**
+	 * Only let player enter floor
+	 * @param actor the Actor to check
+	 * @return true if actor is player else false
+	 */
 	@Override
 	public boolean canActorEnter(Actor actor) {
 		return actor instanceof Player;

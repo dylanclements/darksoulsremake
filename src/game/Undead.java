@@ -11,8 +11,7 @@ import java.util.Random;
  * An undead minion.
  */
 public class Undead extends Actor implements Resettable, Soul, Aggressor, ActorStatus {
-	// Will need to change this to a collection if Undeads gets additional Behaviours.
-	private Behaviour behaviour = new WanderBehaviour();
+	private Behaviour behaviour;
 	private final Random random = new Random();
 
 	public static int UNDEAD_SOULS = 50;
@@ -24,6 +23,7 @@ public class Undead extends Actor implements Resettable, Soul, Aggressor, ActorS
 	 */
 	public Undead(String name) {
 		super(name, 'u', 50);
+		this.behaviour = new WanderBehaviour();
 		this.registerInstance();
 	}
 
@@ -63,16 +63,27 @@ public class Undead extends Actor implements Resettable, Soul, Aggressor, ActorS
 		return behaviour.getAction(this, map);
 	}
 
+	/**
+	 * Simply remove this actor from the map on reset
+	 * @param map the game map
+	 */
 	@Override
 	public void resetInstance(GameMap map) {
 		map.removeActor(this);
 	}
 
+	/**
+	 * @return always false because undead exists temporarily
+	 */
 	@Override
 	public boolean isExist() {
 		return false;
 	}
 
+	/**
+	 * Add souls to another object
+	 * @param soulObject a target souls.
+	 */
 	@Override
 	public void transferSouls(Soul soulObject) {
 		soulObject.addSouls(Undead.UNDEAD_SOULS);
@@ -87,21 +98,33 @@ public class Undead extends Actor implements Resettable, Soul, Aggressor, ActorS
 		this.behaviour = new AggroBehaviour(target);
 	}
 
+	/**
+	 * @return current behaviour
+	 */
 	@Override
 	public Behaviour getBehaviour() {
 		return this.behaviour;
 	}
 
+	/**
+	 * @return current hit points
+	 */
 	@Override
 	public int getHitPoints() {
 		return this.hitPoints;
 	}
 
+	/**
+	 * @return max hit points
+	 */
 	@Override
 	public int getMaxHitPoints() {
 		return this.maxHitPoints;
 	}
 
+	/**
+	 * @return weapon name. always intrinsic weapon.
+	 */
 	@Override
 	public String getWeaponName() {
 		return "Intrinsic Weapon";

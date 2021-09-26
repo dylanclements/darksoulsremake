@@ -17,12 +17,12 @@ public class EstusFlask extends Item implements Resettable, Consumable{
      * Constructor.
      *
      */
-    public EstusFlask() {
+    public EstusFlask(int maxCharges, float healingPercentage) {
         super("Estus Flask", 'E', false);
 
-        this.charges = 3;
-        this.maxCharges = 3;
-        this.healingPercentage = 0.4f;
+        this.charges = maxCharges;
+        this.maxCharges = maxCharges;
+        this.healingPercentage = healingPercentage;
 
         this.addCapability(Abilities.DRINK);
         this.allowableActions.add(new DrinkEstusFlaskAction(this));

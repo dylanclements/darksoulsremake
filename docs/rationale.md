@@ -315,6 +315,9 @@ A SoulToken is to be placed at the previous location.
 
 Player class now has associations with 2 location instances, for current and previous.
 
+Previous UML diagram, ResetManager depended on Player due to player triggering ResetManager on death.<br>
+This has been removed as the DeathAction class handles this responsibility now.
+
 ## SoulToken, PickUpSoulsAction
 
 During implementation, it was discovered that a SoulToken should not be a PortableItem, but a Ground type.
@@ -338,7 +341,7 @@ Previous WindSlashAction was planned to be a WeaponAction. (actually should have
 
 ## StormRuler + PickUpStormRulerAction + ChargeAction
 
-- pick up storm ruler action. couldn't use the normal pick up item action because player would have gotten the charge action without picking up storm ruler
+- pick up storm ruler action. couldn't use the normal pickup item action because player would have gotten the charge action without picking up storm ruler
 
 ## Other changes
 

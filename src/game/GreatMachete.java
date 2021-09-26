@@ -9,12 +9,15 @@ public class GreatMachete extends MeleeWeapon {
 
     /**
      * Constructor.
-     *
      */
     public GreatMachete() {
         super("Yhorm’s Great Machete", 'G', GreatMachete.DAMAGE, "Wacks", GreatMachete.HIT_RATE);
     }
 
+    /**
+     * Change the hit rate of this weapon. Used for rage mode.
+     * @param hitRate % chance that this weapon will deal damage
+     */
     protected void setHitRate(int hitRate) {
         this.hitRate = hitRate;
     }

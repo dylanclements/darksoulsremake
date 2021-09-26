@@ -59,6 +59,7 @@ public class StormRuler extends Sword implements IWindSlash, Resettable {
             // charges are full now, remove the charge actions
             this.removeChargeAction();
 
+            // give the actor the wind slash capability
             actor.addCapability(Abilities.WIND_SLASH);
             return true;
         }
@@ -86,9 +87,9 @@ public class StormRuler extends Sword implements IWindSlash, Resettable {
     }
 
     /**
-     * 1. Remove charge action
-     * 2. Remove charge capability
-     * 3. Buff damage and accuracy
+     * Check if attacker has wind slash capability.
+     * If true, remove the charge action + capability and buff storm ruler damage
+     * @param attacker actor who is about to perform wind slash
      */
     @Override
     public void prepareWindSlash(Actor attacker) {
