@@ -5,6 +5,9 @@ import edu.monash.fit2099.engine.DropItemAction;
 import edu.monash.fit2099.engine.PickUpItemAction;
 import edu.monash.fit2099.engine.WeaponItem;
 
+/**
+ * An abstract class for melee weapons.
+ */
 public abstract class MeleeWeapon extends WeaponItem {
     /**
      * Constructor.
