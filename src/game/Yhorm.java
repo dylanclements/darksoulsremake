@@ -158,7 +158,7 @@ public class Yhorm extends LordOfCinder implements Soul, Aggressor, ActorStatus,
     }
 
     /**
-     * To reset Yhorm
+     * To reset Yhorm if he has not been defeated.
      * 1. Set behaviour back to DoNothingBehaviour
      * 2. Heal back to full health
      * 3. Set great machete hit rate back to default
@@ -190,8 +190,8 @@ public class Yhorm extends LordOfCinder implements Soul, Aggressor, ActorStatus,
     }
 
     /**
-     * We only keep Yhorm in the game when his health is > 0 i.e. not dead
-     * @return True if yhorm is alive else False
+     * Yhorm is not permanent.
+     * @return false
      */
     @Override
     public boolean isExist() {
