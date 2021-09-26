@@ -370,7 +370,7 @@ we had to avoid using normal pick up item action and had to introduce a new clas
 for preventing the player from using `ChargeAction()` until the weapon is picked up
 via Capabilities. 
 
-???????????????? Not sure which principle it is? Single responsibility?
+??????????????? Not sure which principle it is? Single responsibility?
 
 ## Other changes
 
