@@ -360,7 +360,7 @@ directly to avoid creating instances of circular dependencies.
 
 `Resettable()` gives the StormRuler the ability
 to reset all charges to 0 and reduce parameters back to normal in case the character died or the `WindSlashAction()` 
-was executed. IWindSlash contains all the important method headers necessary to perform
+was executed. `IWindSlash()` contains all the important method headers necessary to perform
 Charge or WindSlash actions. 
 
 During the implementation stage we ran into the issue where the StormRuler would 
