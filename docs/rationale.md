@@ -286,8 +286,6 @@ Aldrich's ember form implementation in Assignment 3 will be easier as a result o
 In Assignment 1 we thought Behaviours will have a 1-many relationship. Behaviours are 1/1 relationship now. Actors will
 only be executing 1 behaviour at a time, behaviours will be swapped out when they need to change.
 
-Also, LordOfCinder no longer has behaviour attribute, it's implemented in Yhorm now.
-
 ## Exceptions
 
 One exception was added. A package has been created (edu.monash.fit2099.game.exceptions) to add potentially more in the future.
