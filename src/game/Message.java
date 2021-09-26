@@ -1,5 +1,8 @@
 package game;
 
+/**
+ * Store special text messages here.
+ */
 public class Message {
     public static String YOU_DIED = "oooooo   oooo                           oooooooooo.    o8o                  .o8      oooo                                        \n" +
             " `888.   .8'                            `888'   `Y8b   `\"'                 \"888      `888                                        \n" +

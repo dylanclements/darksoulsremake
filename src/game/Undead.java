@@ -1,22 +1,20 @@
 package game;
 
-
 import edu.monash.fit2099.engine.*;
 import game.enums.Status;
 import game.interfaces.*;
-
 import java.util.Random;
 
 /**
  * An undead minion.
  */
 public class Undead extends Actor implements Resettable, Soul, Aggressor, ActorStatus {
+	public static final int UNDEAD_SOULS = 50;
+
 	private Behaviour behaviour;
 	private final Random random = new Random();
 
-	public static int UNDEAD_SOULS = 50;
-
-	/** 
+	/**
 	 * Constructor.
 	 * All Undeads are represented by an 'u' and have 30 hit points.
 	 * @param name the name of this Undead

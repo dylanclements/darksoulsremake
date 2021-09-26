@@ -6,6 +6,9 @@ import game.enums.Status;
 import game.exceptions.MissingWeaponException;
 import game.interfaces.*;
 
+/**
+ * Lord of cinder. Weak to storm ruler.
+ */
 public class Yhorm extends LordOfCinder implements Soul, Aggressor, ActorStatus, Resettable, EmberForm {
     private static final int YHORM_SOULS = 5000;
 

@@ -8,51 +8,99 @@ import game.interfaces.ActorStatus;
 import game.interfaces.Consumable;
 import game.interfaces.Resettable;
 
-public class EstusFlask extends Item implements Resettable, Consumable{
+
+/**
+ * Item that allows the player to refill health. Has a finite number of uses.
+ */
+public class EstusFlask extends Item implements Resettable, Consumable {
+    private static final int DEFAULT_MAX_CHARGES = 3;
+    private static final float DEFAULT_HEAL_PERCENT = 0.4f;
+
     private float healingPercentage;
     private int charges;
     private int maxCharges;
 
-    /***
+    /**
      * Constructor.
-     *
      */
-    public EstusFlask(int maxCharges, float healingPercentage) {
+    public EstusFlask() {
         super("Estus Flask", 'E', false);
 
-        this.charges = maxCharges;
-        this.maxCharges = maxCharges;
-        this.healingPercentage = healingPercentage;
+        this.charges = EstusFlask.DEFAULT_MAX_CHARGES;
+        this.maxCharges = EstusFlask.DEFAULT_MAX_CHARGES;
+        this.healingPercentage = EstusFlask.DEFAULT_HEAL_PERCENT;
 
         this.addCapability(Abilities.DRINK);
         this.allowableActions.add(new DrinkEstusFlaskAction(this));
         this.registerInstance();
     }
 
+    /**
+     * @return current number of charges
+     */
     @Override
     public int getCharges() {
-        return charges;
+        return this.charges;
     }
 
+    /**
+     * @return max charges
+     */
     @Override
     public int getMaxCharges() {
-        return maxCharges;
+        return this.maxCharges;
     }
 
+    /**
+     * @return healing percentage
+     */
     public float getHealingPercentage() {
         return this.healingPercentage;
     }
 
+    /**
+     * Change the charges.
+     * @param charges the new charges
+     */
+    private void setCharges(int charges) {
+        this.charges = charges;
+    }
+
+    /**
+     * Change the maximum charges.
+     * @param maxCharges new max charges
+     */
+    private void setMaxCharges(int maxCharges) {
+        this.maxCharges = maxCharges;
+    }
+
+    /**
+     * Change the healing percentage.
+     * @param healingPercentage new healing percentage
+     */
+    private void setHealingPercentage(float healingPercentage) {
+        this.healingPercentage = healingPercentage;
+    }
+
+    /**
+     * Decrement the charges
+     * @return true if successful else false
+     */
     @Override
     public boolean reduceCharges() {
         //add checks if drops below 0, feedback to the user
         if (charges > 0){
-            charges -= 1;
+            this.setCharges(this.charges - 1);
             return true;
         }
         return false;
     }
 
+    /**
+     * Consume the estus flask.
+     * @param actor actor who is consuming the estus flask
+     * @return true if successful else false
+     */
     @Override
     public boolean consumedBy(Actor actor) {
         if (actor.hasCapability(Abilities.DRINK) && this.reduceCharges()){
@@ -65,11 +113,19 @@ public class EstusFlask extends Item implements Resettable, Consumable{
         return false;
     }
 
+    /**
+     * Reset the estus flask on soft-reset. Just need to refill charges.
+     * @param map the game map
+     */
     @Override
     public void resetInstance(GameMap map) {
         this.charges = maxCharges;
     }
 
+    /**
+     * Estus flask always exists in the game.
+     * @return true
+     */
     @Override
     public boolean isExist() {
         return true;

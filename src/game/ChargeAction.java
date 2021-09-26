@@ -7,6 +7,9 @@ import edu.monash.fit2099.engine.WeaponItem;
 import game.enums.Status;
 import game.interfaces.IWindSlash;
 
+/**
+ * Action that charges a wind slash
+ */
 public class ChargeAction extends WeaponAction {
     private final IWindSlash stormRulerCharge;
     /**
@@ -20,6 +23,12 @@ public class ChargeAction extends WeaponAction {
 
     }
 
+    /**
+     * Manages the execution of a charging action.
+     * @param actor actor who is charging
+     * @param map the game map
+     * @return string describing the action
+     */
     @Override
     public String execute(Actor actor, GameMap map) {
         if (stormRulerCharge.charge(actor)){
@@ -37,6 +46,11 @@ public class ChargeAction extends WeaponAction {
         }
     }
 
+    /**
+     * Prompt to execute this action
+     * @param actor the actor who will be charging
+     * @return string prompt that shows up on the menu
+     */
     @Override
     public String menuDescription(Actor actor) {
         IWindSlash skill = this.stormRulerCharge;

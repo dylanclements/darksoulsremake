@@ -4,12 +4,19 @@ import edu.monash.fit2099.engine.*;
 import game.enums.Status;
 import game.interfaces.*;
 
+/**
+ * Tougher enemy than undead.
+ */
 public class Skeleton extends Actor implements Soul, Aggressor, Resettable, ActorStatus {
-    public final static int SKELETON_SOULS = 250;
-
+    public static final int SKELETON_SOULS = 250;
     private Behaviour behaviour;
     private final Location spawnLocation;
 
+    /**
+     * Constructor.
+     * @param name name of this skeleton instance
+     * @param spawnLocation location which this skeleton is to be spawned on or reset to
+     */
     public Skeleton(String name, Location spawnLocation) {
         super(name, 's', 100);
         this.spawnLocation = spawnLocation;
