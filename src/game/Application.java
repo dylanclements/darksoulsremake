@@ -11,6 +11,10 @@ import edu.monash.fit2099.engine.*;
  */
 public class Application {
 
+	/**
+	 * Game starts from here.
+	 * @param args any command arguments
+	 */
 	public static void main(String[] args) {
 
 			World world = new World(new Display());

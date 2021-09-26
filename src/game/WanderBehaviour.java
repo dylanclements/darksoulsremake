@@ -10,6 +10,9 @@ import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.Location;
 import game.interfaces.Behaviour;
 
+/**
+ * Behaviour for actors to wander around the map aimlessly.
+ */
 public class WanderBehaviour extends Action implements Behaviour {
 	
 	private final Random random = new Random();

@@ -8,7 +8,6 @@ import edu.monash.fit2099.engine.WeaponItem;
 public abstract class MeleeWeapon extends WeaponItem {
     /**
      * Constructor.
-     *
      * @param name        name of the item
      * @param displayChar character to use for display when item is on the ground
      * @param damage      amount of damage this weapon does

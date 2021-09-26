@@ -12,17 +12,13 @@ import game.interfaces.Soul;
  * Class representing the Player.
  */
 public class Player extends Actor implements Soul, Resettable, ActorStatus {
-
 	private final Menu menu = new Menu();
-
 	private Location previousLocation;
 	private Location currentLocation;
-
 	private int souls;
 
 	/**
 	 * Constructor.
-	 *
 	 * @param name        Name to call the player in the UI
 	 * @param displayChar Character to represent the player in the UI
 	 * @param hitPoints   Player's starting number of hitpoints
@@ -32,7 +28,7 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus {
 		this.addCapability(Status.HOSTILE_TO_ENEMY);
 		this.addCapability(Abilities.REST);
 		this.addItemToInventory(new BroadSword());
-		this.addItemToInventory(new EstusFlask(3, 0.4f));
+		this.addItemToInventory(new EstusFlask());
 		this.registerInstance();
 		this.souls = 0;
 		this.hitPoints = hitPoints;

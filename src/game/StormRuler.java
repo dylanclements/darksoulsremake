@@ -6,19 +6,21 @@ import game.enums.Abilities;
 import game.interfaces.IWindSlash;
 import game.interfaces.Resettable;
 
+/**
+ * Special weapon used for defeating Yhorm.
+ */
 public class StormRuler extends Sword implements IWindSlash, Resettable {
-    private int charges;
-    private final int maxCharges;
-
     private static final int DAMAGE = 70;
     private static final int ACCURACY = 60;
     private static final int FULL_ACCURACY = 100;
     private static final int DAMAGE_MULTIPLIER = 2;
 
     private final ChargeAction chargeAction;
+    private int charges;
+    private final int maxCharges;
 
     /**
-     *  Constructor
+     *  Constructor.
      */
     public StormRuler() {
         super("Storm Ruler", '7', StormRuler.DAMAGE, "WAaaaBANG", StormRuler.ACCURACY);
@@ -67,7 +69,7 @@ public class StormRuler extends Sword implements IWindSlash, Resettable {
     }
 
     /**
-     * set the storm ruler's specs
+     * Set the storm ruler's specs
      * @param damage damage
      * @param accuracy accuracy
      */

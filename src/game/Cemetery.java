@@ -4,7 +4,9 @@ import edu.monash.fit2099.engine.*;
 
 import java.util.Random;
 
-
+/**
+ * Ground type that spawns undead.
+ */
 public class Cemetery extends Ground {
     private static final Random r = new Random();
 

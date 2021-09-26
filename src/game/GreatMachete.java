@@ -2,6 +2,9 @@ package game;
 
 import game.enums.Abilities;
 
+/**
+ * Yhorm the giant's special weapon.
+ */
 public class GreatMachete extends MeleeWeapon {
     public static final int DAMAGE = 95;
     public static final int HIT_RATE = 60;

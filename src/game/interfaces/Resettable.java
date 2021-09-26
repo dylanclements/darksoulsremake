@@ -9,6 +9,7 @@ import game.ResetManager;
 public interface Resettable {
     /**
      * Allows any classes that use this interface to reset abilities, attributes, and items.
+     * @param map the game map.
      */
     void resetInstance(GameMap map);
 

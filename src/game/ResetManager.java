@@ -2,14 +2,12 @@ package game;
 
 import edu.monash.fit2099.engine.GameMap;
 import game.interfaces.Resettable;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * A global Singleton manager that does soft-reset on the instances.
- * TODO: you may modify (add or remove) methods in this class if you think they are not necessary.
  * HINT: refer to Bootcamp Week 5 about static factory method.
  * A3: Think about how will you improve this implementation in the future assessment.
  * What could be the drawbacks of this implementation?
@@ -47,7 +45,7 @@ public class ResetManager {
     /**
      * Reset the game by traversing through all the list
      * By doing this way, it will avoid using `instanceof` all over the place.
-     * FIXME: it does nothing, you need to implement it :)
+     * @param map the game map
      */
     public void run(GameMap map){
         for (Resettable resettable : resettableList) {

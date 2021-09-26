@@ -7,6 +7,9 @@ import game.exceptions.MissingWeaponException;
 import game.interfaces.ActorStatus;
 import game.interfaces.IWindSlash;
 
+/**
+ * Action for wind slashing.
+ */
 public class WindSlashAction extends AttackAction {
     public static final int REQUIRED_CHARGES = 3;
 

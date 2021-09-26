@@ -5,6 +5,10 @@ import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
 import game.interfaces.Consumable;
 
+
+/**
+ * Action that consumes the estus flask
+ */
 public class DrinkEstusFlaskAction extends Action {
     private final Consumable estusFlask;
 

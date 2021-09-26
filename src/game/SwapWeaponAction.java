@@ -19,6 +19,13 @@ public class SwapWeaponAction extends PickUpItemAction {
         super(weapon);
     }
 
+    /**
+     * First the actor's current weapon must be removed.
+     * Then the weapon on the ground should be picked up.
+     * @param actor The actor performing the action.
+     * @param map The map the actor is on.
+     * @return string that describes this action.
+     */
     @Override
     public String execute(Actor actor, GameMap map) {
         List<Item> items = actor.getInventory();
