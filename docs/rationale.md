@@ -333,13 +333,44 @@ PickUpSoulsAction knows the location the SoulToken is placed in and the oldGroun
 
 ## WindSlashAction: WeaponAction => AttackAction
 
-Previous WindSlashAction was planned to be a WeaponAction. (actually should have been an AttackAction)
+Previous WindSlashAction was planned to be a WeaponAction.
+However, we decided to refactor it into AttackAction since WeaponAction did not have the methods
+necessary to implement the requirements. Such as knowing the location and direction of the enemy (Yhorm).
+Instead of implementing all this functionality inside `WindSlashAction()` we decided it would be easier to
+extend upon `AttackAction()` thus minimising code repetition and sticking to Single Responsibility Principal.
+
 
 ## EstusFlask + DrinkEstusAction
 
+In the first part of the assignment we had an issue with EstusFlask 
+and DrinkEstusAction having circular dependency. 
+
+To fix this problem we decided
+to introduce a `Consumable()` interface responsible for reducing charges after
+`DrinkEstusAction()` occurred. By keeping all the method implementation inside
+`EstusFlask()` whilst allowing `DrinkEstusAction()` to interact with them via interface
+we demonstrated Dependency Inversion Principle by adding a layer of abstraction 
+limiting the amount of effort required to modify the system and eliminating circular 
+dependency.
 ## StormRuler + PickUpStormRulerAction + ChargeAction
 
-- pick up storm ruler action. couldn't use the normal pickup item action because player would have gotten the charge action without picking up storm ruler
+In attempt to improve our design StormRuler is now implementing 2 new interfaces 
+`Resettable()` and `IWindSlash()` instead of interacting with `ChargeAction()` and `WindSlashAction()`
+directly to avoid creating instances of circular dependencies. 
+
+`Resettable()` gives the StormRuler the ability
+to reset all charges to 0 and reduce parameters back to normal in case the character died or the `WindSlashAction()` 
+was executed. IWindSlash contains all the important method headers necessary to perform
+Charge or WindSlash actions. 
+
+During the implementation stage we ran into the issue where the StormRuler would 
+promt the player with `ChargeAction()` before the player picked it up. Which meant
+we had to avoid using normal pick up item action and had to introduce a new class
+`PickUpStormRulerAction()` which extends `SwapWeaponAction()` which is responsible
+for preventing the player from using `ChargeAction()` until the weapon is picked up
+via Capabilities. 
+
+???????????????? Not sure which principle it is? Single responsibility?
 
 ## Other changes
 
