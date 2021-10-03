@@ -82,6 +82,19 @@ public class Yhorm extends LordOfCinder implements Soul, Aggressor, ActorStatus,
     }
 
     /**
+     * Yhorm can only attack other actors if they are adjacent.
+     * @param target the actor that the Aggressor may attack
+     * @param map the game map instance
+     * @return true if the target is 0 steps away from Yhorm else false
+     */
+    @Override
+    public boolean isWithinRange(Actor target, GameMap map) {
+        Location here = map.locationOf(this);
+        Location there = map.locationOf(target);
+        return Utils.distance(here, there) == 0;
+    }
+
+    /**
      * Allow AttackAction if other actor is in vicinity
      * Allow WindSlashAction if other actor has the ability to do so
      * @param otherActor the Actor that might be performing attack

@@ -34,11 +34,11 @@ public class FollowBehaviour implements Behaviour {
 		Location here = map.locationOf(actor);
 		Location there = map.locationOf(target);
 
-		int currentDistance = distance(here, there);
+		int currentDistance = Utils.distance(here, there);
 		for (Exit exit : here.getExits()) {
 			Location destination = exit.getDestination();
 			if (destination.canActorEnter(actor)) {
-				int newDistance = distance(destination, there);
+				int newDistance = Utils.distance(destination, there);
 				if (newDistance < currentDistance) {
 					return new MoveActorAction(destination, exit.getName());
 				}
@@ -46,16 +46,5 @@ public class FollowBehaviour implements Behaviour {
 		}
 		// do nothing if actor is blocked
 		return new DoNothingAction();
-	}
-
-	/**
-	 * Compute the Manhattan distance between two locations.
-	 * 
-	 * @param a the first location
-	 * @param b the first location
-	 * @return the number of steps between a and b if you only move in the four cardinal directions.
-	 */
-	private int distance(Location a, Location b) {
-		return Math.abs(a.x() - b.x()) + Math.abs(a.y() - b.y());
 	}
 }

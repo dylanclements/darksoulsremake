@@ -86,6 +86,19 @@ public class Skeleton extends Actor implements Soul, Aggressor, Resettable, Acto
     }
 
     /**
+     * Skeleton can only attack other actors if they are adjacent.
+     * @param target the actor that the Aggressor may attack
+     * @param map the game map instance
+     * @return true if the target is 0 steps away from Skeleton else false
+     */
+    @Override
+    public boolean isWithinRange(Actor target, GameMap map) {
+        Location here = map.locationOf(this);
+        Location there = map.locationOf(target);
+        return Utils.distance(here, there) == 0;
+    }
+
+    /**
      * 1. Remove the skeleton from the map
      * 2. Refill its health
      * 3. Set its behaviour back to wandering
