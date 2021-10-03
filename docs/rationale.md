@@ -369,3 +369,21 @@ we had to avoid using normal pick up item action and had to introduce a new clas
 for preventing the player from using `ChargeAction()` until the weapon is picked up
 via Capabilities. 
 
+# Assignment 3 - Further Design + Implementation
+
+## AggroBehaviour + Aggressor & enabling ranged attacks
+
+A minor refactor was made prior to the Aldrich implementation. 
+Previously, AggroBehaviour scanned the actor's exits for the target, and if the target appeared in one of the exits, 
+the attack would be executed. This will be inadequate for the ranged attacks that Aldrich will use, however only this 
+needed to be changed to allow AggroBehaviour to execute a ranged attack. 
+
+An additional method was added to Aggressor: ```boolean isWithinRange(Location targetLocation, GameMap map)```.
+This will return true if the Aggressor's target is within its attack range, else false. AggroBehaviour will simply check
+```isWithinRange``` and return an AttackAction if true.
+
+Each Aggressor defines their own attack range. To adhere to DRY principles and the O in solid, a 
+```public static final int``` should be written under each aggressor's class signature to define their attack range. 
+
+
+
