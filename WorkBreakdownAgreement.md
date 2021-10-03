@@ -129,4 +129,4 @@ We will be responsible for design + implementation of our assigned features:
 
 Signatures:
 - Dylan Clements I agree with this WBA (03/10/2021)
-- 
+- Dmitrii Parakhin I agree with this WBA (03/10/2021)
