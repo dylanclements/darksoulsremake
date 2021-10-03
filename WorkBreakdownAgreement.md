@@ -116,3 +116,17 @@ Signature (ammended 25/09/2021)
 - Dmitrii Parakhin: I agree with this WBA (25/09/2021)
 
 
+#### Assignment 3 - Further Design + Implementation
+
+Features will be split between participants.
+We will be responsible for design + implementation of our assigned features:
+- Chest/Mimic: Dimitrii
+- New game map design: Dimitrii
+- New bonfire features: Dylan
+- Fog Door: Dylan
+- Ranged attack features: Dylan
+- Aldrich: Dimitrii
+
+Signatures:
+- Dylan Clements I agree with this WBA (03/10/2021)
+- 
