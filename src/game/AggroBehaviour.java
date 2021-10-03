@@ -1,6 +1,7 @@
 package game;
 
 import edu.monash.fit2099.engine.*;
+import game.interfaces.Aggressor;
 import game.interfaces.Behaviour;
 
 
@@ -31,20 +32,21 @@ public class AggroBehaviour implements Behaviour {
      */
     @Override
     public Action getAction(Actor actor, GameMap map) {
+        // Only Aggressors can attack
+        assert actor instanceof Aggressor;
+
         if (!map.contains(target) || !map.contains(actor)) {
             return null;
         }
 
-        Location here = map.locationOf(actor);
-        Location there = map.locationOf(target);
+        Aggressor aggressor = (Aggressor) actor;
+        Location targetLocation = map.locationOf(target);
 
-        // Attack target if actor is adjacent
-        for (Exit exit : here.getExits()) {
-            Location adjacent = exit.getDestination();
-            if (there == adjacent) {
-                return new AttackAction(target, exit.getName());
-            }
+        if (aggressor.isWithinRange(targetLocation, map)) {
+            // direction only matters for menuDescription. Not of any concern with behaviours.
+            return new AttackAction(target, "");
         }
+
         // Follow the target otherwise
         return followBehaviour.getAction(actor, map);
     }

@@ -10,6 +10,7 @@ import java.util.Random;
  */
 public class Undead extends Actor implements Resettable, Soul, Aggressor, ActorStatus {
 	public static final int UNDEAD_SOULS = 50;
+	public static final int ATTACK_RANGE = 1;
 
 	private Behaviour behaviour;
 	private final Random random = new Random();
@@ -129,16 +130,13 @@ public class Undead extends Actor implements Resettable, Soul, Aggressor, ActorS
 	}
 
 	/**
-	 * Undead can only attack other actors if they are adjacent.
-	 * @param target the actor that the Aggressor may attack
+	 * Undead can only attack adjacent targets
+	 * @param targetLocation location that the target exists in
 	 * @param map the game map instance
-	 * @return true if the target is 0 steps away from Undead else false
+	 * @return true if undead can attack else false
 	 */
 	@Override
-	public boolean isWithinRange(Actor target, GameMap map) {
-		Location here = map.locationOf(this);
-		Location there = map.locationOf(target);
-		return Utils.distance(here, there) == 0;
+	public boolean isWithinRange(Location targetLocation, GameMap map) {
+		return Utils.distance(map.locationOf(this), targetLocation) <= Undead.ATTACK_RANGE;
 	}
-
 }

@@ -10,7 +10,8 @@ import game.interfaces.*;
  * Lord of cinder. Weak to storm ruler.
  */
 public class Yhorm extends LordOfCinder implements Soul, Aggressor, ActorStatus, Resettable, EmberForm {
-    private static final int YHORM_SOULS = 5000;
+    public static final int YHORM_SOULS = 5000;
+    public static final int ATTACK_RANGE = 1;
 
     private Behaviour behaviour;
     private final Location spawnLocation;
@@ -82,16 +83,14 @@ public class Yhorm extends LordOfCinder implements Soul, Aggressor, ActorStatus,
     }
 
     /**
-     * Yhorm can only attack other actors if they are adjacent.
-     * @param target the actor that the Aggressor may attack
+     * Yhorm can only attack target in adjacent locations
+     * @param targetLocation location that the target exists in
      * @param map the game map instance
-     * @return true if the target is 0 steps away from Yhorm else false
+     * @return true if yhorm can attack else false
      */
     @Override
-    public boolean isWithinRange(Actor target, GameMap map) {
-        Location here = map.locationOf(this);
-        Location there = map.locationOf(target);
-        return Utils.distance(here, there) == 0;
+    public boolean isWithinRange(Location targetLocation, GameMap map) {
+        return Utils.distance(map.locationOf(this), targetLocation) <= Yhorm.ATTACK_RANGE;
     }
 
     /**
