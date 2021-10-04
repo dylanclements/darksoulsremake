@@ -3,6 +3,9 @@ package game;
 import edu.monash.fit2099.engine.*;
 import game.interfaces.Soul;
 
+/**
+ * Death handler
+ */
 public class DeathAction extends Action {
     private final Actor killer;
 

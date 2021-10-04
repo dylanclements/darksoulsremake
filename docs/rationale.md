@@ -337,13 +337,11 @@ Previous WindSlashAction was planned to be a WeaponAction.
 However, we decided to refactor it into AttackAction since WeaponAction did not have the methods
 necessary to implement the requirements. Such as knowing the location and direction of the enemy (Yhorm).
 Instead of implementing all this functionality inside `WindSlashAction()` we decided it would be easier to
-extend upon `AttackAction()` thus minimising code repetition and sticking to Single Responsibility Principal.
-
+extend upon `AttackAction()` thus minimising code repetition.
 
 ## EstusFlask + DrinkEstusAction
 
-In the first part of the assignment we had an issue with EstusFlask 
-and DrinkEstusAction having circular dependency. 
+In the first part of the assignment we had an issue with EstusFlask and DrinkEstusAction having circular dependency. 
 
 To fix this problem we decided
 to introduce a `Consumable()` interface responsible for reducing charges after
@@ -352,6 +350,7 @@ to introduce a `Consumable()` interface responsible for reducing charges after
 we demonstrated Dependency Inversion Principle by adding a layer of abstraction 
 limiting the amount of effort required to modify the system and eliminating circular 
 dependency.
+
 ## StormRuler + PickUpStormRulerAction + ChargeAction
 
 In attempt to improve our design StormRuler is now implementing 2 new interfaces 
@@ -364,14 +363,9 @@ was executed. `IWindSlash()` contains all the important method headers necessary
 Charge or WindSlash actions. 
 
 During the implementation stage we ran into the issue where the StormRuler would 
-promt the player with `ChargeAction()` before the player picked it up. Which meant
+prompt the player with `ChargeAction()` before the player picked it up. Which meant
 we had to avoid using normal pick up item action and had to introduce a new class
 `PickUpStormRulerAction()` which extends `SwapWeaponAction()` which is responsible
 for preventing the player from using `ChargeAction()` until the weapon is picked up
 via Capabilities. 
-
-??????????????? Not sure which principle it is? Single responsibility?
-
-## Other changes
-
 
