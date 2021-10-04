@@ -4,6 +4,7 @@ import edu.monash.fit2099.engine.*;
 import game.enums.Abilities;
 import game.enums.Status;
 import game.interfaces.ActorStatus;
+import game.interfaces.BonfireSpawn;
 import game.interfaces.Resettable;
 import game.interfaces.Soul;
 
@@ -11,10 +12,11 @@ import game.interfaces.Soul;
 /**
  * Class representing the Player.
  */
-public class Player extends Actor implements Soul, Resettable, ActorStatus {
+public class Player extends Actor implements Soul, Resettable, ActorStatus, BonfireSpawn {
 	private final Menu menu = new Menu();
 	private Location previousLocation;
 	private Location currentLocation;
+	private Location spawn;
 	private int souls;
 
 	/**
@@ -23,7 +25,7 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus {
 	 * @param displayChar Character to represent the player in the UI
 	 * @param hitPoints   Player's starting number of hitpoints
 	 */
-	public Player(String name, char displayChar, int hitPoints) {
+	public Player(String name, char displayChar, int hitPoints, Location spawn) {
 		super(name, displayChar, hitPoints);
 		this.addCapability(Status.HOSTILE_TO_ENEMY);
 		this.addCapability(Abilities.REST);
@@ -33,6 +35,7 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus {
 		this.souls = 0;
 		this.hitPoints = hitPoints;
 		this.maxHitPoints = hitPoints;
+		this.spawn = spawn;
 	}
 
 	/**
@@ -142,7 +145,7 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus {
 	public void resetInstance(GameMap map) {
 		this.hitPoints = this.maxHitPoints;
 		map.removeActor(this);
-		map.at(38, 12).addActor(this);
+		this.spawn.addActor(this);
 	}
 
 	/**
@@ -194,5 +197,10 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus {
 			}
 		}
 		return "Intrinsic Weapon";
+	}
+
+	@Override
+	public void setBonfireSpawn(Location bonfireSpawn) {
+		this.spawn = bonfireSpawn;
 	}
 }
