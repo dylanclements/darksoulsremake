@@ -41,10 +41,11 @@ public class FogDoor extends Ground {
     public Actions allowableActions(Actor actor, Location location, String direction) {
         Actions actions = new Actions();
         if (actor instanceof Player) {
-            if (location == this.getFront()) {
+            Location playerLocation = ((Player) actor).getCurrentLocation();
+            if (playerLocation == this.getFront()) {
                 // Player enters the front and exits through the back
                 actions.add(new EnterFogDoorAction(this.getBack()));
-            } else if (location == this.getBack()) {
+            } else if (playerLocation == this.getBack()) {
                 // Player enters the back and exits through the front
                 actions.add(new EnterFogDoorAction(this.getFront()));
             }

@@ -171,6 +171,13 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus, Bonf
 	}
 
 	/**
+	 * @return the location the player is currently in.
+	 */
+	public Location getCurrentLocation() {
+		return this.currentLocation;
+	}
+
+	/**
 	 * @return player's hit points
 	 */
 	@Override
