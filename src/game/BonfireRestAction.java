@@ -5,19 +5,20 @@ import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.Location;
 import game.interfaces.BonfireSpawn;
+import game.interfaces.IBonfire;
 
 /**
  * Action to trigger bonfire soft reset
  */
 public class BonfireRestAction extends Action {
-    private final Location bonfireLocation;
+    private final IBonfire bonfire;
 
     /**
-     * Constructor. Note the bonfire's location which the actor is resting at
-     * @param bonfireLocation the bonfire's location
+     * Constructor.
+     * @param bonfire the bonfire.
      */
-    public BonfireRestAction(Location bonfireLocation) {
-        this.bonfireLocation = bonfireLocation;
+    public BonfireRestAction(IBonfire bonfire) {
+        this.bonfire = bonfire;
     }
 
     /**
@@ -30,7 +31,7 @@ public class BonfireRestAction extends Action {
     public String execute(Actor actor, GameMap map) {
         if (actor instanceof BonfireSpawn) {
             BonfireSpawn bonfireActor = (BonfireSpawn) actor;
-            bonfireActor.setBonfireSpawn(this.bonfireLocation);
+            bonfireActor.setBonfireSpawn(this.bonfire.getBonfireLocation());
         }
 
         ResetManager resetter = ResetManager.getInstance();
@@ -44,6 +45,6 @@ public class BonfireRestAction extends Action {
      * @return string that describes this action.
      */
     public String menuDescription(Actor actor) {
-        return actor.toString() + " rests at Bonfire.";
+        return actor.toString() + " rests at the " + this.bonfire.getBonfireName() + " Bonfire.";
     }
 }

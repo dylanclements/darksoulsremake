@@ -55,7 +55,7 @@ public class Bonfire extends Ground implements IBonfire {
         if (actor instanceof Player) {
             if (this.lit) {
                 // Give player the rest action if bonfire is lit
-                actions.add(new BonfireRestAction(this.location));
+                actions.add(new BonfireRestAction(this));
 
                 // Get all teleport actions from the BonfireNetwork if lit.
                 BonfireNetwork bonfireNetwork = BonfireNetwork.getInstance();
