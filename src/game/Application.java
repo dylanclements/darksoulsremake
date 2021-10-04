@@ -20,7 +20,7 @@ public class Application {
 			World world = new World(new Display());
 
 			FancyGroundFactory groundFactory = new FancyGroundFactory(
-					new Dirt(), new Wall(), new Floor(), new Valley(), new Cemetery(), new Bonfire()
+					new Dirt(), new Wall(), new Floor(), new Valley(), new Cemetery()
 			);
 
 			List<String> profaneCapitalMap = Arrays.asList(
@@ -35,7 +35,7 @@ public class Application {
 					".............................................................+++++++............",
 					"..................................###___###...................+++...............",
 					"..................................#_______#......................+++............",
-					"...........++.....................#___B___#.......................+.............",
+					"...........++.....................#_______#.......................+.............",
 					".........+++......................#_______#........................++...........",
 					"............+++...................####_####..........................+..........",
 					"..............+......................................................++.........",
@@ -85,9 +85,14 @@ public class Application {
 			GameMap profaneCapital = new GameMap(groundFactory, profaneCapitalMap);
 			world.addGameMap(profaneCapital);
 
-			Actor player = new Player("Unkindled (Player)", '@', 200);
+			Location playerSpawn = profaneCapital.at(38, 12);
+			Actor player = new Player("Unkindled (Player)", '@', 200, playerSpawn);
 
-			world.addPlayer(player, profaneCapital.at(6, 20));
+			world.addPlayer(player, playerSpawn);
+
+			Location profaneCapitalBonfire = profaneCapital.at(38, 11);
+			Bonfire bonfire = new Bonfire(profaneCapitalBonfire, "Profane Capital");
+			profaneCapitalBonfire.setGround(bonfire);
 
 			// Place some skeletons around the map
 			// TODO: Spawn 4-12 skeletons

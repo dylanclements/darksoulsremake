@@ -1,30 +1,35 @@
 package game;
 
-import edu.monash.fit2099.engine.Actions;
-import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.Ground;
-import edu.monash.fit2099.engine.Location;
+import edu.monash.fit2099.engine.*;
+import game.interfaces.IBonfire;
 
 /**
  * Resting place for the player
  */
-public class Bonfire extends Ground {
+public class Bonfire extends Ground implements IBonfire {
+    private boolean lit;
+    private final Location location;
+    private final String name;
 
     /**
-     * Constructor
+     * Constructor.
+     * Bonfire is not lit by default.
      */
-    public Bonfire() {
+    public Bonfire(Location location, String name) {
         super('B');
+        this.location = location;
+        this.name = name;
+        this.lit = false;
     }
 
     /**
-     * Actor should not enter Bonfire
+     * Actor can enter bonfire (changed in Assignment 3)
      * @param actor the Actor to check
-     * @return false
+     * @return true
      */
     @Override
     public boolean canActorEnter(Actor actor) {
-        return false;
+        return true;
     }
 
     /**
@@ -37,16 +42,64 @@ public class Bonfire extends Ground {
     }
 
     /**
-     * Always allow BonfireRestAction
+     * Offer to light bonfire if not lit to player, else offer rest if player, else nothing.
      * @param actor the Actor acting
      * @param location the current Location
      * @param direction the direction of the Ground from the Actor
-     * @return Actions list containing BonfireRestAction
+     * @return Actions list containing available bonfire actions.
      */
     @Override
     public Actions allowableActions(Actor actor, Location location, String direction) {
         Actions actions = new Actions();
-        actions.add(new BonfireRestAction());
+
+        if (actor instanceof Player) {
+            if (this.lit) {
+                // Give player the rest action if bonfire is lit
+                actions.add(new BonfireRestAction(this));
+
+                // Get all teleport actions from the BonfireNetwork if lit.
+                BonfireNetwork bonfireNetwork = BonfireNetwork.getInstance();
+                Actions teleportActions = bonfireNetwork.getTeleportActions(this);
+                for (Action teleportAction : teleportActions) {
+                    actions.add(teleportAction);
+                }
+
+            } else {
+                actions.add(new BonfireLightAction(this));
+            }
+        }
+
         return actions;
+    }
+
+    /**
+     * @return true if the bonfire is lit else false
+     */
+    public boolean isLit() {
+        return lit;
+    }
+
+    /**
+     * @return the location the bonfire is sitting upon
+     */
+    public Location getLocation() {
+        return location;
+    }
+
+    @Override
+    public boolean lightBonfire() {
+        boolean oldLit = this.lit;
+        this.lit = true;
+        return !oldLit;
+    }
+
+    @Override
+    public String getBonfireName() {
+        return this.name;
+    }
+
+    @Override
+    public Location getBonfireLocation() {
+        return this.location;
     }
 }

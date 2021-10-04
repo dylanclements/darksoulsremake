@@ -9,6 +9,8 @@ import game.interfaces.*;
  */
 public class Skeleton extends Actor implements Soul, Aggressor, Resettable, ActorStatus {
     public static final int SKELETON_SOULS = 250;
+    public static final int ATTACK_RANGE = 1;
+
     private Behaviour behaviour;
     private final Location spawnLocation;
 
@@ -83,6 +85,17 @@ public class Skeleton extends Actor implements Soul, Aggressor, Resettable, Acto
     @Override
     public Behaviour getBehaviour() {
         return this.behaviour;
+    }
+
+    /**
+     * Skeleton can only attack adjacent actors
+     * @param targetLocation location that the target exists in
+     * @param map the game map instance
+     * @return true if skeleton can attack else false
+     */
+    @Override
+    public boolean isWithinRange(Location targetLocation, GameMap map) {
+        return Utils.distance(map.locationOf(this), targetLocation) <= Skeleton.ATTACK_RANGE;
     }
 
     /**
