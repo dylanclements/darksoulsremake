@@ -53,9 +53,10 @@ public class Application {
 			GameMap gameMap = new GameMap(groundFactory, map);
 			world.addGameMap(gameMap);
 
-			Actor player = new Player("Unkindled (Player)", '@', 200);
+			Location playerSpawn = gameMap.at(38, 12);
+			Actor player = new Player("Unkindled (Player)", '@', 200, playerSpawn);
 
-			world.addPlayer(player, gameMap.at(38, 12));
+			world.addPlayer(player, playerSpawn);
 
 			Location profaneCapitalBonfire = gameMap.at(38, 11);
 			Bonfire bonfire = new Bonfire(profaneCapitalBonfire, "Profane Capital");
