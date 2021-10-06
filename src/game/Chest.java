@@ -6,15 +6,17 @@ import game.interfaces.*;
 public class Chest extends Ground implements Soul, Resettable, Unboxing {
     private int souls;
     private final Ground oldGround;
+    private final Location chestLocation;
     /**
      * Constructor. Construct with the old ground only.
      *
      * @param oldGround that the chest replaces.
      */
-    public Chest(Ground oldGround) {
+    public Chest(Ground oldGround, Location chestLocation) {
         super('?');
         this.souls = 100;
         this.oldGround = oldGround;
+        this.chestLocation = chestLocation;
     }
     /**
      * Actors cannot enter/step on the location where the chest in placed.
@@ -71,10 +73,10 @@ public class Chest extends Ground implements Soul, Resettable, Unboxing {
 
     /**
      * Spawn 1-3 soul tokens at the location of the chest
-     * @param chestLocation
+     *
      */
     @Override
-    public void SpawnSoulToken(Location chestLocation) {
+    public void spawnSoulToken() {
         Ground oldGround = chestLocation.getGround();
         SoulToken soulToken = new SoulToken(oldGround);
         this.transferSouls(soulToken);
@@ -83,12 +85,20 @@ public class Chest extends Ground implements Soul, Resettable, Unboxing {
         //TODO: How to add Multiple soul tokens?? Replace the tiles next to it?
     }
 
+    @Override
+    public Actions allowableActions(Actor actor, Location location, String direction) {
+        Actions actions = new Actions();
+        //actions.add(new OpenChestAction());
+        return actions;
+    }
+
     /**
      * Spawn a Mimic and the location of the chest
-     * @param chestLocation
+     *
      */
     @Override
-    public void SpawnMimic(Location chestLocation) {
+    public void spawnMimic() {
+        this.chestLocation.setGround(this.oldGround);
         chestLocation.addActor(new Mimic());
     }
 
