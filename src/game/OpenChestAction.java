@@ -15,7 +15,9 @@ public class OpenChestAction extends Action {
     @Override
     public String execute(Actor actor, GameMap map) {
         //Need to know the location?
-        //if (this.unboxing.)
+//        if (this.unboxing.SpawnSoulToken()) {
+//
+//        }
         return null;
     }
 
