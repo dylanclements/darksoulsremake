@@ -31,7 +31,7 @@ public class FogDoor extends Ground {
     }
 
     /**
-     * Allow EnterFogDoorAction only.
+     * Allow EnterFogDoorAction if player is at the front or back location.
      * @param actor the Actor acting
      * @param location the current Location
      * @param direction the direction of the Ground from the Actor
@@ -40,17 +40,14 @@ public class FogDoor extends Ground {
     @Override
     public Actions allowableActions(Actor actor, Location location, String direction) {
         Actions actions = new Actions();
-        if (actor instanceof Player) {
-            Location playerLocation = ((Player) actor).getCurrentLocation();
-            if (playerLocation == this.getFront()) {
-                // Player enters the front and exits through the back
-                actions.add(new EnterFogDoorAction(this.getBack()));
-            } else if (playerLocation == this.getBack()) {
-                // Player enters the back and exits through the front
-                actions.add(new EnterFogDoorAction(this.getFront()));
-            }
-            // Do nothing unless player is standing in front or back location
+        if (this.front.getActor() instanceof Player) {
+            // if player at front location, generate action to go to the back
+            actions.add(new EnterFogDoorAction(this.getBack()));
+        } else if (this.back.getActor() instanceof Player) {
+            // if player at back location, generate action to go to the front
+            actions.add(new EnterFogDoorAction(this.getFront()));
         }
+        // Do nothing unless player is standing in front or back location
         return actions;
     }
 
