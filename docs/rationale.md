@@ -385,5 +385,22 @@ This will return true if the Aggressor's target is within its attack range, else
 Each Aggressor defines their own attack range. To adhere to DRY principles and the O in solid, a 
 ```public static final int``` should be written under each aggressor's class signature to define their attack range. 
 
+## How SoulToken dropping works
+
+In assignment 3 we chose Chest/Mimics as our flexible requirement.
+These items drop multiple SoulTokens.
+
+Previously, DeathAction handled SoulToken dropping; only the Player dropped a SoulToken.
+Since that has changed, an interface called ```DropsSoulToken``` has been added. Objects that implement this interface
+will come up with their own way of dropping SoulTokens. 
+e.g.: Chest/Mimic use a similar algorithm to breadth-first-search to find valid locations to drop SoulTokens.
+
+DeathAction now checks if Actor implements ```DropsSoulToken``` and will call ```placeSoulToken``` accordingly. 
+
+These changes ensure DeathAction maintains single responsibility.
+
+## LocationTrack
+
+Actors that store current/previous location implement this interface so other classes can have access to it.
 
 
