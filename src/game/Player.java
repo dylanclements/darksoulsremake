@@ -3,16 +3,13 @@ package game;
 import edu.monash.fit2099.engine.*;
 import game.enums.Abilities;
 import game.enums.Status;
-import game.interfaces.ActorStatus;
-import game.interfaces.BonfireSpawn;
-import game.interfaces.Resettable;
-import game.interfaces.Soul;
+import game.interfaces.*;
 
 
 /**
  * Class representing the Player.
  */
-public class Player extends Actor implements Soul, Resettable, ActorStatus, BonfireSpawn {
+public class Player extends Actor implements Soul, Resettable, ActorStatus, BonfireSpawn, DropsSoulToken, LocationTracker {
 	private final Menu menu = new Menu();
 	private Location previousLocation;
 	private Location currentLocation;
@@ -164,20 +161,6 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus, Bonf
 	}
 
 	/**
-	 * @return the location the player was on the last turn
-	 */
-	public Location getPreviousLocation() {
-		return this.previousLocation;
-	}
-
-	/**
-	 * @return the location the player is currently in.
-	 */
-	public Location getCurrentLocation() {
-		return this.currentLocation;
-	}
-
-	/**
 	 * @return player's hit points
 	 */
 	@Override
@@ -206,8 +189,57 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus, Bonf
 		return "Intrinsic Weapon";
 	}
 
+	/**
+	 * Change the bonfire the player spawns at
+	 * @param bonfireSpawn location of new bonfire
+	 */
 	@Override
 	public void setBonfireSpawn(Location bonfireSpawn) {
 		this.spawn = bonfireSpawn;
+	}
+
+	/**
+	 * @return the player's last recorded location
+	 */
+	@Override
+	public Location getCurrentLocation() {
+		return this.currentLocation;
+	}
+
+	/**
+	 * @return the player's location before the last recorded location
+	 */
+	@Override
+	public Location getPreviousLocation() {
+		return this.previousLocation;
+	}
+
+	/**
+	 * Player places one soul token on the ground during death, but previous location if player died in location
+	 * that blocks thrown items.
+	 * @param location location where the player died.
+	 */
+	@Override
+	public void placeSoulToken(Location location) {
+		if (location.getGround().blocksThrownObjects()) {
+			// Grab the player's previous location and the ground at this location
+			Location playerPreviousLocation = this.getPreviousLocation();
+			Ground oldGround = playerPreviousLocation.getGround();
+
+			// create a soul token and have it remember the ground it replaced
+			SoulToken soulToken = new SoulToken(oldGround);
+
+			// transfer the soul token and set the ground to the soul token
+			this.transferSouls(soulToken);
+			playerPreviousLocation.setGround(soulToken);
+		} else {
+			// remember the ground the soul token will replace. then create it
+			Ground oldGround = location.getGround();
+			SoulToken soulToken = new SoulToken(oldGround);
+
+			// transfer souls to the soul token and set the ground to the soul token
+			this.transferSouls(soulToken);
+			location.setGround(soulToken);
+		}
 	}
 }

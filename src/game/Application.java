@@ -121,6 +121,12 @@ public class Application {
 
 			// TODO: Spawn Skeletons + cemeteries in Anor Londo
 
+			// TODO: spawn some chests
+			Location chestLocation = profaneCapital.at(38, 15);
+			Ground chestGround = chestLocation.getGround();
+			Chest chest = new Chest(chestGround, chestLocation);
+			chestLocation.setGround(chest);
+
 			world.run();
 
 	}
