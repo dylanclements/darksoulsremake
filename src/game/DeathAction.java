@@ -1,6 +1,7 @@
 package game;
 
 import edu.monash.fit2099.engine.*;
+import game.interfaces.DropsSoulToken;
 import game.interfaces.Soul;
 
 /**
@@ -46,10 +47,14 @@ public class DeathAction extends Action {
             }
         }
 
+        // Drop a soul token if the actor is meant to.
+        if (actorDying instanceof DropsSoulToken) {
+            ((DropsSoulToken) actorDying).placeSoulToken(map.locationOf(actorDying));
+        }
+
         if (actorDying instanceof Player) {
             // Player dies
             ResetManager resetter = ResetManager.getInstance();
-            this.placeSoulToken(map.locationOf(actorDying), (Player) actorDying);
             resetter.run(map);
             return Message.YOU_DIED;
         } else {
@@ -68,35 +73,6 @@ public class DeathAction extends Action {
             } else {
                 return actorDying + " died.";
             }
-        }
-    }
-
-    /**
-     * Drop soul token on the ground when player dies.
-     * Uses player's previous location to drop the token if player dies in valley
-     * @param deathLocation location on the map that player dies in
-     * @param player the player
-     */
-    private void placeSoulToken(Location deathLocation, Player player) {
-        if (deathLocation.getGround() instanceof Valley) {
-            // Grab the player's previous location and the ground at this location
-            Location playerPreviousLocation = player.getPreviousLocation();
-            Ground oldGround = playerPreviousLocation.getGround();
-
-            // create a soul token and have it remember the ground it replaced
-            SoulToken soulToken = new SoulToken(oldGround);
-
-            // transfer the soul token and set the ground to the soul token
-            player.transferSouls(soulToken);
-            playerPreviousLocation.setGround(soulToken);
-        } else {
-            // remember the ground the soul token will replace. then create it
-            Ground oldGround = deathLocation.getGround();
-            SoulToken soulToken = new SoulToken(oldGround);
-
-            // transfer souls to the soul token and set the ground to the soul token
-            player.transferSouls(soulToken);
-            deathLocation.setGround(soulToken);
         }
     }
 
