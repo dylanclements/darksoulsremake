@@ -90,4 +90,13 @@ public class SoulToken extends Ground implements Soul {
         this.souls += souls;
         return true;
     }
+
+    /**
+     * SoulTokens should block thrown objects
+     * @return true
+     */
+    @Override
+    public boolean blocksThrownObjects() {
+        return true;
+    }
 }

@@ -22,4 +22,12 @@ public class Valley extends Ground {
 		return actor instanceof Player;
 	}
 
+	/**
+	 * Items should not be thrown on a valley.
+	 * @return true
+	 */
+	@Override
+	public boolean blocksThrownObjects() {
+		return true;
+	}
 }
