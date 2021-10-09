@@ -88,7 +88,7 @@ public class Chest extends Ground implements Soul, Resettable, Unboxing {
     @Override
     public Actions allowableActions(Actor actor, Location location, String direction) {
         Actions actions = new Actions();
-        //actions.add(new OpenChestAction());
+        actions.add(new OpenChestAction(this));
         return actions;
     }
 

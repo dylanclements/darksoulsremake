@@ -113,6 +113,11 @@ public class Application {
 			StormRuler stormRuler = new StormRuler();
 			profaneCapital.at(6,20).addItem(stormRuler);
 
+
+			Location chestLocation = profaneCapital.at(38,17);
+			Chest chest = new Chest(chestLocation.getGround(),chestLocation);
+			chestLocation.setGround(chest);
+
 			// TODO spawn fog doors:
 			profaneCapital.at(39, 25).setGround(new FogDoor(profaneCapital.at(39, 24), anorLondo.at(39, 1)));
 			anorLondo.at(39, 0).setGround(new FogDoor(anorLondo.at(39, 1), profaneCapital.at(39, 24)));
