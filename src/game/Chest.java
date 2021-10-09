@@ -89,7 +89,7 @@ public class Chest extends Ground implements Soul, Resettable, Unboxing, DropsSo
     @Override
     public void spawnSoulToken() {
         // TODO: How to add 100 souls to the token? We can't just transfer because chest isn't an actor
-        // TODO: How to add Multiple soul tokens?? Replace the tiles next to it?
+        // TODO: How to  add Multiple soul tokens?? Replace the tiles next to it?
         // ^^^ The chest now implements DropsSoulToken. See below.
         this.placeSoulToken(chestLocation);
     }
