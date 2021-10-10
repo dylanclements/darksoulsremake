@@ -140,7 +140,7 @@ public class Application {
 			anorLondo.at(71, 11).addActor(new Skeleton("Skeleton", anorLondo.at(71, 11)));
 			anorLondo.at(71, 18).addActor(new Skeleton("Skeleton", anorLondo.at(71, 18)));
 			anorLondo.at(26, 11).addActor(new Skeleton("Skeleton", anorLondo.at(26, 11)));
-			anorLondo.at(54, 11).addActor(new Skeleton("Skeleton", anorLondo.at(26, 11)));
+			anorLondo.at(54, 11).addActor(new Skeleton("Skeleton", anorLondo.at(54, 11)));
 			anorLondo.at(17, 22).addActor(new Skeleton("Skeleton", anorLondo.at(17, 22)));
 			anorLondo.at(66, 26).addActor(new Skeleton("Skeleton", anorLondo.at(66, 26)));
 			anorLondo.at(58, 26).addActor(new Skeleton("Skeleton", anorLondo.at(58, 26)));
