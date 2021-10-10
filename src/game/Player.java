@@ -98,6 +98,8 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus, Bonf
 		String s = String.format("Player (%d/%d), holding %s, souls: %d",
 				this.getHitPoints(), this.getMaxHitPoints(), this.getWeaponName(), this.getSouls());
 		display.println(s);
+		ResetManager resetter = ResetManager.getInstance();
+		resetter.printResettable();
 	}
 
 	/**

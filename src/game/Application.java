@@ -69,14 +69,14 @@ public class Application {
 					"#.............................................................................#.",
 					"#.............................................................................#.",
 					"####_______####........######......#.......#......######........#####_____####..",
-					"...............########......#######_______#######......##____##..#.....#.......",
+					"...............########......#####################......##____##..#.....#.......",
 					".+++.............++............####.........####...................##.....##....",
 					"++.............+++...........##.................##....+++++++....##.........##..",
 					".+++........#######........##...++.....+.....++...##....++++...##.............##",
 					"..+........#.......########............+............##....+++....##..#####..##..",
 					"...........#.................+++++...+++++...+++++..##...++........##.....##....",
 					"...........#.......########............+............##....++....................",
-					".....+......##___##........##...++.....+.....++...##...............++...........",
+					".....+......#######........##...++.....+.....++...##...............++...........",
 					"....+........................##.................##...+..............+++.........",
 					"..+++...............+++........#####.......#####...++.................++++......",
 					"...++.............+++++...........##.......##....+++...................++.......",
@@ -85,23 +85,26 @@ public class Application {
 			GameMap profaneCapital = new GameMap(groundFactory, profaneCapitalMap);
 			GameMap anorLondo = new GameMap(groundFactory, anorLondoMap);
 
+			// Create the maps
 			world.addGameMap(profaneCapital);
 			world.addGameMap(anorLondo);
 
+			// Spawn the player
 			Location playerSpawn = profaneCapital.at(38, 12);
 			Actor player = new Player("Unkindled (Player)", '@', 200, playerSpawn);
 			world.addPlayer(player, playerSpawn);
 
+			// Spawn profane capital bonfire
 			Location profaneCapitalBonfireLocation = profaneCapital.at(38, 11);
 			Bonfire profaneCapitalBonfire = new Bonfire(profaneCapitalBonfireLocation, "Profane Capital");
 			profaneCapitalBonfireLocation.setGround(profaneCapitalBonfire);
 
-			Location anorLondoBonfireLocation = anorLondo.at(38, 11);
+			// Spawn anor londo bonfire
+			Location anorLondoBonfireLocation = anorLondo.at(39, 11);
 			Bonfire anorLondoBonfire = new Bonfire(anorLondoBonfireLocation, "Anor Londo Bonfire");
 			anorLondoBonfireLocation.setGround(anorLondoBonfire);
 
 			// Place some skeletons around the map
-			// TODO: Spawn 4-12 skeletons
 			profaneCapital.at(38, 18).addActor(new Skeleton("Skeleton", profaneCapital.at(38, 18)));
 			profaneCapital.at(38 + 15, 12 - 5).addActor(new Skeleton("Skeleton", profaneCapital.at(38 + 15, 12 - 5)));
 			profaneCapital.at(38 + 35, 12).addActor(new Skeleton("Skeleton", profaneCapital.at(38 + 35, 12)));
@@ -117,7 +120,13 @@ public class Application {
 			profaneCapital.at(39, 25).setGround(new FogDoor(profaneCapital.at(39, 24), anorLondo.at(39, 1)));
 			anorLondo.at(39, 0).setGround(new FogDoor(anorLondo.at(39, 1), profaneCapital.at(39, 24)));
 
+			Location aldrichFogDoorLocation = anorLondo.at(39, 17);
+			FogDoor aldrichFogDoor = new FogDoor(anorLondo.at(39, 16), anorLondo.at(39, 18));
+			aldrichFogDoorLocation.setGround(aldrichFogDoor);
+
 			// TODO: Spawn Alrdich the Devourer in Anor Londo
+			Location aldrichSpawn = anorLondo.at(39, 27);
+			aldrichSpawn.addActor(new Aldrich(aldrichSpawn));
 
 			// TODO: Spawn Skeletons + cemeteries in Anor Londo
 

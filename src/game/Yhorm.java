@@ -101,6 +101,7 @@ public class Yhorm extends LordOfCinder implements Soul, Aggressor, ActorStatus,
      * @param map        current GameMap
      * @return list of actions
      */
+    @Override
     public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
         Actions actions = new Actions();
         if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
@@ -207,7 +208,7 @@ public class Yhorm extends LordOfCinder implements Soul, Aggressor, ActorStatus,
      */
     @Override
     public boolean isExist() {
-        return false;
+        return true;
     }
 
     /**

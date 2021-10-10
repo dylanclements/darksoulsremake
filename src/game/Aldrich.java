@@ -2,16 +2,23 @@ package game;
 
 import edu.monash.fit2099.engine.*;
 import game.enums.Abilities;
+import game.enums.Status;
 import game.interfaces.*;
 
+/**
+ * Second boss in the game.
+ */
 public class Aldrich extends LordOfCinder implements ActorStatus, Aggressor, Resettable, Soul {
-    public static final int ATTACK_RANGE = 3;
     public static final int MAX_HEALTH = 350;
     public static final int ALDRICH_SOULS = 5000;
 
     private Behaviour behaviour;
     private final Location spawnLocation;
 
+    /**
+     * Aldrich constructor
+     * @param spawnLocation location Aldrich will be spawned in
+     */
     public Aldrich(Location spawnLocation) {
         super("Alrdich the Devourer", 'A', Aldrich.MAX_HEALTH);
         this.addCapability(Abilities.EMBER_FORM);
@@ -49,16 +56,25 @@ public class Aldrich extends LordOfCinder implements ActorStatus, Aggressor, Res
         return behaviour.getAction(this, map);
     }
 
+    /**
+     * @return Aldrich's HP
+     */
     @Override
     public int getHitPoints() {
         return this.hitPoints;
     }
 
+    /**
+     * @return Aldrich's max HP
+     */
     @Override
     public int getMaxHitPoints() {
         return this.maxHitPoints;
     }
 
+    /**
+     * @return Name of Darkmoon Longbow
+     */
     @Override
     public String getWeaponName() {
         DarkmoonLongbow darkmoonLongbow = this.getDarkmoonLongbow();
@@ -66,6 +82,9 @@ public class Aldrich extends LordOfCinder implements ActorStatus, Aggressor, Res
         return darkmoonLongbow.toString();
     }
 
+    /**
+     * @return Alrdich's bow. Else null
+     */
     private DarkmoonLongbow getDarkmoonLongbow() {
         for (Item item : this.inventory) {
             if (item instanceof DarkmoonLongbow) {
@@ -75,16 +94,29 @@ public class Aldrich extends LordOfCinder implements ActorStatus, Aggressor, Res
         return null;
     }
 
+    /**
+     * Change Aldrich's behaviour to aggressive
+     * @param target actor who will be targeted with aggroBehaviour
+     */
     @Override
     public void switchAggroBehaviour(Actor target) {
         this.behaviour = new AggroBehaviour(target);
     }
 
+    /**
+     * @return Aldrich's current behaviour
+     */
     @Override
     public Behaviour getBehaviour() {
         return this.behaviour;
     }
 
+    /**
+     * Check if another location is within Aldrich's bow's range of attack.
+     * @param targetLocation location that the target exists in
+     * @param map the game map instance
+     * @return true if within range else false
+     */
     @Override
     public boolean isWithinRange(Location targetLocation, GameMap map) {
         DarkmoonLongbow darkmoonLongbow = this.getDarkmoonLongbow();
@@ -92,6 +124,26 @@ public class Aldrich extends LordOfCinder implements ActorStatus, Aggressor, Res
         return Utils.distance(map.locationOf(this), targetLocation) <= darkmoonLongbow.getRange();
     }
 
+    /**
+     * Allow an attack if other actor is hostile
+     * @param otherActor the Actor that might be performing attack
+     * @param direction  String representing the direction of the other Actor
+     * @param map        current GameMap
+     * @return list of actions
+     */
+    @Override
+    public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
+        Actions actions = new Actions();
+        if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
+            actions.add(new AttackAction(this, direction));
+        }
+        return actions;
+    }
+
+    /**
+     * Only reset Aldrich if he is alive. Place him back in his spawn location, reset HP and behaviour.
+     * @param map the game map.
+     */
     @Override
     public void resetInstance(GameMap map) {
         if (this.isConscious()) {
@@ -102,17 +154,28 @@ public class Aldrich extends LordOfCinder implements ActorStatus, Aggressor, Res
         }
     }
 
+    /**
+     * Don't remove aldrich from resettable list after reset.
+     * @return true
+     */
     @Override
     public boolean isExist() {
-        return false;
+        return true;
     }
 
+    /**
+     * Award souls to another object.
+     * @param soulObject a target souls.
+     */
     @Override
     public void transferSouls(Soul soulObject) {
         soulObject.addSouls(Aldrich.ALDRICH_SOULS);
     }
 
+    /**
+     * @return get location Aldrich was spawned in.
+     */
     public Location getSpawnLocation() {
-        return spawnLocation;
+        return this.spawnLocation;
     }
 }

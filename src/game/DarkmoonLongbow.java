@@ -11,11 +11,18 @@ public class DarkmoonLongbow extends RangedWeapon {
 
     private final Random r = new Random();
 
+    /**
+     * Constructor.
+     */
     public DarkmoonLongbow() {
         super("Darkmoon Longbow", 'D', DarkmoonLongbow.DAMAGE, "Shoots",
                 DarkmoonLongbow.HIT_RATE, DarkmoonLongbow.RANGE);
     }
 
+    /**
+     * Set chance to do double damage.
+     * @return damage the bow will do.
+     */
     @Override
     public int damage() {
         float chanceToCriticalHit = r.nextFloat();
