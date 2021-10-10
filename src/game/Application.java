@@ -140,11 +140,12 @@ public class Application {
 			anorLondo.at(9, 6).addActor(new Skeleton("Skeleton", anorLondo.at(9, 6)));
 			anorLondo.at(55, 7).addActor(new Skeleton("Skeleton", anorLondo.at(55, 7)));
 			anorLondo.at(72, 6).addActor(new Skeleton("Skeleton", anorLondo.at(72, 6)));
+
 			// TODO: spawn some chests
 			//Doesn't want to spawn more than 1 chest
 			Location chestLocation1 = anorLondo.at(17,22);
-			Chest chest1 = new Chest(chestLocation1.getGround(),chestLocation);
-			chestLocation.setGround(chest1);
+			Chest chest1 = new Chest(chestLocation1.getGround(), chestLocation1);
+			chestLocation1.setGround(chest1);
 
 			world.run();
 
