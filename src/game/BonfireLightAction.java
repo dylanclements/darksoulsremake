@@ -29,7 +29,7 @@ public class BonfireLightAction extends Action {
             // Add this bonfire to the network after it's lit.
             BonfireNetwork bonfireNetwork = BonfireNetwork.getInstance();
             bonfireNetwork.addBonfire(this.bonfire);
-            return actor.toString() + " lit the " + bonfire.getBonfireName() + " bonfire";
+            return actor.toString() + " lit the " + bonfire.getBonfireName() + " bonfire\n" + Message.BONFIRE_MESSAGE;
         } else {
             return bonfire.getBonfireName() + " is already lit";
         }
