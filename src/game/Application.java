@@ -155,6 +155,10 @@ public class Application {
 			Chest chest1 = new Chest(chestLocation1.getGround(), chestLocation1);
 			chestLocation1.setGround(chest1);
 
+			// TODO: figure out how to randomly spread chests in the map
+			// TODO: get a list of all locations where ground is dirt
+			// TODO: spawn X chests on different locations randomly
+
 			world.run();
 
 	}
