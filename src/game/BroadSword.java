@@ -4,8 +4,8 @@ package game;
  * A basic sword weapon.
  */
 public class BroadSword extends Sword{
-    public static final int DAMAGE = 1000;
-    public static final int HIT_RATE = 100;
+    public static final int DAMAGE = 70;
+    public static final int HIT_RATE = 80;
 
     /**
      * Constructor.
