@@ -1,7 +1,9 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import edu.monash.fit2099.engine.*;
 
@@ -16,7 +18,6 @@ public class Application {
 	 * @param args any command arguments
 	 */
 	public static void main(String[] args) {
-
 			World world = new World(new Display());
 
 			FancyGroundFactory groundFactory = new FancyGroundFactory(
@@ -90,7 +91,7 @@ public class Application {
 			world.addGameMap(anorLondo);
 
 			// Spawn the player
-			Location playerSpawn = profaneCapital.at(38, 12);
+			Location playerSpawn = profaneCapital.at(38, 24);
 			Actor player = new Player("Unkindled (Player)", '@', 200, playerSpawn);
 			world.addPlayer(player, playerSpawn);
 
@@ -150,16 +151,57 @@ public class Application {
 			anorLondo.at(72, 6).addActor(new Skeleton("Skeleton", anorLondo.at(72, 6)));
 
 			// TODO: spawn some chests
-			//Doesn't want to spawn more than 1 chest
-			Location chestLocation1 = anorLondo.at(17,22);
-			Chest chest1 = new Chest(chestLocation1.getGround(), chestLocation1);
-			chestLocation1.setGround(chest1);
+
 
 			// TODO: figure out how to randomly spread chests in the map
 			// TODO: get a list of all locations where ground is dirt
 			// TODO: spawn X chests on different locations randomly
+			NumberRange profaneCapitalXRange = profaneCapital.getXRange();
+			NumberRange profaneCapitalYRange = profaneCapital.getYRange();
 
-			world.run();
+			NumberRange anorLondoXRange = profaneCapital.getXRange();
+			NumberRange anorLondoYRange = profaneCapital.getYRange();
+
+			ArrayList<Location> dirtLocations = new ArrayList<>();
+			ArrayList<Location> dirtLocationss = new ArrayList<>();
+
+			Random r = new Random();
+			//Spawn Chests in Anor Londo
+			for (int x = anorLondoXRange.min(); x < anorLondoXRange.max(); x++){
+				for (int y = anorLondoYRange.min(); y < anorLondoYRange.max(); y++){
+					if (anorLondo.at(x,y).getGround() instanceof Dirt){
+						dirtLocationss.add(anorLondo.at(x,y));
+					}
+				}
+			}
+
+			for (int i = 0; i < dirtLocationss.size(); i++){
+				Location dirtLocation = dirtLocationss.get(i);
+				if (r.nextFloat() <= 0.005f){
+					Ground oldGround = dirtLocation.getGround();
+					dirtLocation.setGround(new Chest(oldGround,dirtLocation));
+				}
+			}
+
+
+			//Spawn chests in Profane Capital
+			for (int x = profaneCapitalXRange.min(); x < profaneCapitalXRange.max(); x++){
+				for (int y = profaneCapitalYRange.min(); y < profaneCapitalYRange.max(); y++){
+					if (profaneCapital.at(x,y).getGround() instanceof Dirt){
+						dirtLocations.add(profaneCapital.at(x,y));
+					}
+				}
+			}
+
+			for (int i = 0; i < dirtLocations.size(); i++){
+				Location dirtLocation = dirtLocations.get(i);
+				if (r.nextFloat() <= 0.005f){
+					Ground oldGround = dirtLocation.getGround();
+					dirtLocation.setGround(new Chest(oldGround,dirtLocation));
+				}
+			}
+
+		world.run();
 
 	}
 }
