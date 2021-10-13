@@ -25,7 +25,6 @@ public class OpenChestAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        //Need to know the location?
         float spawnChance = r.nextFloat();
         if (spawnChance <= OpenChestAction.CHEST_CHANCE) {
             unboxing.spawnSoulToken();

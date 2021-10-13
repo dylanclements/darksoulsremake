@@ -17,7 +17,6 @@ public class Mimic extends Actor implements Soul, Aggressor, Resettable, DropsSo
     private Behaviour behaviour;
     private final Random r = new Random();
 
-    //TODO: find a way to drop multiple soul tokens (alas, I have found a way)
     /**
      * Constructor.
      */
@@ -132,8 +131,6 @@ public class Mimic extends Actor implements Soul, Aggressor, Resettable, DropsSo
      */
     @Override
     public void placeSoulToken(Location location) {
-        // TODO: this very well might be fucked, please test extensively.
-
         // get a random number of soul tokens to drop between min/max range. start a counter for the tokens dropped.
         int numberOfSoulTokens = Mimic.MIN_SOUL_TOKENS + r.nextInt(Mimic.MAX_SOUL_TOKENS + 1 - Mimic.MIN_SOUL_TOKENS);
         int droppedTokens = 0;

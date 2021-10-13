@@ -6,12 +6,11 @@ import game.interfaces.*;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class Chest extends Ground implements Soul, Resettable, Unboxing, DropsSoulToken {
+public class Chest extends Ground implements Resettable, Unboxing, DropsSoulToken {
     public static final int CHEST_SOULS = 100;
     public static final int MIN_SOUL_TOKENS = 1;
     public static final int MAX_SOUL_TOKENS = 3;
 
-    private int souls;
     private final Ground oldGround;
     private final Location chestLocation;
 
@@ -23,7 +22,6 @@ public class Chest extends Ground implements Soul, Resettable, Unboxing, DropsSo
      */
     public Chest(Ground oldGround, Location chestLocation) {
         super('?');
-        this.souls = Chest.CHEST_SOULS;
         this.oldGround = oldGround;
         this.chestLocation = chestLocation;
         this.registerInstance();
@@ -40,57 +38,11 @@ public class Chest extends Ground implements Soul, Resettable, Unboxing, DropsSo
     }
 
     /**
-     * @return number of souls in the token
-     */
-    public int getSouls() {
-        return this.souls;
-    }
-
-    /**
-     * Transfer souls to another soul instance
-     * @param soulObject a target souls.
-     */
-    @Override
-    public void transferSouls(Soul soulObject) {
-        int chestSouls = getSouls();
-        this.subtractSouls(chestSouls);
-        soulObject.addSouls(chestSouls);
-    }
-
-    /**
-     * Subtract souls from this souls instance
-     * @param souls number souls to be deducted
-     * @return true if the operation was successful else false
-     */
-    @Override
-    public boolean subtractSouls(int souls) {
-        if (souls > this.getSouls()) {
-            return false;
-        }
-        this.souls -= souls;
-        return true;
-    }
-
-    /**
-     * Add souls to this souls instance
-     * @param souls number of souls to be incremented.
-     * @return true if the operation was successful else false
-     */
-    @Override
-    public boolean addSouls(int souls) {
-        this.souls += souls;
-        return true;
-    }
-
-    /**
      * Spawn 1-3 soul tokens at the location of the chest
      *
      */
     @Override
     public void spawnSoulToken() {
-        // TODO: How to add 100 souls to the token? We can't just transfer because chest isn't an actor
-        // TODO: How to  add Multiple soul tokens?? Replace the tiles next to it?
-        // ^^^ The chest now implements DropsSoulToken. See below.
         this.placeSoulToken(chestLocation);
     }
 
