@@ -12,8 +12,9 @@ public class Bonfire extends Ground implements IBonfire {
     private final String name;
 
     /**
-     * Constructor.
-     * Bonfire is not lit by default.
+     * Constructor
+     * @param location location the bonfire is in
+     * @param name way to identify the bonfire
      */
     public Bonfire(Location location, String name) {
         super('B');

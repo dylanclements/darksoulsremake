@@ -21,6 +21,7 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus, Bonf
 	 * @param name        Name to call the player in the UI
 	 * @param displayChar Character to represent the player in the UI
 	 * @param hitPoints   Player's starting number of hitpoints
+	 * @param spawn		  Location the player returns to when dead
 	 */
 	public Player(String name, char displayChar, int hitPoints, Location spawn) {
 		super(name, displayChar, hitPoints);

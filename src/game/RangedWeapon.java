@@ -12,13 +12,13 @@ public abstract class RangedWeapon extends WeaponItem {
     private int range;
 
     /**
-     * Constructor.
-     *
-     * @param name        name of the item
-     * @param displayChar character to use for display when item is on the ground
-     * @param damage      amount of damage this weapon does
-     * @param verb        verb to use for this weapon, e.g. "hits", "zaps"
-     * @param hitRate     the probability/chance to hit the target.
+     * Constructor
+     * @param name name of the weapon
+     * @param displayChar way to display the weapon on the ground
+     * @param damage damage the weapon can do
+     * @param verb describes the weapon's attacks
+     * @param hitRate % chance to deal damage
+     * @param range number of squares away the weapon can attack from
      */
     public RangedWeapon(String name, char displayChar, int damage, String verb, int hitRate, int range) {
         super(name, displayChar, damage, verb, hitRate);
@@ -45,10 +45,17 @@ public abstract class RangedWeapon extends WeaponItem {
         return new SwapWeaponAction(this);
     }
 
+    /**
+     * @return the weapon's range
+     */
     public int getRange() {
         return range;
     }
 
+    /**
+     * Chance the weapon's range
+     * @param range new range
+     */
     public void setRange(int range) {
         this.range = range;
     }
