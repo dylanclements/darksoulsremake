@@ -371,7 +371,19 @@ via Capabilities.
 
 # Assignment 3 - Further Design + Implementation
 
-## AggroBehaviour + Aggressor & enabling ranged attacks
+## Bonfire update
+
+## Fog Doors
+
+## Aldrich
+
+## Chest/Mimic
+
+## Other changes
+
+---
+
+### AggroBehaviour + Aggressor & enabling ranged attacks
 
 A minor refactor was made prior to the Aldrich implementation. 
 Previously, AggroBehaviour scanned the actor's exits for the target, and if the target appeared in one of the exits, 
@@ -385,7 +397,7 @@ This will return true if the Aggressor's target is within its attack range, else
 Each Aggressor defines their own attack range. To adhere to DRY principles and the O in solid, a 
 ```public static final int``` should be written under each aggressor's class signature to define their attack range. 
 
-## How SoulToken dropping works
+### How SoulToken dropping works
 
 In assignment 3 we chose Chest/Mimics as our flexible requirement.
 These items drop multiple SoulTokens.
@@ -399,7 +411,7 @@ DeathAction now checks if Actor implements ```DropsSoulToken``` and will call ``
 
 These changes ensure DeathAction maintains single responsibility.
 
-## LocationTrack
+### LocationTrack
 
 Actors that store current/previous location implement this interface so other classes can have access to it.
 
