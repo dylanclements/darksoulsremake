@@ -29,7 +29,7 @@ public class AttackAction extends Action {
 	/**
 	 * Constructor.
 	 * @param target actor who is getting attacked
-	 * @param direction the direction this attack is occuring in.
+	 * @param direction the direction this attack is occurring in.
 	 */
 	public AttackAction(Actor target, String direction) {
 		this.target = target;
