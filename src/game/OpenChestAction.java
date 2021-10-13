@@ -7,12 +7,19 @@ import game.interfaces.Unboxing;
 
 import java.util.Random;
 
+/**
+ * Opens a chest
+ */
 public class OpenChestAction extends Action {
     private static final float CHEST_CHANCE = 0.5f;
 
     private final Unboxing unboxing;
     private static final Random r = new Random();
 
+    /**
+     * Constructor
+     * @param unboxing something that can be opened
+     */
     public OpenChestAction(Unboxing unboxing) {
         this.unboxing = unboxing;
     }

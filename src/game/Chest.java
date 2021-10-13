@@ -6,6 +6,9 @@ import game.interfaces.*;
 import java.util.LinkedList;
 import java.util.Random;
 
+/**
+ * Ground item that has 50% chance to spawn mimic or soul tokens
+ */
 public class Chest extends Ground implements Resettable, Unboxing, DropsSoulToken {
     public static final int CHEST_SOULS = 100;
     public static final int MIN_SOUL_TOKENS = 1;
@@ -17,8 +20,9 @@ public class Chest extends Ground implements Resettable, Unboxing, DropsSoulToke
     private final Random r = new Random();
 
     /**
-     * Constructor. Construct with the old ground only.
-     * @param oldGround that the chest replaces.
+     * Constructor.
+     * @param oldGround ground that the chest sits on top of.
+     * @param chestLocation location that the chest exists in.
      */
     public Chest(Ground oldGround, Location chestLocation) {
         super('?');
@@ -108,6 +112,10 @@ public class Chest extends Ground implements Resettable, Unboxing, DropsSoulToke
         chestLocation.addActor(new Mimic());
     }
 
+    /**
+     * Set the ground back to chest
+     * @param map the game map.
+     */
     @Override
     public void resetInstance(GameMap map) {
         this.chestLocation.setGround(this);

@@ -3,6 +3,9 @@ package game;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Game maps
+ */
 public class Maps {
     public static List<String> PROFANE_CAPITAL = Arrays.asList(
             "..++++++..+++...........................++++......+++.................+++.......",

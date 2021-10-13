@@ -5,6 +5,9 @@ import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.Ground;
 import edu.monash.fit2099.engine.Location;
 
+/**
+ * A barrier that the player can transport through
+ */
 public class FogDoor extends Ground {
     private final Location front;
     private final Location back;

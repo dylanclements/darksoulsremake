@@ -7,6 +7,9 @@ import game.interfaces.*;
 import java.util.LinkedList;
 import java.util.Random;
 
+/**
+ * Enemy that can spawn from a chest
+ */
 public class Mimic extends Actor implements Soul, Aggressor, Resettable, DropsSoulToken, ActorStatus {
     public static final int MIN_SOUL_TOKENS = 1;
     public static final int MAX_SOUL_TOKENS = 3;

@@ -86,6 +86,9 @@ public class Bonfire extends Ground implements IBonfire {
         return location;
     }
 
+    /**
+     * @return true if the bonfire was lit else false
+     */
     @Override
     public boolean lightBonfire() {
         boolean oldLit = this.lit;
@@ -93,11 +96,17 @@ public class Bonfire extends Ground implements IBonfire {
         return !oldLit;
     }
 
+    /**
+     * @return the bonfire's name
+     */
     @Override
     public String getBonfireName() {
         return this.name;
     }
 
+    /**
+     * @return the bonfire's location
+     */
     @Override
     public Location getBonfireLocation() {
         return this.location;

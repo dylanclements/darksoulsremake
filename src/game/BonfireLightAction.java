@@ -5,6 +5,9 @@ import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
 import game.interfaces.IBonfire;
 
+/**
+ * Action to activate a bonfire
+ */
 public class BonfireLightAction extends Action {
     private final IBonfire bonfire;
 
@@ -25,7 +28,6 @@ public class BonfireLightAction extends Action {
     @Override
     public String execute(Actor actor, GameMap map) {
         if (this.bonfire.lightBonfire()) {
-            // TODO: maybe add the bonfire lit ASCII art message here
             // Add this bonfire to the network after it's lit.
             BonfireNetwork bonfireNetwork = BonfireNetwork.getInstance();
             bonfireNetwork.addBonfire(this.bonfire);

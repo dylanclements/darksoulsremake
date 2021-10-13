@@ -2,6 +2,9 @@ package game;
 
 import java.util.Random;
 
+/**
+ * Aldrich's weapon
+ */
 public class DarkmoonLongbow extends RangedWeapon {
     public static final int DAMAGE = 70;
     public static final int HIT_RATE = 80;

@@ -1,5 +1,8 @@
 package game;
 
+/**
+ * Lord of Cinder loot
+ */
 public class CindersOfALord extends PortableItem {
     /**
      * Constructor.

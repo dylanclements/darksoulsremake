@@ -6,10 +6,17 @@ import game.interfaces.IBonfire;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Singleton to manage bonfire teleporting
+ */
 public class BonfireNetwork {
     private static BonfireNetwork instance;
     private List<IBonfire> bonfireList;
 
+    /**
+     * Static factory
+     * @return the instance
+     */
     public static BonfireNetwork getInstance() {
         if (instance == null) {
             instance = new BonfireNetwork();

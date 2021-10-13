@@ -5,6 +5,9 @@ import edu.monash.fit2099.engine.DropItemAction;
 import edu.monash.fit2099.engine.PickUpItemAction;
 import edu.monash.fit2099.engine.WeaponItem;
 
+/**
+ * A weapon that can attack from more than 1 square away
+ */
 public abstract class RangedWeapon extends WeaponItem {
     private int range;
 

@@ -94,7 +94,6 @@ public class Player extends Actor implements Soul, Resettable, ActorStatus, Bonf
 	 *  Displays the player's status. Hitpoints/MaxHitpoints, current weapon and souls
 	 */
 	private void displayStatus(Display display) {
-		// TODO: print the player's weapon and the player's souls
 		String s = String.format("Player (%d/%d), holding %s, souls: %d",
 				this.getHitPoints(), this.getMaxHitPoints(), this.getWeaponName(), this.getSouls());
 		display.println(s);
