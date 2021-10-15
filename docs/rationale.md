@@ -440,6 +440,11 @@ through interface(Unboxing) we demonstrated the Dependency Inversion Principle.
 Open/Closed Principle is also implemented since our interfaces are open for extension (by providing 
 new interface implementation) but closed for modification.
 
+**Resulting UML relationships**:
+- Dependencies drawn from chest to DropsSoulToken, Unboxing, Soul, Resettable, SoulToken, Mimic, OpenChestAction
+- Associations drawn from chest to Ground and Location, as well as inheritance from chest to ground
+- OpenChestAction has an Association with Unboxing and is inheriting from Actions
+- Mimic has Association with Behaviour and is dependent on IntrinsicWeapon, Soul, Aggressor, Resettable, DropsSoulToken, ActorStatus
 
 ## Other changes
 
