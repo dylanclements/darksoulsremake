@@ -420,6 +420,27 @@ Aldrich will be able to shoot at opponents from up to 3 squares away.
 
 ## Chest/Mimic
 
+To implement the chest first we had to decide whether it would be a ground or an
+item ultimately we decided to go with the ground type since 
+it allows us to override `allowableActions()` method which is an easy way to promt 
+the player with `OpenChestAction` when he/she stands next to the chest. Also, it made
+random spawn mechanic implementation fairly simple since we only had to iterate through
+every peace of dirt at the map and randomly replace some dirt tiles to chests every time 
+the application would start.
+
+4 new classes were introduced:
+- Chest(Ground) - spawned randomly throughout the map can either drop 1-3 soul tokens or turn into a mimic.
+- Mimic(Enemy) - new enemy type, cannot hold a weapon instead has a kick attack which deals 55 damage. Drops 1-3 Soul tokens on death.
+- OpenChestAction(Action) - new action, allows the player to open the chest. Has a 50% chance to spawn the Mimic instead 
+- Unboxing(Interface) - new interface responsible for `spawnSoulToken()` and `spawnMimic()` methods.
+
+By creating a level of obstruction between high-level modules, 
+which provide complex logic and low-level modules, which provide utility features
+through interface(Unboxing) we demonstrated the Dependency Inversion Principle.
+Open/Closed Principle is also implemented since our interfaces are open for extension (by providing 
+new interface implementation) but closed for modification.
+
+
 ## Other changes
 
 ---
