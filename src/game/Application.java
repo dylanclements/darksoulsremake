@@ -136,10 +136,10 @@ public class Application {
 			world.addGameMap(anorLondo);
 
 			// Spawn player
-			spawnPlayer(profaneCapital.at(38, 24), world);
+			spawnPlayer(profaneCapital.at(38, 12), world);
 
 			// Spawn bonfires
-			spawnBonfire(profaneCapital.at(38, 11), "Profane Capital Bonfire");
+			spawnBonfire(profaneCapital.at(38, 11), "Firelink Shrine Bonfire");
 			spawnBonfire(anorLondo.at(39, 11), "Anor Londo Bonfire");
 
 			// Place some skeletons around the map
